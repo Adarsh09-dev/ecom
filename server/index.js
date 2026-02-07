@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import connectDB from './config/connectDB.js';
+import userRouter from './route/user.route.js';
 // await connectDB();
 
 
@@ -28,6 +29,8 @@ app.use(helmet({
 app.get('/', (req, res) => {
   res.json({ message: "server running" });
 });
+
+app.use('/api/user',userRouter)
 
  connectDB().then(() => {
 
