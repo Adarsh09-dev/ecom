@@ -27,6 +27,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // ensure this is present
 app.use(methodOverride("_method")); // add this line here
 
+//Static Files
+app.use(express.static("public"));
+
 // session (required for flash)
 app.use(
   session({
@@ -69,6 +72,14 @@ app.set("layout", "layouts/main");
 app.set("view engine", "ejs");
 app.get("/", (req, res) => {
   res.json({ message: "server running" });
+});
+
+// CACHE CLEAR
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
+  next();
 });
 
 // user router

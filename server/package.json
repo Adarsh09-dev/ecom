@@ -29,6 +29,7 @@
     "mongodb": "^7.1.0",
     "mongoose": "^9.1.5",
     "morgan": "^1.10.1",
+    "node-cache": "^5.1.2",
     "resend": "^6.9.1"
   },
   "devDependencies": {
