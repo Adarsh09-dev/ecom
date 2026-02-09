@@ -83,7 +83,7 @@ app.use((req, res, next) => {
 });
 
 // user router
-app.use("/api/user", userRouter);
+app.use("/user", userRouter);
 
 connectDB().then(() => {
   const PORT = process.env.PORT || 5000;
