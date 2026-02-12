@@ -14,8 +14,7 @@ userRouter.get("/login", loginPage);
 userRouter.get("/signup", registerPage);
 userRouter.get("/forgot-password", forgotPage);
 userRouter.get("/verify-otp", verifyPage);
-userRouter.get("/reset-password", resetPswrdPage);
+userRouter.get("/reset-password", resetPswrdPage);userRouter.post("/register", registerUserController);
 
-userRouter.post("/register", registerUserController);
 
 export default userRouter;

@@ -3,30 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="/user-adminStyle/style.css"> -->
+    <link rel="stylesheet" href="/user-style/login.css">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 
     <title>Login Customer</title>
 </head>
 <body class="body" >
-   
-<div class="container">
-      <h2 class="head">User Login</h2> 
-     <!-- <div class="form-container"> -->
-        <form  class="form" action="/register" method="post">
-            
-            <div class="email-group" >
+
+      <div class="main-container">
+
+      <div  class="box-1" >
+        <img class="img" src="/img/bg.png" alt="">
+      </div>
+
+      <div class="box-2">
+    
+        <div class="container">
+
+               <h2 class="head"> Login</h2>
+                    <form  class="form" action="/login" method="post">
+ 
+            <div class="form-group" >
                 <label for="name">Email</label>
                 <input class="input" type="text" id="email" name="email" placeholder="Enter your email" required autocomplete="off">
-
             </div>
-            <div class="password-group">
+
+            <div class="form-group password-box">
                 <label for="password">Password:</label>
                 <input class="input" type="password" name="password" id="password" placeholder="password" required>
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
+                 <small class="forgot" ><a href="">forgot password?</a></small>
             </div>
+
             <button type="submit" class="submit-btn">Login</button>
-        </form>
-        <p class="bottom">Don't have any account? <a href="signupPage">SignUp</a></p>
+         </form>
+        
+         <p class="signup">Don't have any account? <a href="signup">SignUp</a></p>
+        </div>
     </div>
+</div>
     
 </body>
 </html>

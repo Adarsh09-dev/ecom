@@ -3,29 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="/user-adminStyle/style.css"> -->
+      <link rel="stylesheet" href="/user-style/reset-pswrd.css">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <title>Reset Password</title>
 </head>
 <body class="body" >
+
+      <div class="main-container">
+
+      <div  class="box-1" >
+        <img class="img" src="/img/bg.png" alt="">
+      </div>
+
+      <div class="box-2">
    
 <div class="container">
       <h2 class="head">Reset Password</h2> 
-     <!-- <div class="form-container"> -->
+ 
         <form  class="form" action="/" method="post">
             
-            <div class="email-group" >
+            <div class="form-group password-box" >
                 <label for="name">New Password</label>
                 <input class="input" type="password" id="newPassword" name="newPassword" placeholder="" required autocomplete="off">
+                  <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
 
             </div>
-            <div class="password-group">
+            <div class="form-group password-box">
                 <label for="password">Password:</label>
                 <input class="input" type="password" name="password" id="password" placeholder="" required>
+                  <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
             </div>
             <button type="submit" class="submit-btn">Submit</button>
         </form>
+        </div>
     </div>
+     </div>
     
 </body>
 </html>
