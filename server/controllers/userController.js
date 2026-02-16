@@ -1,14 +1,16 @@
 import UserModel from "../models/User-Model.js";
 import bcrypt from "bcrypt";
+import sendEmail from "../config/sendEmail.js";
+import verifyEmailTemplate from "../utils/verifyEmailTemplate.js";
 
 // login page
 export async function loginPage(req, res) {
   res.render("user-login", { layout: false });
 }
 
-// signup page
-export async function registerPage(req, res) {
-  res.render("user-register", { layout: false });
+// home page
+export async function homePage(req, res) {
+  res.render("/home", { layout: false });
 }
 
 // forgot page
@@ -25,10 +27,16 @@ export async function verifyPage(rep, res) {
 export async function resetPswrdPage(req, res) {
   res.render("user-resetPswrd", { layout: false });
 }
+
+// signup page
+export async function registerPage(req, res) {
+  res.render("user-register", { layout: false });
+}
 export async function registerUserController(req, res) {
   try {
     const { name, email, password } = req.body;
-    if (!name || !email || password) {
+
+    if (!name || !email || !password) {
       return res.status(400).json({
         message: "provide email, name, password",
         error: true,
@@ -56,22 +64,20 @@ export async function registerUserController(req, res) {
     const newUser = new UserModel(payload);
     const save = await newUser.save();
     const VerifyEmailUrl = `${process.env.FRONTEND_URL}/verify-email?code=${save?._id}`;
+
     const verifyEmail = await sendEmail({
       sendTo: email,
       subject: "Verify email from Ecom",
       html: verifyEmailTemplate({
         name,
+        email,
         url: VerifyEmailUrl,
       }),
     });
 
-    return res.json({
-      message: "User Register successfully",
-      error: false,
-      success: true,
-      data: save,
-    });
+    return res.redirect("/views/home");
   } catch (error) {
+    console.log("err msg", error);
     return res.status(500).json({
       message: error.message || error,
       status: true,
