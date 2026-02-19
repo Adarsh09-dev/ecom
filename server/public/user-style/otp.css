@@ -79,7 +79,7 @@ button {
   font-weight: 600;
   margin-top: 15px;
   display: block;
-    /* material-style soft shadow */
+  /* material-style soft shadow */
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.15),
     0 6px 12px rgba(242, 42, 42, 0.25);
@@ -104,8 +104,7 @@ button {
 
 .submit-btn:active {
   /* pressed effect */
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transform: translateY(0);
 }
 .bottom {
