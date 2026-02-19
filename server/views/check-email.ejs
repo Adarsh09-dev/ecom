@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Verification</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f6f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        background: #fff;
+        padding: 40px;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        max-width: 420px;
+      }
+
+      .icon {
+        font-size: 70px;
+        margin-bottom: 15px;
+      }
+
+      h1 {
+        margin: 10px 0;
+        font-size: 24px;
+        color: #333;
+      }
+
+      p {
+        color: #666;
+        line-height: 1.6;
+        font-size: 15px;
+      }
+
+      .btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 28px;
+        border-radius: 25px;
+        background: #c89a54;
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.25s;
+      }
+
+      .btn:hover {
+        /* slightly higher elevation */
+        box-shadow:
+          0 4px 8px rgba(0, 0, 0, 0.18),
+          0 10px 20px rgb(253, 134, 7);
+
+        transform: translateY(-3px);
+      }
+
+      .btn:active {
+        /* pressed effect */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(0);
+      }
+
+      .small-text {
+        margin-top: 18px;
+        font-size: 13px;
+        color: #888;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="icon">📧</div>
+
+      <h1>Check Your Email</h1>
+
+      <p>
+        We've sent a verification link to your email address. Please check your
+        inbox and click the link to activate your account.
+      </p>
+
+      <a href="/user/login" class="btn">Back to login</a>
+
+      <p class="small-text">
+        Didn’t receive the email? Check your spam folder.
+      </p>
+    </div>
+  </body>
+</html>

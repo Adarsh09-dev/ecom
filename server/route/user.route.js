@@ -10,30 +10,33 @@ import {
   verifyEmailController,
   loginController,
   logOutController,
-
-
+  check_mail,
 } from "../controllers/userController.js";
-import auth from "../middleware/auth.js";
+import { isAuthenticated, redirectAuthenticated } from "../middleware/auth.js";
 
 const userRouter = Router();
 
-userRouter.get("/login", loginPage);
-userRouter.post("/login",loginController);
+userRouter.get("/login", redirectAuthenticated, loginPage);
+userRouter.post("/login", redirectAuthenticated, loginController);
 
 userRouter.get("/signup", registerPage);
-userRouter.post("/register", registerUserController);
+userRouter.post("/register", redirectAuthenticated, registerUserController);
+userRouter.get("/checkMail", check_mail);
 
-userRouter.post("/verify-email",verifyEmailController);
+userRouter.post("/verify-email", verifyEmailController);
 
-userRouter.get("/home", homePage);
-userRouter.get("/forgot-password", forgotPage);
-userRouter.get("/verify-otp", verifyPage);
-userRouter.get("/reset-password", resetPswrdPage);
+userRouter.get("/home", isAuthenticated, homePage);
+userRouter.post("/home", isAuthenticated, homePage);
 
-userRouter.get("/logout",auth,logOutController);
+userRouter.get("/forgot-password", isAuthenticated, forgotPage);
+userRouter.post("/forgot-password", isAuthenticated, forgotPage);
 
+userRouter.get("/verify-otp", isAuthenticated, verifyPage);
+userRouter.post("/verify-otp", isAuthenticated, verifyPage);
 
+userRouter.get("/reset-password", isAuthenticated, resetPswrdPage);
+userRouter.post("/reset-password", isAuthenticated, resetPswrdPage);
 
-
+userRouter.post("/logout", isAuthenticated, logOutController);
 
 export default userRouter;
