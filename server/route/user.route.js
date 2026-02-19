@@ -25,7 +25,7 @@ userRouter.get("/checkMail", check_mail);
 
 userRouter.post("/verify-email", verifyEmailController);
 
-userRouter.get("/home", isAuthenticated, homePage);
+userRouter.get("/home",isAuthenticated, homePage);
 userRouter.post("/home", isAuthenticated, homePage);
 
 userRouter.get("/forgot-password", isAuthenticated, forgotPage);

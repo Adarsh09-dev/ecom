@@ -116,7 +116,6 @@ export async function loginController(req, res) {
     if (!email || !password) {
       return res.redirect("/login");
     }
-
     const user = await UserModel.findOne({ email });
     if (!user) {
       return send("email cannot found");
@@ -125,55 +124,33 @@ export async function loginController(req, res) {
     if (user.status !== "Active") {
       return res.redirect("/login");
     }
+
     // hash password
     const checkPassword = await bcrypt.compare(password, user.password);
-
-    if (checkPassword) {
-      req.session.user = { email: user.email };
-      res.redirect("/home");
-    } else {
-      res.send("wrong password");
+    if (!checkPassword) {
+      return res.send("Wrong password");
     }
-    // if (!checkPassword) {
-    //   return res.redirect("/login")
-
-    //  }
-
-    // const accesstoken = await generatedAccessToken(user._id);
-
-    // const cookiesOption = {
-    //   httpOnly: true,
-    //   secure: true,       // true only if HTTPS
-    //   sameSite: "None",
-    // };
-
-    // return res.redirect("/home");
-  } catch (error) {
-    // return res.redirect("/login");
-    res.send(JSON.stringify(error, null, 2));
+    req.session.user = { email: user.email };
+    return res.redirect("/user/home");
+  } catch {
+    console.error(error);
+    res.status(500).send("Server error");
   }
 }
 
 // LOGOUT CONTROLLER
 export async function logOutController(req, res) {
   try {
-    const userid = req.userId; //middleware
-    const cookiesOption = {
-      httpOnly: true,
-      secure: true, // set false if local HTTP
-      sameSite: "None",
-    };
-
-    // remove refresh token from DB
-    res.clearCookie("accessToken", cookiesOption);
-    res.clearCookie("refreshToken", cookiesOption);
-
-    await UserModel.findByIdAndUpdate(userid, {
-      refresh_token: "",
+    req.session.destroy((error) => {
+      if (error) {
+        console.error(error);
+        return res.redirect("/user/home");
+      }
+      res.clearCookie("connect.sid"); // session cookie name
+      return res.redirect("/user/login");
     });
-
-    return res.redirect("/login");
-  } catch (error) {
-    return res.redirect("/login");
+  } catch {
+    console.error(error);
+    return res.redirect("/user/home");
   }
 }
