@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.2",
+    "cloudinary": "^2.9.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^6.0.0",
     "cookie-parse": "^0.4.0",
@@ -23,12 +25,14 @@
     "express": "^5.2.1",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.19.0",
+    "express-validator": "^7.3.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "method-override": "^3.0.0",
     "mongodb": "^7.1.0",
     "mongoose": "^9.1.5",
     "morgan": "^1.10.1",
+    "multer": "^2.0.2",
     "node-cache": "^5.1.2",
     "resend": "^6.9.1"
   },
