@@ -21,17 +21,17 @@
    
 <div class="container">
       <h2 class="head">Verify OTP</h2> 
-        <form  class="form" action="/" method="post">
+        <form  class="form" action="/user/verify-forgot-password-otp" method="post">
             
             <div class="form-group" >
-                <label for="name">Enter 6-digit code to email/ mobile number.</label>
+                <label for="name">Enter code to email</label>
                 <input class="input" type="number" id="otp" name="otp" placeholder="" required autocomplete="off">
 
             </div>
             <button type="submit" class="submit-btn">Verify</button>
         </form>
     <div class="bottom">        
-        <p class=""><a href="...">Change email / phone</a></p>
+        <!-- <p class=""><a href="...">Change email / phone</a></p> -->
         <p class=""><a href="/user/login">Back to login</a></p>
     </div>
 
