@@ -11,8 +11,14 @@ import {
   loginController,
   logOutController,
   check_mail,
+  uploadAvatar,
+  updateUserDetails,
+  forgotPasswordController,
+  verifyForgotPasswordOtp,
+  resetPassword,
 } from "../controllers/userController.js";
 import { isAuthenticated, redirectAuthenticated } from "../middleware/auth.js";
+import upload from "../middleware/multer.js";
 
 const userRouter = Router();
 
@@ -25,18 +31,29 @@ userRouter.get("/checkMail", check_mail);
 
 userRouter.post("/verify-email", verifyEmailController);
 
-userRouter.get("/home",isAuthenticated, homePage);
+userRouter.get("/home", isAuthenticated, homePage);
 userRouter.post("/home", isAuthenticated, homePage);
 
-userRouter.get("/forgot-password", isAuthenticated, forgotPage);
-userRouter.post("/forgot-password", isAuthenticated, forgotPage);
-
-userRouter.get("/verify-otp", isAuthenticated, verifyPage);
-userRouter.post("/verify-otp", isAuthenticated, verifyPage);
-
-userRouter.get("/reset-password", isAuthenticated, resetPswrdPage);
-userRouter.post("/reset-password", isAuthenticated, resetPswrdPage);
-
 userRouter.post("/logout", isAuthenticated, logOutController);
+userRouter.put(
+  "/upload-avatar",
+  redirectAuthenticated,
+  upload.single("avatar"),
+  uploadAvatar,
+);
+userRouter.put("/update-user", redirectAuthenticated, updateUserDetails);
+
+userRouter.get("/forgot-password", redirectAuthenticated, forgotPage);
+userRouter.post("/forgot-password-controller", forgotPasswordController);
+
+userRouter.get("/verify-otp", verifyPage);
+userRouter.post(
+  "/verify-forgot-password-otp",
+  redirectAuthenticated,
+  verifyForgotPasswordOtp,
+);
+
+userRouter.get("/reset-password", resetPswrdPage);
+userRouter.put("/reset-password", isAuthenticated, resetPassword);
 
 export default userRouter;
