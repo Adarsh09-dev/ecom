@@ -48,9 +48,7 @@ userRouter.post("/forgot-password-controller", forgotPasswordController);
 
 userRouter.get("/verify-otp", verifyPage);
 userRouter.post(
-  "/verify-forgot-password-otp",
-  redirectAuthenticated,
-  verifyForgotPasswordOtp,
+  "/verify-forgot-password-otp",verifyForgotPasswordOtp,
 );
 
 userRouter.get("/reset-password", resetPswrdPage);
