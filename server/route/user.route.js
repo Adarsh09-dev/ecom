@@ -16,6 +16,7 @@ import {
   forgotPasswordController,
   verifyForgotPasswordOtp,
   resetPassword,
+  landingPage,
 } from "../controllers/userController.js";
 import { isAuthenticated, redirectAuthenticated } from "../middleware/auth.js";
 import upload from "../middleware/multer.js";
@@ -51,5 +52,11 @@ userRouter.post("/verify-forgot-password-otp", verifyForgotPasswordOtp);
 
 userRouter.get("/reset-password", resetPswrdPage);
 userRouter.post("/reset-password", redirectAuthenticated, resetPassword);
+
+userRouter.get("/landing-page",landingPage)
+
+
+
+
 
 export default userRouter;

@@ -348,3 +348,9 @@ export async function resetPassword(req, res) {
     return res.status(500).send(error.message);
   }
 }
+
+// landing page
+export async function landingPage(req, res) {
+  res.render("landingPage", { layout : false});
+  
+}

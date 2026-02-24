@@ -1,0 +1,599 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, Arial, sans-serif;
+}
+
+/* BODY */
+
+body{
+    background:#ffffff;   
+}
+
+
+/* HEADER*/
+
+.header{
+    width:100%;
+    background:#fff;
+    padding:15px 40px;
+}
+
+
+/* TOP BAR  */
+
+.top-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+
+/* LOGO */
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo span{
+    font-size:22px;
+    color:#caa04c;
+    font-weight:600;
+}
+
+
+/* SEARCH */
+
+.search-box{
+    display:flex;
+    align-items:center;
+    border-radius:30px;
+    overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.search-box input{
+    padding:10px 15px;
+    border:none;
+    outline:none;
+    width:220px;
+}
+
+.search-box select{
+    border:none;
+    outline:none;
+    padding:10px;
+    background:#f5f5f5;
+}
+
+.search-box button{
+    border:none;
+    padding:10px 22px;
+    background:#caa04c;
+    color:#fff;
+    cursor:pointer;
+    border-radius:30px;
+}
+
+
+/* USER MENU*/
+
+.user-menu{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.user-menu a{
+    text-decoration:none;
+    color:#444;
+}
+
+.cart{
+    margin-left:15px;
+}
+
+
+/* NAVBAR */
+
+.navbar{
+    margin-top:20px;
+    background:#caa04c;
+    padding:12px;
+    border-radius:25px;
+
+    display:flex;
+    justify-content:center;
+    gap:35px;
+}
+
+.navbar a{
+    color:#fff;
+    text-decoration:none;
+    font-size:15px;
+}
+
+
+/* RESPONSIVE  */
+
+@media(max-width:900px){
+
+.top-bar{
+    flex-direction:column;
+    gap:15px;
+}
+
+.search-box input{
+    width:150px;
+}
+
+.navbar{
+    flex-wrap:wrap;
+}
+}
+
+/* ================= PROMO SECTION ================= */
+
+.promo-section{
+    padding:40px;
+    background:#ffffff;   /* IMPORTANT FIX */
+}
+
+
+/* ================= BANNER ================= */
+
+.promo-banner{
+    position:relative;
+    height:320px;
+    border-radius:25px;
+    overflow:hidden;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    /* Brown Gradient Background */
+    background:linear-gradient(
+        135deg,
+        #5b1205,
+        #7b1f08,
+        #4b0e04
+    );
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+
+/* ================= CONTENT ================= */
+
+.banner-content{
+    text-align:center;
+    color:#fff;
+    z-index:2;
+}
+
+.banner-content h2{
+    font-size:32px;
+    font-weight:500;
+    margin:15px 0;
+}
+
+.icon{
+    font-size:28px;
+}
+
+
+/* ================= BUTTON ================= */
+
+.shop-btn{
+    padding:12px 28px;
+    border:none;
+    border-radius:30px;
+    background:#b58944;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+
+    box-shadow:0 0 15px rgba(181,137,68,0.6);
+    transition:.3s;
+}
+
+.shop-btn:hover{
+    transform:scale(1.05);
+}
+
+
+/* ================= SIDE IMAGES ================= */
+
+.banner-img{
+    position:absolute;
+    width:180px;
+    z-index:1;
+}
+
+.left-img{
+    left:40px;
+    bottom:20px;
+}
+
+.right-img{
+    right:40px;
+    top:30px;
+}
+
+
+/* ================= SLIDER BUTTON ================= */
+
+.slider-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(255,255,255,0.2);
+    color:#fff;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.slider-btn.left{
+    left:15px;
+}
+
+.slider-btn.right{
+    right:15px;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+.banner-img{
+    display:none;
+}
+
+.banner-content h2{
+    font-size:22px;
+}
+
+.promo-section{
+    padding:20px;
+}
+}
+
+
+/* ================= CATEGORIES SECTION ================= */
+
+.categories{
+    padding:60px 40px;
+    background:#ffffff;   /* IMPORTANT → remove pink */
+}
+
+
+/* TITLE */
+
+.section-title{
+    text-align:center;
+    font-size:28px;
+    margin-bottom:40px;
+    color:#444;
+}
+
+
+/* CATEGORY GRID */
+
+.category-container{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+}
+
+
+/* CARD */
+
+.category-card{
+    text-align:center;
+    cursor:pointer;
+    transition:.3s;
+}
+
+
+/* IMAGE */
+
+.category-card img{
+    width:150px;
+    height:190px;
+    object-fit:cover;
+    border-radius:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.15);
+}
+
+
+/* TEXT */
+
+.category-card p{
+    margin-top:10px;
+    font-size:14px;
+    color:#555;
+}
+
+
+/* HOVER EFFECT */
+
+.category-card:hover{
+    transform:translateY(-8px);
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+.category-card img{
+    width:120px;
+    height:160px;
+}
+
+.section-title{
+    font-size:22px;
+}
+}
+
+
+/* ================= NEW ARRIVALS ================= */
+
+.new-arrivals{
+    padding:60px 40px;
+    background:#ffffff;   /* FIX → remove pink grid */
+}
+
+
+/* HEADER */
+
+.arrival-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.arrival-header h2{
+    font-size:26px;
+    color:#333;
+}
+
+.arrival-header a{
+    text-decoration:none;
+    color:#5a9bd5;
+    font-size:14px;
+}
+
+
+/* PRODUCT GRID */
+
+.product-container{
+    display:flex;
+    gap:25px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+
+/* CARD */
+
+.product-card{
+    width:170px;
+    text-align:center;
+    transition:.3s;
+    cursor:pointer;
+}
+
+
+/* IMAGE */
+
+.product-card img{
+    width:100%;
+    height:190px;
+    object-fit:cover;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.12);
+}
+
+
+/* TITLE */
+
+.product-card h4{
+    font-size:15px;
+    margin-top:10px;
+    color:#444;
+}
+
+
+/* RATING */
+
+.rating{
+    color:#f5a623;
+    font-size:13px;
+    margin:6px 0;
+}
+
+.rating span{
+    color:#888;
+    font-size:12px;
+}
+
+
+/* PRICE */
+
+.price{
+    font-weight:600;
+    color:#000;
+}
+
+
+/* HOVER */
+
+.product-card:hover{
+    transform:translateY(-8px);
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+.product-card{
+    width:140px;
+}
+
+.product-card img{
+    height:160px;
+}
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    background:#ffffff;   /* IMPORTANT WHITE BG */
+    padding:60px 40px 30px;
+    border-top:1px solid #eee;
+}
+
+
+/* CONTAINER */
+
+.footer-container{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:40px;
+}
+
+
+/* COLUMN */
+
+.footer-column h3{
+    font-size:16px;
+    margin-bottom:15px;
+    color:#000;
+}
+
+.footer-column ul{
+    list-style:none;
+}
+
+.footer-column ul li{
+    margin-bottom:8px;
+    font-size:14px;
+    color:#555;
+    cursor:pointer;
+}
+
+.footer-column ul li:hover{
+    color:#b58944;
+}
+
+
+/* SOCIAL */
+
+.social-icons{
+    display:flex;
+    gap:15px;
+    margin:15px 0;
+}
+
+.social-icons span{
+    width:35px;
+    height:35px;
+    border:1px solid #ccc;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+
+/* EXPLORE */
+
+.explore{
+    margin-top:15px;
+    margin-bottom:10px;
+}
+
+.apps{
+    display:flex;
+    gap:15px;
+}
+
+.app-box{
+    border:1px solid #ccc;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+
+/* ================= FOOTER BOTTOM ================= */
+
+.footer-bottom{
+    margin-top:40px;
+    padding-top:20px;
+    border-top:1px solid #eee;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+
+/* PAYMENTS */
+
+.payments img{
+    height:28px;
+    margin-right:10px;
+}
+
+
+/* COUNTRY */
+
+.country{
+    border:1px solid #ccc;
+    padding:10px 25px;
+    border-radius:6px;
+    font-weight:600;
+}
+
+
+/* COPYRIGHT */
+
+.copyright{
+    font-size:13px;
+    color:#666;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+.footer-container{
+    flex-direction:column;
+}
+
+.footer-bottom{
+    flex-direction:column;
+    text-align:center;
+}
+}
