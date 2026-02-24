@@ -22,10 +22,12 @@
 <div class="container">
       <h2 class="head">Verify OTP</h2> 
         <form  class="form" action="/user/verify-forgot-password-otp" method="post">
+    
+           <!-- <input type="hidden" name="email" value="<%= email %>" /> -->
             
             <div class="form-group" >
                 <label for="name">Enter code to email</label>
-                <input class="input" type="number" id="otp" name="otp" placeholder="" required autocomplete="off">
+                <input class="input" type="text" id="otp" name="otp" placeholder="" required autocomplete="off">
 
             </div>
             <button type="submit" class="submit-btn">Verify</button>

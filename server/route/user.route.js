@@ -47,11 +47,9 @@ userRouter.get("/forgot-password", redirectAuthenticated, forgotPage);
 userRouter.post("/forgot-password-controller", forgotPasswordController);
 
 userRouter.get("/verify-otp", verifyPage);
-userRouter.post(
-  "/verify-forgot-password-otp",verifyForgotPasswordOtp,
-);
+userRouter.post("/verify-forgot-password-otp", verifyForgotPasswordOtp);
 
 userRouter.get("/reset-password", resetPswrdPage);
-userRouter.put("/reset-password", isAuthenticated, resetPassword);
+userRouter.post("/reset-password", redirectAuthenticated, resetPassword);
 
 export default userRouter;
