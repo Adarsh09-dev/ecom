@@ -16,6 +16,7 @@ import flash from "connect-flash"; // added: flash messages
 import session from "express-session"; // added: required for flash
 const app = express();
 
+
 // await connectDB();
 
 //Get __dirname in ES modules
@@ -55,6 +56,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// // expose user to views
+app.use((req, res, next) => {
+  res.locals.user = req.session.user
+  next();
+});
+
 app.use(
   cors({
     credentials: true,
@@ -75,6 +82,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(expressEjsLayouts);
 app.set("layout", "layouts/main");
 app.set("view engine", "ejs");
+
 app.get("/", (req, res) => {
   res.json({ message: "server running" });
 });

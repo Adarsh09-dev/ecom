@@ -119,7 +119,10 @@ export async function loginController(req, res) {
       return res.send("Wrong password");
     }
     req.session.user = { email: user.email };
-    return res.redirect("/user/home");
+
+
+    res.locals.user = req.session.user
+    return res.redirect("/user/landing-page");
   } catch {
     console.error(error);
     res.status(500).send("Server error");
@@ -135,11 +138,11 @@ export async function logOutController(req, res) {
         return res.redirect("/user/home");
       }
       res.clearCookie("connect.sid"); // session cookie name
-      return res.redirect("/user/login");
+      return res.redirect("/user/landing-page");
     });
   } catch {
     console.error(error);
-    return res.redirect("/user/home");
+    return res.redirect("/user/landing-page");
   }
 }
 
