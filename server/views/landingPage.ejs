@@ -1,291 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SwapZon</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SwapZon</title>
 
-<link rel="stylesheet" href="/user-style/landing-page.css">
-</head>
+    <link rel="stylesheet" href="/user-style/landing-page.css" />
+  </head>
 
-<body>
-
+  <body>
+  <div class="container">
 <header class="header">
 
-    <!-- TOP BAR -->
-    <div class="top-bar">
+    <!-- ===== TOP HEADER ===== -->
+    <div class="top-header">
 
+        <!-- LOGO -->
         <div class="logo">
-            <img src="logo.png" alt="">
-            <span>swapZon</span>
+            <h2>swap<span>Zon</span></h2>
         </div>
 
         <!-- SEARCH -->
         <div class="search-box">
-            <input type="text" placeholder="search product">
-
-            <select>
-                <option>All categories</option>
-            </select>
-
-            <button>search</button>
+            <input type="text" placeholder="Search product">
         </div>
 
-        <!-- USER MENU -->
-        <div class="user-menu">
-            <a href="#">login</a>
-            <span>|</span>
-            <a href="#">sign</a>
+        <!-- USER SECTION -->
+        <div class="user-section">
 
-            <div class="cart">
-                🛒 CART
-            </div>
+            <% if (!user) { %>
+                <a href="/user/login">Login</a>
+                <span>|</span>
+                <a href="/user/signup">Sign</a>
+            <% } %>
+
+            <% if (user) { %>
+
+                <!-- ACCOUNT -->
+                <div class="account-menu">
+                    <span>My Account</span>
+
+                    <div class="dropdown">
+                        <a href="#">Profile</a>
+                        <a href="#">Orders</a>
+                        <a href="#">Wishlist</a>
+
+                        <form action="/user/logout" method="post">
+                            <button type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- CART -->
+                <a href="#" class="cart">🛒 Cart</a>
+
+            <% } %>
+
         </div>
 
     </div>
 
 
-    <!-- NAVBAR -->
+    <!-- ===== NAVBAR (SECOND ROW) ===== -->
     <nav class="navbar">
-        <a href="#">home</a>
-        <a href="#">features</a>
-        <a href="#">collection</a>
-        <a href="#">shop</a>
-        <a href="#">contact us</a>
-        <a href="#">about us</a>
+       <!-- ALL CATEGORY -->
+    <div class="category-menu">
+
+        <div class="category-btn">
+             All Categories
+        </div>
+
+        <div class="category-dropdown">
+            <a href="#">Electronics</a>
+            <a href="#">Mobiles</a>
+            <a href="#">Laptops</a>
+            <a href="#">Fashion</a>
+            <a href="#">Home & Furniture</a>
+            <a href="#">Accessories</a>
+        </div>
+
+    </div>
+        <a href="/">Home</a>
+        <a href="#">Features</a>
+        <a href="#">Collection</a>
+        <a href="#">Shop</a>
+        <a href="#">Contact Us</a>
+        <a href="#">About Us</a>
     </nav>
 
 </header>
 
-<!-- PROMO BANNER -->
-<section class="promo-section">
-
-    <div class="promo-banner">
-
+    <!-- PROMO BANNER -->
+    <section class="promo-section">
+      <div class="promo-banner">
         <!-- LEFT IMAGE -->
-        <img src="img/cup.png" class="banner-img left-img" alt="">
+        <img src="img/cup.png" class="banner-img left-img" alt="" />
 
         <!-- RIGHT IMAGE -->
-        <img src="img/bag.png" class="banner-img right-img" alt="">
+        <img src="img/bag.png" class="banner-img right-img" alt="" />
 
         <!-- CENTER CONTENT -->
         <div class="banner-content">
-            <div class="icon">🌱</div>
+          <div class="icon">🌱</div>
 
-            <h2>
-                “Recycle Paper.<br>
-                Restore Nature.”
-            </h2>
+          <h2>
+            “Recycle Paper.<br />
+            Restore Nature.”
+          </h2>
 
-            <button class="shop-btn">Shop now</button>
+          <!-- FORM ADDED -->
+          <form action="/shop" method="GET">
+            <button type="submit" class="shop-btn">Shop now</button>
+          </form>
         </div>
 
         <!-- SLIDER BUTTONS -->
         <div class="slider-btn left">❮</div>
         <div class="slider-btn right">❯</div>
+      </div>
+    </section>
 
-    </div>
+    <!-- POPULAR CATEGORIES -->
+    <section class="categories">
+      <h2 class="section-title">Popular Categories</h2>
 
-</section>
+      <div class="category-container">
+        <form action="/category" method="GET" class="category-card">
+          <input type="hidden" name="category" value="paper-glass" />
+          <button type="submit">
+            <img src="img/paper-glass.jpg" alt="" />
+          </button>
+          <p>paper glass</p>
+        </form>
 
-<!-- POPULAR CATEGORIES -->
-<section class="categories">
-
-    <h2 class="section-title">Popular Categories</h2>
-
-    <div class="category-container">
-
-        <div class="category-card">
-            <img src="img/paper-glass.jpg" alt="">
-            <p>paper glass</p>
-        </div>
-
-        <div class="category-card">
-            <img src="img/wood-spoon.jpg" alt="">
+        <form action="/category" method="GET" class="category-card">
+          <input type="hidden" name="category" value="wood-spoon" />
+          <button type="submit">
+            <img src="img/wood-spoon.jpg" alt="" />
             <p>wood spoon</p>
-        </div>
+          </button>
+        </form>
 
-        <div class="category-card">
-            <img src="img/paper-box.jpg" alt="">
+        <form action="/category" method="GET" class="category-card">
+          <input type="hidden" name="category" value="paper-box" />
+          <button type="submit">
+            <img src="img/paper-box.jpg" alt="" />
             <p>Paper Boxes</p>
-        </div>
+          </button>
+        </form>
 
-        <div class="category-card">
-            <img src="img/wood-fork.jpg" alt="">
+        <form action="/category" method="GET" class="category-card">
+          <input type="hidden" name="category" value="wood-fork" />
+          <button type="submit">
+            <img src="img/wood-fork.jpg" alt="" />
             <p>wood fork</p>
-        </div>
+          </button>
+        </form>
 
-        <div class="category-card">
-            <img src="img/paper-bag.jpg" alt="">
+        <form action="/category" method="GET" class="category-card">
+          <input type="hidden" name="category" value="paper-bag" />
+          <button type="submit">
+            <img src="img/paper-bag.jpg" alt="" />
             <p>Kraft Paper Bags</p>
-        </div>
+          </button>
+        </form>
 
-        <div class="category-card">
-            <img src="img/paper-plate.jpg" alt="">
+        <form action="/category" method="GET" class="category-card">
+          <input type="hidden" name="category" value="paper-plate" />
+          <button type="submit">
+            <img src="img/paper-plate.jpg" alt="" />
             <p>Paper Plates</p>
-        </div>
-
-    </div>
-
-</section>
-
-<!-- NEW ARRIVALS -->
-<section class="new-arrivals">
-
-    <div class="arrival-header">
+          </button>
+        </form>
+      </div>
+    </section>
+    <!-- NEW ARRIVALS -->
+    <section class="new-arrivals">
+      <div class="arrival-header">
         <h2>New Arrivals</h2>
-        <a href="#">view all</a>
-    </div>
+        <a href="/products">view all</a>
+      </div>
 
-    <div class="product-container">
-
-        <!-- PRODUCT -->
-        <div class="product-card">
-            <img src="img/product1.jpg">
+      <div class="product-container">
+        <form action="/product" method="GET" class="product-card">
+          <input type="hidden" name="product" value="egg-carton-trays" />
+          <button type="submit">
+            <img src="img/product1.jpg" />
             <h4>Egg Carton Trays</h4>
             <div class="rating">★★★★★ <span>(4 reviews)</span></div>
             <p class="price">$ 59.00</p>
-        </div>
+          </button>
+        </form>
 
-        <div class="product-card">
-            <img src="img/product2.jpg">
+        <form action="/product" method="GET" class="product-card">
+          <input type="hidden" name="product" value="paper-gift-boxes" />
+          <button type="submit">
+            <img src="img/product2.jpg" />
             <h4>Paper Gift Boxes</h4>
             <div class="rating">★★★★★ <span>(4 reviews)</span></div>
             <p class="price">$ 59.00</p>
-        </div>
+          </button>
+        </form>
 
-        <div class="product-card">
-            <img src="img/product3.jpg">
+        <form action="/product" method="GET" class="product-card">
+          <input type="hidden" name="product" value="notebooks" />
+          <button type="submit">
+            <img src="img/product3.jpg" />
             <h4>Notebooks</h4>
             <div class="rating">★★★★★ <span>(4 reviews)</span></div>
             <p class="price">$ 59.00</p>
-        </div>
+          </button>
+        </form>
 
-        <div class="product-card">
-            <img src="img/product4.jpg">
+        <form action="/product" method="GET" class="product-card">
+          <input type="hidden" name="product" value="shopping-bags" />
+          <button type="submit">
+            <img src="img/product4.jpg" />
             <h4>Shopping Bags</h4>
             <div class="rating">★★★★★ <span>(4 reviews)</span></div>
             <p class="price">$ 59.00</p>
-        </div>
+          </button>
+        </form>
 
-        <div class="product-card">
-            <img src="img/product5.jpg">
+        <form action="/product" method="GET" class="product-card">
+          <input type="hidden" name="product" value="paper-files" />
+          <button type="submit">
+            <img src="img/product5.jpg" />
             <h4>Paper Files</h4>
             <div class="rating">★★★★★ <span>(4 reviews)</span></div>
             <p class="price">$ 59.00</p>
-        </div>
+          </button>
+        </form>
 
-        <div class="product-card">
-            <img src="img/product6.jpg">
+        <form action="/product" method="GET" class="product-card">
+          <input type="hidden" name="product" value="packing-fillers" />
+          <button type="submit">
+            <img src="img/product6.jpg" />
             <h4>Packing Fillers</h4>
             <div class="rating">★★★★★ <span>(4 reviews)</span></div>
             <p class="price">$ 59.00</p>
-        </div>
+          </button>
+        </form>
+      </div>
+    </section>
 
-    </div>
-
-</section>
-
-<footer class="footer">
-
-    <div class="footer-container">
-
+    <footer class="footer">
+      <div class="footer-container">
         <!-- SUPPORT -->
         <div class="footer-column">
-            <h3>SUPPORT</h3>
-            <ul>
-                <li>Contact us</li>
-                <li>Promotions & Sale</li>
-                <li>Track Order</li>
-                <li>Shoe Care</li>
-                <li>Tech Glossary</li>
-                <li>Return / Exchange</li>
-                <li>Sneakers</li>
-                <li>Nitro</li>
-                <li>Hyrox India</li>
-                <li>Cookie Settings</li>
-            </ul>
+          <h3>SUPPORT</h3>
+          <ul>
+            <li>
+              <form action="/contact" method="GET">
+                <button type="submit">Contact us</button>
+              </form>
+            </li>
+
+            <li>
+              <form action="/promotions" method="GET">
+                <button type="submit">Promotions & Sale</button>
+              </form>
+            </li>
+
+            <li>
+              <form action="/track-order" method="GET">
+                <button type="submit">Track Order</button>
+              </form>
+            </li>
+
+            <li>
+              <form action="/returns" method="GET">
+                <button type="submit">Return / Exchange</button>
+              </form>
+            </li>
+          </ul>
         </div>
 
         <!-- HELP -->
         <div class="footer-column">
-            <h3>&nbsp;</h3>
-            <ul>
-                <li>FAQs</li>
-                <li>My Account</li>
-                <li>Exchange & Return Policy</li>
-                <li>Privacy Policy</li>
-                <li>Terms & Conditions</li>
-                <li>Shoes</li>
-                <li>Running Shoes</li>
-                <li>Sneakers for Women</li>
-                <li>Sitemap</li>
-            </ul>
+          <h3>&nbsp;</h3>
+          <ul>
+            <li>
+              <form action="/faq" method="GET">
+                <button type="submit">FAQs</button>
+              </form>
+            </li>
+
+            <li>
+              <form action="/account" method="GET">
+                <button type="submit">My Account</button>
+              </form>
+            </li>
+
+            <li>
+              <form action="/privacy-policy" method="GET">
+                <button type="submit">Privacy Policy</button>
+              </form>
+            </li>
+
+            <li>
+              <form action="/terms" method="GET">
+                <button type="submit">Terms & Conditions</button>
+              </form>
+            </li>
+          </ul>
         </div>
 
         <!-- ABOUT -->
         <div class="footer-column">
-            <h3>ABOUT</h3>
-            <ul>
-                <li>Company</li>
-                <li>What is HYROX?</li>
-                <li>PUMA GO WILD</li>
-                <li>Corporate News</li>
-                <li>Press Center</li>
-                <li>Investors</li>
-                <li>Sustainability</li>
-                <li>Careers</li>
-                <li>Store Locator</li>
-                <li>PUMA Articles</li>
-            </ul>
+          <h3>ABOUT</h3>
+          <ul>
+            <li>
+              <form action="/company" method="GET">
+                <button type="submit">Company</button>
+              </form>
+            </li>
+
+            <li>
+              <form action="/careers" method="GET">
+                <button type="submit">Careers</button>
+              </form>
+            </li>
+
+            <li>
+              <form action="/store-locator" method="GET">
+                <button type="submit">Store Locator</button>
+              </form>
+            </li>
+          </ul>
         </div>
 
         <!-- SOCIAL -->
         <div class="footer-column">
-            <h3>STAY UP TO DATE</h3>
+          <h3>STAY UP TO DATE</h3>
 
-            <div class="social-icons">
-                <span>▶</span>
-                <span>X</span>
-                <span>P</span>
-                <span>◎</span>
-                <span>f</span>
-            </div>
+          <div class="social-icons">
+            <span>▶</span>
+            <span>X</span>
+            <span>P</span>
+            <span>◎</span>
+            <span>f</span>
+          </div>
 
-            <h4 class="explore">EXPLORE</h4>
+          <h4 class="explore">EXPLORE</h4>
 
-            <div class="apps">
-                <div class="app-box">APP</div>
-                <div class="app-box">TRAC</div>
-            </div>
-
+          <div class="apps">
+            <div class="app-box">APP</div>
+            <div class="app-box">TRAC</div>
+          </div>
         </div>
+      </div>
 
-    </div>
-
-
-    <!-- FOOTER BOTTOM -->
-    <div class="footer-bottom">
-
+      <!-- FOOTER BOTTOM -->
+      <div class="footer-bottom">
         <div class="payments">
-            <img src="img/visa.png">
-            <img src="img/mastercard.png">
-            <img src="img/amex.png">
-            <img src="img/upi.png">
-            <img src="img/rupay.png">
+          <img src="img/visa.png" />
+          <img src="img/mastercard.png" />
+          <img src="img/amex.png" />
+          <img src="img/upi.png" />
+          <img src="img/rupay.png" />
         </div>
 
-        <div class="country">
-            🇮🇳 INDIA
-        </div>
+        <div class="country">🇮🇳 INDIA</div>
 
-        <div class="copyright">
-            © 2026 ALL RIGHTS RESERVED.
-        </div>
-
+        <div class="copyright">© 2026 ALL RIGHTS RESERVED.</div>
+      </div>
+    </footer>
     </div>
-
-</footer>
-
-</body>
+  </body>
 </html>

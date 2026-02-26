@@ -33,7 +33,7 @@ userRouter.get("/checkMail", check_mail);
 userRouter.post("/verify-email", verifyEmailController);
 
 userRouter.get("/home", isAuthenticated, homePage);
-userRouter.post("/home", isAuthenticated, homePage);
+
 
 userRouter.post("/logout", isAuthenticated, logOutController);
 userRouter.put(
