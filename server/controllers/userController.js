@@ -118,10 +118,12 @@ export async function loginController(req, res) {
     if (!checkPassword) {
       return res.send("Wrong password");
     }
-    req.session.user = { email: user.email };
+    req.session.user = {
+      email: user.email,
+      id: user._id,
+    };
 
-
-    res.locals.user = req.session.user
+    res.locals.user = req.session.user;
     return res.redirect("/user/landing-page");
   } catch {
     console.error(error);
@@ -354,6 +356,18 @@ export async function resetPassword(req, res) {
 
 // landing page
 export async function landingPage(req, res) {
-  res.render("landingPage", { layout : false});
-  
+  res.render("landingPage", { layout: false });
+}
+
+// GET LOGIN USER DETAILS AND PROFILE PAGE
+export async function profilePage(req, res) {
+  console.log("check the profile : ");
+  const user = await UserModel.findById(req.session.user.id);
+  console.log("check the profile :ooooooooo ", req.session.user._id);
+  console.log("check the profile :----------------- ", user);
+
+  res.render("user-details", {
+    layout: false,
+    user,
+  });
 }

@@ -17,6 +17,8 @@ import {
   verifyForgotPasswordOtp,
   resetPassword,
   landingPage,
+  profilePage,
+  // UserDetails,
 } from "../controllers/userController.js";
 import { isAuthenticated, redirectAuthenticated } from "../middleware/auth.js";
 import upload from "../middleware/multer.js";
@@ -33,7 +35,6 @@ userRouter.get("/checkMail", check_mail);
 userRouter.post("/verify-email", verifyEmailController);
 
 userRouter.get("/home", isAuthenticated, homePage);
-
 
 userRouter.post("/logout", isAuthenticated, logOutController);
 userRouter.put(
@@ -53,10 +54,8 @@ userRouter.post("/verify-forgot-password-otp", verifyForgotPasswordOtp);
 userRouter.get("/reset-password", resetPswrdPage);
 userRouter.post("/reset-password", redirectAuthenticated, resetPassword);
 
-userRouter.get("/landing-page",landingPage)
+userRouter.get("/landing-page", landingPage);
 
-
-
-
+userRouter.get("/profile", profilePage);
 
 export default userRouter;
