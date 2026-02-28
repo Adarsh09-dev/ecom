@@ -363,7 +363,7 @@ export async function landingPage(req, res) {
 export async function profilePage(req, res) {
   console.log("check the profile : ");
   const user = await UserModel.findById(req.session.user.id);
-  console.log("check the profile :ooooooooo ", req.session.user._id);
+  console.log("check the profile :ooooooooo ", req.session.user.id);
   console.log("check the profile :----------------- ", user);
 
   res.render("user-details", {
@@ -371,3 +371,26 @@ export async function profilePage(req, res) {
     user,
   });
 }
+
+// UPDATE USER DATA
+
+export async function updateUserData(req, res) {
+   try {
+    const userId = req.session.user.id; // or req.user._id
+    console.log("33333333333",req.body)
+   await UserModel.findByIdAndUpdate(userId, {
+      name: req.body.name,
+      email: req.body.email,
+      mobile: req.body.mobile,
+      address_detials: req.body.address
+   }, {new :  true});
+
+   console.log("updated..")
+   res.redirect("/user/profile");
+
+    console.log("updated..9999")
+   } catch (error) {
+    
+     return res.status(500).send(error.message);
+   }
+  }

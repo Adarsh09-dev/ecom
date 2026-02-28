@@ -43,13 +43,13 @@
         <!-- Profile Update Form -->
         <form
             class="profile-form"
-            action="/user/profile/<%= user?.avatar %>?_method=put"
+            action="/user/updated-profile/?_method=PUT"
             method="POST"
             enctype="multipart/form-data"
         >
 
             <!-- METHOD OVERRIDE -->
-            <input type="hidden" name="_method" value="PUT">
+            <input type="hidden" name="_method" value="put">
 
             <div class="row">
 

@@ -18,6 +18,7 @@ import {
   resetPassword,
   landingPage,
   profilePage,
+  updateUserData,
   // UserDetails,
 } from "../controllers/userController.js";
 import { isAuthenticated, redirectAuthenticated } from "../middleware/auth.js";
@@ -56,6 +57,7 @@ userRouter.post("/reset-password", redirectAuthenticated, resetPassword);
 
 userRouter.get("/landing-page", landingPage);
 
-userRouter.get("/profile", profilePage);
+userRouter.get("/profile", isAuthenticated, profilePage);
+userRouter.put("/updated-profile", isAuthenticated, updateUserData);
 
 export default userRouter;
