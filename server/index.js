@@ -16,7 +16,6 @@ import flash from "connect-flash"; // added: flash messages
 import session from "express-session"; // added: required for flash
 const app = express();
 
-
 // await connectDB();
 
 //Get __dirname in ES modules
@@ -29,7 +28,8 @@ app.use(express.urlencoded({ extended: true })); // ensure this is present
 app.use(methodOverride("_method")); // add this line here
 
 //Static Files
-app.use(express.static("public"));
+//app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // session (required for flash)
 app.use(
@@ -58,7 +58,7 @@ app.use((req, res, next) => {
 
 // // expose user to views
 app.use((req, res, next) => {
-  res.locals.user = req.session.user
+  res.locals.user = req.session.user;
   next();
 });
 
@@ -94,6 +94,18 @@ app.use((req, res, next) => {
   res.set("Expires", "0");
   next();
 });
+
+//HELMET
+// Static files
+app.use(express.static(path.join(__dirname, "public")));
+
+// Security
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: false,
+  })
+);
 
 // user router
 app.use("/user", userRouter);

@@ -42,7 +42,8 @@ const userSchema = new mongoose.Schema(
     },
     address_detials: [
       {
-        type: mongoose.Schema.ObjectId,
+        type: String,
+        // type: mongoose.Schema.ObjectId,
         ref: "address",
       },
     ],
