@@ -98,16 +98,6 @@ app.use((req, res, next) => {
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// Security
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: false,
-//     crossOriginResourcePolicy: false,
-//   }),
-// );
-
-// import helmet from "helmet";
-
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -136,6 +126,4 @@ connectDB().then(() => {
   });
 });
 
-// }
 
-// startServer;
