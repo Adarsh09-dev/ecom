@@ -19,10 +19,10 @@ import {
   landingPage,
   profilePage,
   updateUserData,
-  // UserDetails,
 } from "../controllers/userController.js";
 import { isAuthenticated, redirectAuthenticated } from "../middleware/auth.js";
 import upload from "../middleware/multer.js";
+import multer from "multer";
 
 const userRouter = Router();
 
@@ -38,12 +38,7 @@ userRouter.post("/verify-email", verifyEmailController);
 userRouter.get("/home", isAuthenticated, homePage);
 
 userRouter.post("/logout", isAuthenticated, logOutController);
-userRouter.put(
-  "/upload-avatar",
-  redirectAuthenticated,
-  upload.single("avatar"),
-  uploadAvatar,
-);
+
 userRouter.put("/update-user", redirectAuthenticated, updateUserDetails);
 
 userRouter.get("/forgot-password", redirectAuthenticated, forgotPage);
@@ -58,6 +53,17 @@ userRouter.post("/reset-password", redirectAuthenticated, resetPassword);
 userRouter.get("/landing-page", landingPage);
 
 userRouter.get("/profile", isAuthenticated, profilePage);
-userRouter.put("/updated-profile", isAuthenticated, updateUserData);
+userRouter.put(
+  "/updated-profile",
+  isAuthenticated,
+  upload.single("profile_image"),
+  updateUserData,
+);
+userRouter.put(
+  "/upload-avatar",
+  isAuthenticated,
+  upload.single("profile_image"),
+  uploadAvatar,
+);
 
 export default userRouter;

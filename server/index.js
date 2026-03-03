@@ -15,7 +15,6 @@ import methodOverride from "method-override";
 import flash from "connect-flash"; // added: flash messages
 import session from "express-session"; // added: required for flash
 const app = express();
-
 // await connectDB();
 
 //Get __dirname in ES modules
@@ -28,7 +27,7 @@ app.use(express.urlencoded({ extended: true })); // ensure this is present
 app.use(methodOverride("_method")); // add this line here
 
 //Static Files
-//app.use(express.static("public"));
+app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "public")));
 
 // session (required for flash)
@@ -100,11 +99,30 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, "public")));
 
 // Security
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: false,
+//     crossOriginResourcePolicy: false,
+//   }),
+// );
+
+// import helmet from "helmet";
+
 app.use(
   helmet({
-    contentSecurityPolicy: false,
-    crossOriginResourcePolicy: false,
-  })
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+
+        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+
+        connectSrc: ["'self'", "http://localhost:5000"],
+
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+      },
+    },
+  }),
 );
 
 // user router

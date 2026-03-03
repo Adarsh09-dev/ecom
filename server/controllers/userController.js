@@ -148,7 +148,6 @@ export async function logOutController(req, res) {
   }
 }
 
-
 // UPDATE USER DETAILS
 export async function updateUserDetails(req, res) {
   try {
@@ -345,7 +344,7 @@ export async function profilePage(req, res) {
   console.log("check the profile : ");
   const user = await UserModel.findById(req.session.user.id);
   console.log("check the profile :ooooooooo ", req.session.user.id);
-  console.log("check the profile :----------------- ", user);
+  console.log("check the profile :----------------- ", user.id);
 
   res.render("user-details", {
     layout: false,
@@ -356,48 +355,58 @@ export async function profilePage(req, res) {
 // UPDATE USER DATA
 
 export async function updateUserData(req, res) {
-   try {
+  try {
     const userId = req.session.user.id; // or req.user._id
-    console.log("33333333333",req.body)
-   await UserModel.findByIdAndUpdate(userId, {
-    
-      name: req.body.name,
-      email: req.body.email,
-      mobile: req.body.mobile,
-      address_detials: req.body.address
-   }, {new :  true});
+    console.log(".................1...................", req.session.user);
+    console.log("33333333333", req.body);
+    await UserModel.findByIdAndUpdate(
+      userId,
+      {
+        name: req.body.first_name,
+        email: req.body.email,
+        mobile: req.body.mobile,
+        address_detials: req.body.address,
+      },
+      { new: true },
+    );
 
-   console.log("updated..")
-   res.redirect("/user/profile");
+    console.log("updated..", req.body);
+    res.redirect("/user/profile");
 
-    console.log("updated..9999")
-   } catch (error) {
-    
-     return res.status(500).send(error.message);
-   }
+    console.log("updated..9999");
+  } catch (error) {
+    return res.status(500).send(error.message);
   }
+}
 
-  // UPLOAD USER AVATAR
+// UPLOAD USER AVATAR
 export async function uploadAvatar(req, res) {
   try {
-    console.log('check,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,')
-    const userId = req.session.user; // session
+    console.log("check,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,");
+    const userId = req.session.user.id; // session
     const image = req.file;
-    console.log('check,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,')
+    console.log("check,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,");
 
-    if(!image) {
-      console.log(";;;;;;;NO IMAGE;;;;;;;")
+    if (!image) {
+      console.log(";;;;;;;NO IMAGE;;;;;;;");
       return res.status(400).send("No image upload");
     }
 
+    console.log("check,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,");
     const upload = await uploadImageCloudinary(image);
+    console.log("............", upload);
 
-    const updateUser = await UserModel.findByIdAndUpdate(userId,
-       { avatar: upload.url }, { new: true});
+    await UserModel.findByIdAndUpdate(
+      userId,
+      { avatar: upload.url },
+      { new: true },
+    );
 
-    return res.render("/user/profile ", {
-      user: updateUser,
-    });
+    return res.redirect("/user/profile");
+
+    // return res.render("user/profile", {
+    //   user: updateUser,
+    // });
   } catch (error) {
     return res.status(500).send(error.message);
   }

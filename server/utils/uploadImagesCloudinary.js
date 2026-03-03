@@ -10,13 +10,17 @@ const uploadImageCloudinary = async (image) => {
   const buffer = image?.buffer || Buffer.from(await image.arrayBuffer());
 
   const uploadImage = await new Promise((resolve, reject) => {
-    cloudinary.uploader.upload_stream(
+    const stream = cloudinary.uploader.upload_stream(
       { folder: "Ecom" },
-      (error, uploadResult) => {
-        return resolve(uploadResult);
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
       },
     );
-  }).end(buffer);
+
+    // ✅ send buffer into stream
+    stream.end(buffer);
+  });
 
   return uploadImage;
 };
