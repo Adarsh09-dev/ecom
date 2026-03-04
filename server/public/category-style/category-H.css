@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #0f111a;
+  color: #fff;
+}
+
+/* LAYOUT */
+.dashboard {
+  display: flex;
+  height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px;
+  background: #141625;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo {
+  margin-bottom: 30px;
+}
+
+.menu {
+  list-style: none;
+}
+
+.menu li {
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #bbb;
+}
+
+.menu li:hover,
+.menu .active {
+  background: #1e2033;
+  color: #fff;
+}
+
+.logout {
+  padding: 12px;
+  background: #1e2033;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 30px;
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.topbar input {
+  padding: 10px;
+  width: 300px;
+  background: #1e2033;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.add-btn {
+  background: #4f46e5;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* CARD */
+.card {
+  background: #141625;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+thead {
+  color: #aaa;
+}
+
+th,
+td {
+  padding: 14px;
+  text-align: left;
+}
+
+tbody tr {
+  border-top: 1px solid #2a2c3d;
+}
+
+/* PRODUCT CELL */
+.product {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.product img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+/* STATUS BADGE */
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.status.Published {
+  background: #1f8f4d;
+}
+
+.status.Inactive {
+  background: #8f1f1f;
+}

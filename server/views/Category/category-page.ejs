@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Category List</title>
+  <link rel="stylesheet" href="/category-style/category-H.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2 class="logo">Esale</h2>
+
+    <ul class="menu">
+      <li>Dashboard</li>
+      <li class="active">Categories</li>
+      <li>Orders</li>
+      <li>Customers</li>
+    </ul>
+
+    <div class="logout">Log Out</div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <div class="topbar">
+      <input type="text" placeholder="Search Category">
+      <button class="add-btn">Add Category +</button>
+    </div>
+
+    <div class="card">
+      <h3>All Categories</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category ID</th>
+            <th>Created Date</th>
+            <th>Updated Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <% if (categories && categories.length > 0) { %>
+
+            <% categories.forEach(category => { %>
+
+              <tr>
+
+                <!-- IMAGE -->
+                <td>
+                  <img 
+                    src="<%= category.image %>" 
+                    alt="category image"
+                    width="50"
+                    height="50"
+                  >
+                </td>
+
+                <!-- NAME -->
+                <td>
+                  <%= category.name %>
+                </td>
+
+                <!-- ID -->
+                <td>
+                  <%= category._id %>
+                </td>
+
+                <!-- CREATED DATE -->
+                <td>
+                  <%= category.createdAt.toDateString() %>
+                </td>
+
+                <!-- UPDATED DATE -->
+                <td>
+                  <%= category.updatedAt.toDateString() %>
+                </td>
+
+              </tr>
+
+            <% }) %>
+
+          <% } else { %>
+
+            <tr>
+              <td colspan="5" style="text-align:center;">
+                No Categories Found
+              </td>
+            </tr>
+
+          <% } %>
+
+        </tbody>
+      </table>
+
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>
