@@ -357,7 +357,7 @@ export async function profilePage(req, res) {
 export async function updateUserData(req, res) {
   try {
     const userId = req.session.user.id; // or req.user._id
-    console.log(".................1...................", req.session.user);
+    console.log(".....", req.session.user);
     console.log("33333333333", req.body);
     await UserModel.findByIdAndUpdate(
       userId,
@@ -382,17 +382,13 @@ export async function updateUserData(req, res) {
 // UPLOAD USER AVATAR
 export async function uploadAvatar(req, res) {
   try {
-    console.log("check,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,,,");
     const userId = req.session.user.id; // session
     const image = req.file;
-    console.log("check,,,,,,,,,,,,2,,,,,,,,,,,,,,,,,,,,");
 
     if (!image) {
-      console.log(";;;;;;;NO IMAGE;;;;;;;");
       return res.status(400).send("No image upload");
     }
 
-    console.log("check,,,,,,,,,,,,3,,,,,,,,,,,,,,,,,,,,");
     const upload = await uploadImageCloudinary(image);
     console.log("............", upload);
 
