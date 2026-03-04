@@ -1,9 +1,13 @@
 import { Router } from "express";
-import { redirectAuthenticated } from "../middleware/auth.js";
-import { AddCategoryController } from "../controllers/categoryController.js";
+import { isAuthenticated, redirectAuthenticated } from "../middleware/auth.js";
+import { 
+  AddCategoryController,
+  categoryPage,
+ } from "../controllers/categoryController.js";
 
 const categoryRouter = Router();
 
+categoryRouter.get('/products-category',isAuthenticated,categoryPage)
 categoryRouter.post(
   "/add-category",
   redirectAuthenticated,

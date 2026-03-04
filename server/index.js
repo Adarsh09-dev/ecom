@@ -119,8 +119,8 @@ app.use(
 
 // user router
 app.use("/user", userRouter);
-app.use("/category",categoryRouter)
-app.use("/file",uploadRouter)
+app.use("/category", categoryRouter);
+app.use("/file", uploadRouter);
 
 connectDB().then(() => {
   const PORT = process.env.PORT || 5000;
@@ -129,5 +129,3 @@ connectDB().then(() => {
     console.log(`Server is running on port ${PORT}`);
   });
 });
-
-
