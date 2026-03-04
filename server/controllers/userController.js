@@ -101,14 +101,18 @@ export async function loginPage(req, res) {
 export async function loginController(req, res) {
   try {
     const { email, password } = req.body;
+
     if (!email || !password) {
       return res.redirect("/login");
     }
+
     const user = await UserModel.findOne({ email });
+
     if (!user) {
-      return send("email cannot found");
-      // return res.redirect("/login");
+      // return res.send("email cannot found");
+      return res.redirect("/login");
     }
+
     if (user.status !== "Active") {
       return res.redirect("/login");
     }
@@ -118,6 +122,7 @@ export async function loginController(req, res) {
     if (!checkPassword) {
       return res.send("Wrong password");
     }
+
     req.session.user = {
       email: user.email,
       id: user._id,
@@ -125,9 +130,8 @@ export async function loginController(req, res) {
 
     res.locals.user = req.session.user;
     return res.redirect("/user/landing-page");
-  } catch {
-    console.error(error);
-    res.status(500).send("Server error");
+  } catch (error) {
+    res.send("Server error");
   }
 }
 
