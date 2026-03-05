@@ -1,17 +1,23 @@
 import { Router } from "express";
 import { isAuthenticated, redirectAuthenticated } from "../middleware/auth.js";
-import { 
-  AddCategoryController,
+import {
+  // AddCategoryController,
   categoryPage,
- } from "../controllers/categoryController.js";
+  AddCategoryPage,
+  createCategory,
+} from "../controllers/categoryController.js";
+import upload from "../middleware/multer.js";
 
 const categoryRouter = Router();
 
-categoryRouter.get('/products-category',isAuthenticated,categoryPage)
+categoryRouter.get("/category-p", isAuthenticated, categoryPage);
+
+categoryRouter.get("/add-category", AddCategoryPage);
 categoryRouter.post(
-  "/add-category",
-  redirectAuthenticated,
-  AddCategoryController,
+  "/",
+  isAuthenticated,
+  upload.single("image"),
+  createCategory,
 );
 
 export default categoryRouter;

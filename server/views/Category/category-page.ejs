@@ -27,10 +27,14 @@
   <!-- MAIN CONTENT -->
   <main class="main">
 
-    <div class="topbar">
-      <input type="text" placeholder="Search Category">
-      <button class="add-btn">Add Category +</button>
-    </div>
+<div class="topbar">
+  <input type="text" placeholder="Search Category">
+
+  <a href="/category/add-category">
+    <button class="add-btn">Add Category +</button>
+  </a>
+
+</div>
 
     <div class="card">
       <h3>All Categories</h3>
@@ -75,14 +79,14 @@
                 </td>
 
                 <!-- CREATED DATE -->
-                <td>
+                <!-- <td>
                   <%= category.createdAt.toDateString() %>
-                </td>
+                </td> -->
 
                 <!-- UPDATED DATE -->
-                <td>
+                <!-- <td>
                   <%= category.updatedAt.toDateString() %>
-                </td>
+                </td> -->
 
               </tr>
 
