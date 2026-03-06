@@ -56,39 +56,50 @@
 
             <% categories.forEach(category => { %>
 
-              <tr>
+<tr>
 
-                <!-- IMAGE -->
-                <td>
-                  <img 
-                    src="<%= category.image %>" 
-                    alt="category image"
-                    width="50"
-                    height="50"
-                  >
-                </td>
+<td>
+  <img src="<%= category.image %>" width="50" height="50">
+</td>
 
-                <!-- NAME -->
-                <td>
-                  <%= category.name %>
-                </td>
+<td>
+  <%= category.name %>
+</td>
 
-                <!-- ID -->
-                <td>
-                  <%= category._id %>
-                </td>
+<td>
+  <%= category._id %>
+</td>
 
-                 <!-- CREATED DATE  -->
-                <td>
-                  <%= category.createdAt.toDateString() %>
-                </td> 
+<td>
+  <%= category.createdAt.toDateString() %>
+</td>
 
-                <!-- UPDATED DATE -->
-                <td>
-                  <%= category.updatedAt.toDateString() %>
-                </td>
+<td>
+  <%= category.updatedAt.toDateString() %>
+</td>
 
-              </tr>
+<td class="actions">
+
+  <!-- VIEW -->
+  <!-- <a href="/category/<%= category._id %>" class="btn view-btn">
+    View
+  </a> -->
+
+  <!-- EDIT -->
+  <a href="/category/edit/<%= category._id %>" class="btn edit-btn">
+    Edit
+  </a>
+
+  <!-- DELETE -->
+  <form action="/category/<%= category._id %>?_method=DELETE" method="POST">
+    <button type="submit" class="btn delete-btn">
+      Delete
+    </button>
+  </form>
+
+</td>
+
+</tr>
 
             <% }) %>
 

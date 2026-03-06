@@ -5,12 +5,15 @@ import {
   categoryPage,
   AddCategoryPage,
   createCategory,
+  editCategoryPage,
+  updatCategory,
+  deleteCategory,
 } from "../controllers/categoryController.js";
 import upload from "../middleware/multer.js";
 
 const categoryRouter = Router();
 
-categoryRouter.get("/category-p", isAuthenticated, categoryPage);
+categoryRouter.get("/", isAuthenticated, categoryPage);
 
 categoryRouter.get("/add-category", AddCategoryPage);
 categoryRouter.post(
@@ -19,5 +22,13 @@ categoryRouter.post(
   upload.single("image"),
   createCategory,
 );
+categoryRouter.get("/edit/:id", isAuthenticated, editCategoryPage);
+categoryRouter.put(
+  "/update/:id",
+  isAuthenticated,
+  upload.single("image"),
+  updatCategory,
+);
+categoryRouter.delete("/:id", isAuthenticated, deleteCategory);
 
 export default categoryRouter;

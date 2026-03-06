@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Category</title>
+<link rel="stylesheet" href="/category-style/add-category.css">
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="form-card">
+
+    <h2>Edit Category</h2>
+    <p class="subtitle">Edit product category</p>
+
+    <!-- IMPORTANT enctype -->
+    <form action="/category/update/<%= category._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Category Name</label>
+          <input type="text" name="name" value="<%= category.name %>">
+      </div>
+
+      <div class="form-group">
+        <label>Category Image</label>
+        <input type="file" name="image">
+      </div>
+      
+      <div class="button-group">
+        <a href="/category" class="cancel-btn">Cancel</a>
+        <button type="submit" class="submit-btn">
+          edit Category
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+</body>
+</html>
