@@ -106,7 +106,7 @@ export async function loginController(req, res) {
       return res.redirect("/login");
     }
 
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email, role: "USER" });
 
     if (!user) {
       // return res.send("email cannot found");
