@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema(
       type: String,
     },
     image: {
-      type: image,
+      type: String,
       default: [],
     },
     categoryId: [{ type: mongoose.Schema.ObjectId, ref: "category" }],
@@ -49,4 +49,4 @@ const productSchema = new mongoose.Schema(
 
 const ProductModel = mongoose.model("product", productSchema);
 
-export default productSchema;
+export default ProductModel;
