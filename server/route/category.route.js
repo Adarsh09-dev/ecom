@@ -10,25 +10,28 @@ import {
   deleteCategory,
 } from "../controllers/categoryController.js";
 import upload from "../middleware/multer.js";
+import { isAuthenticatedAdmin } from "../middleware/admin-auth.js";
 
 const categoryRouter = Router();
 
-categoryRouter.get("/", isAuthenticated, categoryPage);
-
-categoryRouter.get("/add-category", AddCategoryPage);
+// ADMIN SIDE
+categoryRouter.get("/", isAuthenticatedAdmin, categoryPage);
+categoryRouter.get("/add-category", isAuthenticatedAdmin, AddCategoryPage);
 categoryRouter.post(
   "/",
-  isAuthenticated,
+  isAuthenticatedAdmin,
   upload.single("image"),
   createCategory,
 );
-categoryRouter.get("/edit/:id", isAuthenticated, editCategoryPage);
+categoryRouter.get("/edit/:id", isAuthenticatedAdmin, editCategoryPage);
 categoryRouter.put(
   "/update/:id",
-  isAuthenticated,
+  isAuthenticatedAdmin,
   upload.single("image"),
   updatCategory,
 );
-categoryRouter.delete("/:id", isAuthenticated, deleteCategory);
+categoryRouter.delete("/:id", isAuthenticatedAdmin, deleteCategory);
+
+// USER SIDE
 
 export default categoryRouter;

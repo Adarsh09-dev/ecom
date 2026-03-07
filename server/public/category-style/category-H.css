@@ -55,12 +55,13 @@ body {
 
 /* LOGOUT BUTTON */
 .logout {
-  background: #ff4d57;
-  padding: 12px;
-  text-align: center;
+  background: #ec0505;
+  color: white;
+  border: none;
+  padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
-  margin-top: 30px;
+  font-size: 14px;
 }
 
 .logout:hover {
@@ -199,7 +200,6 @@ td img {
 .actions form {
   display: inline;
 }
-
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .sidebar {
