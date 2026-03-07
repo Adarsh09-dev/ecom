@@ -33,7 +33,7 @@ export async function adminLoginController(req, res) {
       return res.send("Wrong password");
     }
 
-    req.session.user = {
+    req.session.admin = {
       email: user.email,
       id: user._id,
     };
