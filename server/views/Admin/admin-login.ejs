@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Login</title>
+
+<link rel="stylesheet" href="/admin-style/admin-login.css">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <h1 class="login-title">Admin Login</h1>
+
+        <form action="/admin" method="post">
+
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+
+            <button class="login-btn">
+                Login
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- POPUP SCRIPT -->
+
+<script>
+
+const urlParams = new URLSearchParams(window.location.search);
+const login = urlParams.get("login");
+
+if(login === "success"){
+
+Swal.fire({
+icon:'success',
+title:'Login Successful',
+text:'Welcome Admin',
+confirmButtonColor:'#2563eb'
+})
+
+}
+
+if(login === "error"){
+
+Swal.fire({
+icon:'error',
+title:'Login Failed',
+text:'Invalid Email or Password'
+})
+
+}
+
+</script>
+
+</body>
+</html>

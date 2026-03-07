@@ -16,6 +16,7 @@ import flash from "connect-flash"; // added: flash messages
 import session from "express-session"; // added: required for flash
 import categoryRouter from "./route/category.route.js";
 import uploadRouter from "./route/upload.router.js";
+import adminRouter from "./route/admin.route.js";
 const app = express();
 // await connectDB();
 
@@ -117,7 +118,8 @@ app.use(
   }),
 );
 
-// user router
+//  router
+app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/category", categoryRouter);
 app.use("/file", uploadRouter);
