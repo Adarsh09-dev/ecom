@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Category List</title>
-  <link rel="stylesheet" href="/category-style/category-H.css">
+  <title> Sub Category List</title>
+  <link rel="stylesheet" href="/sub-category/sub-category-page.css">
 </head>
 
 <body>
@@ -16,30 +16,38 @@
 
     <ul class="menu">
       <li>Dashboard</li>
-      <li class="active">Categories</li>
-      <li> <a href="/sub-category" class="" > Sub Category </a>  </li>
+      <li class=""><a href="/category"  > Categories </a></li>
+      <li class="active"> <a href=""  > Sub Category </a>  </li>
       <li>Customers</li>
     </ul>
 
- <form action="/admin/logout" method="post">
+ <!-- <form action="/admin/logout" method="post">
   <button type="submit" class="logout">Log Out</button>
-</form>
+</form> -->
   </aside>
-
+ 
   <!-- MAIN CONTENT -->
+  <main class="main">
+
   <main class="main">
 
 <div class="topbar">
   <input type="text" placeholder="Search Category">
 
-  <a href="/category/add-category">
-    <button class="add-btn">Add Category +</button>
+  <a href="/sub-category/add-subcategory">
+    <button class="add-btn">Add Sub Category +</button>
   </a>
 
 </div>
 
+
+
+
+
+
+
     <div class="card">
-      <h3>All Categories</h3>
+      <h3> All Sub Categories</h3>
 
       <table>
         <thead>
@@ -54,9 +62,9 @@
 
         <tbody>
 
-          <% if (categories && categories.length > 0) { %>
+          <% if (subCategory && subCategory .length > 0) { %>
 
-            <% categories.forEach(category => { %>
+            <% subCategory .forEach(category => { %>
 
 <tr>
 

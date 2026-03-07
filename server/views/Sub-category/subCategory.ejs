@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Sub Category</title>
+<link rel="stylesheet" href="/sub-category/sub-category.css">
+<link rel="stylesheet" href="/select2/css/select2.min.css">
+
+<script src="/js/jquery.min.js"></script>
+<script src="/select2/js/select2.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="form-card">
+
+    <h2>Add New Sub Category</h2>
+    <p class="subtitle">Create a new product sub category</p>
+
+    <form action="/sub-category" method="post" enctype="multipart/form-data">
+
+      <!-- Sub Category Name -->
+      <div class="form-group">
+        <label>Sub Category Name</label>
+        <input type="text" name="name" placeholder="Enter sub category name">
+      </div>
+
+      <!-- Sub Category Image -->
+      <div class="form-group">
+        <label>Sub Category Image</label>
+        <input type="file" name="image">
+      </div>
+
+      <!-- Category Checkbox List -->
+<div class="form-group">
+  <label>Select Categories</label>
+
+  <select name="category[]" class="category-select" multiple>
+
+    <% if(categories){ %>
+      <% categories.forEach(function(cat){ %>
+        <option value="<%= cat._id %>">
+          <%= cat.name %>
+        </option>
+      <% }) %>
+    <% } %>
+
+  </select>
+
+</div>
+      <div class="button-group">
+        <a href="/category" class="cancel-btn">Cancel</a>
+
+        <button type="submit" class="submit-btn">
+          Add Sub Category
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+<script>
+
+$(document).ready(function() {
+
+  $('.category-select').select2({
+    placeholder: "Search and select categories",
+    width: "100%"
+  });
+
+});
+
+</script>
+</body>
+</html>
