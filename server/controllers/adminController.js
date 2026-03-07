@@ -37,9 +37,6 @@ export async function adminLoginController(req, res) {
       email: user.email,
       id: user._id,
     };
-
-    res.locals.user = req.session.user;
-
     return res.redirect("/category");
   } catch (error) {
     res.send("Server error");

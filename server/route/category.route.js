@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { isAuthenticated, redirectAuthenticated } from "../middleware/auth.js";
 import {
   // AddCategoryController,
   categoryPage,
