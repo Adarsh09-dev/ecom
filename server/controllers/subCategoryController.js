@@ -25,25 +25,50 @@ export const addSubCategoryPage = async (req, res) => {
 // SUB - CATEGORY CONTROLLER
 export const AddSubCategoryController = async (req, res) => {
   try {
-    const { name, category } = req.body;
+
+    console.log("STEP 1 controller reached");
+
+    const { name } = req.body;
+    const category = req.body.category;
     const image = req.file;
 
-    if (!name || !image || !category) {
-      return res.redirect("/add-subcategory");
+    console.log("STEP 2 body:", req.body);
+
+    if (!name || !category) {
+      console.log("STEP 3 validation failed");
+      return res.send("Name and category required");
+    }
+
+    console.log("STEP 4 validation passed");
+
+    let imageUrl = "";
+
+    if (image) {
+      console.log("STEP 5 uploading image");
+
+      const uploadImage = await uploadImageCloudinary(image);
+
+      imageUrl = uploadImage.secure_url;
+
+      console.log("STEP 6 image uploaded:", imageUrl);
     }
 
     const newSubCategory = new subCategoryModel({
       name,
-      category,
-      image,
+      image: imageUrl,
+      category
     });
+
+    console.log("STEP 7 saving:", newSubCategory);
 
     await newSubCategory.save();
 
-    res.redirect("/");
+    res.redirect("/sub-category");
+
   } catch (error) {
-    console.log(error);
-    res.redirect("/add-subcategory");
-  } 
+
+    console.log("ERROR:", error);
+
+    res.send("Error creating sub category");
+  }
 };
- 

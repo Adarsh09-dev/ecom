@@ -3,7 +3,6 @@ import {
   AddSubCategoryController,
   addSubCategoryPage,
   SubCategoryPage,
-  
 } from "../controllers/subCategoryController.js";
 import upload from "../middleware/multer.js";
 
@@ -11,7 +10,10 @@ const subCatgoryRouter = Router();
 
 subCatgoryRouter.get("/", SubCategoryPage);
 subCatgoryRouter.get("/add-subcategory", addSubCategoryPage);
-subCatgoryRouter.post("/add-subcategory", AddSubCategoryController);
+subCatgoryRouter.post(
+  "/add-sub-category",
+  upload.single("image"),
+  AddSubCategoryController,
+);
 
 export default subCatgoryRouter;
- 
