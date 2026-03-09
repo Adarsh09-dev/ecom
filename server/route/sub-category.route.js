@@ -3,6 +3,9 @@ import {
   AddSubCategoryController,
   addSubCategoryPage,
   SubCategoryPage,
+  editSubCategoryPage,
+  editSubCategoryController,
+  deleteSubCategory,
 } from "../controllers/subCategoryController.js";
 import upload from "../middleware/multer.js";
 
@@ -15,5 +18,13 @@ subCatgoryRouter.post(
   upload.single("image"),
   AddSubCategoryController,
 );
+subCatgoryRouter.delete("/:id", deleteSubCategory);
+subCatgoryRouter.get("/edit/:id", editSubCategoryPage);
+subCatgoryRouter.put(
+  "/update/:id",
+  upload.single("image"),
+  editSubCategoryController,
+);
 
+// USER SIDE
 export default subCatgoryRouter;

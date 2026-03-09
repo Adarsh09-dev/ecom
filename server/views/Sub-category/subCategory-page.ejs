@@ -1,134 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title> Sub Category List</title>
-  <link rel="stylesheet" href="/sub-category/sub-category-page.css">
+<meta charset="UTF-8">
+<title>Sub Category List</title>
+<link rel="stylesheet" href="/sub-category/sub-category-page.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
 
 <div class="dashboard">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2 class="logo">Esale</h2>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <h2 class="logo">Esale</h2>
 
-    <ul class="menu">
-      <li>Dashboard</li>
-      <li class=""><a href="/category"  > Categories </a></li>
-      <li class="active"> <a href=""  > Sub Category </a>  </li>
-      <li>Customers</li>
-    </ul>
+  <ul class="menu">
+    <li>Dashboard</li>
+    <li><a href="/category">Categories</a></li>
+    <li class="active"><a href="/sub-category">Sub Category</a></li>
+    <li>Customers</li>
+  </ul>
 
- <!-- <form action="/admin/logout" method="post">
-  <button type="submit" class="logout">Log Out</button>
-</form> -->
-  </aside>
- 
-  <!-- MAIN CONTENT -->
-  <main class="main">
+</aside>
 
-  <main class="main">
 
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- TOPBAR -->
 <div class="topbar">
-  <input type="text" placeholder="Search Category">
 
-  <a href="/sub-category/add-subcategory">
-    <button class="add-btn">Add Sub Category +</button>
-  </a>
+<input type="text" placeholder="Search Category">
+
+<a href="/sub-category/add-subcategory">
+<button class="add-btn">Add Sub Category +</button>
+</a>
 
 </div>
+ 
 
+<!-- CARD -->
+<div class="card">
 
+<h3>All Sub Categories</h3>
 
+<div class="table-container">
 
+<table>
 
+<thead>
+<tr>
+<th>Image</th>
+<th>Name</th>
+<th>Category</th>
+<th>Category ID</th>
+<th>Created</th>
+<th>Updated</th>
+<th>Actions</th>
+</tr>
+</thead>
 
+<tbody>
 
-    <div class="card">
-      <h3> All Sub Categories</h3>
+<% if (subCategory && subCategory.length > 0) { %>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Category ID</th>
-            <th>Created Date</th>
-            <th>Updated Date</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <% if (subCategory && subCategory .length > 0) { %>
-
-            <% subCategory .forEach(category => { %>
+<% subCategory.forEach(category => { %>
 
 <tr>
 
 <td>
-  <img src="<%= category.image %>" width="50" height="50">
+<img src="<%= category.image %>" width="45" height="45">
 </td>
 
 <td>
-  <%= category.name %>
+<%= category.name %>
+</td>
+
+
+
+<td>
+<% for(let i=0;i<=category.category.length-1;i++){ %>
+  <%= category.category[i].name %>
+  <% } %>
 </td>
 
 <td>
-  <%= category._id %>
+<%= category.category ? category.category._id : "N/A" %>
 </td>
 
 <td>
-  <%= category.createdAt.toDateString() %>
+<%= category.createdAt.toDateString() %>
 </td>
 
 <td>
-  <%= category.updatedAt.toDateString() %>
+<%= category.updatedAt.toDateString() %>
 </td>
 
 <td class="actions">
-
-  <!-- VIEW -->
-  <!-- <a href="/category/<%= category._id %>" class="btn view-btn">
-    View
-  </a> -->
-
-  <!-- EDIT -->
-  <a href="/category/edit/<%= category._id %>" class="btn edit-btn">
-    Edit
-  </a>
-
-  <!-- DELETE -->
-  <form action="/category/<%= category._id %>?_method=DELETE" method="POST">
-    <button type="submit" class="btn delete-btn">
-      Delete
-    </button>
-  </form>
-
+  <a href="/sub-category/edit/<%= category._id %>" class="btn edit-btn">
+Edit
+</a>
+<form action="/sub-category/<%= category._id %>?_method=DELETE" method="POST">
+<button type="submit" class="btn delete-btn">
+Delete
+</button>
+</form>
 </td>
+
+
 
 </tr>
 
-            <% }) %>
+<% }) %>
 
-          <% } else { %>
+<% } else { %>
 
-            <tr>
-              <td colspan="5" style="text-align:center;">
-                No Categories Found
-              </td>
-            </tr>
+<tr>
+<td colspan="7" style="text-align:center;">No Categories Found</td>
+</tr>
 
-          <% } %>
+<% } %>
 
-        </tbody>
-      </table>
+</tbody>
+</table>
 
-    </div>
+</div>
 
-  </main>
+</div>
+
+</main>
 
 </div>
 
