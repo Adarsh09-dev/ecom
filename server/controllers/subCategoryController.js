@@ -13,6 +13,37 @@ export const SubCategoryPage = async (req, res) => {
   });
 };
 
+//SEARCH BAR
+
+// SEARCH THE NAME
+export const searchController = async (req, res) => {
+  try {
+    const { search } = req.query;
+
+    let filter = {};
+
+    if (search) {
+      filter = {
+        name: { $regex: search, $options: "i" },
+      };
+    }
+
+    const subCategories = await subCategoryModel
+      .find(filter)
+      .populate("category")
+      .sort({ createdAt: -1 });
+
+    res.render("Sub-category/sub-category-page", {
+      subCategories,
+      search,
+      layout: false,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server Error");
+  }
+};
+
 // ADD SUB-CATGORY PAGE
 export const addSubCategoryPage = async (req, res) => {
   const categories = await CategoryModel.find();

@@ -7,21 +7,30 @@ import {
   editSubCategoryController,
   deleteSubCategory,
 } from "../controllers/subCategoryController.js";
+
 import upload from "../middleware/multer.js";
+import { isAuthenticated } from "../middleware/auth.js";
 
 const subCatgoryRouter = Router();
 
-subCatgoryRouter.get("/", SubCategoryPage);
-subCatgoryRouter.get("/add-subcategory", addSubCategoryPage);
+subCatgoryRouter.get("/", isAuthenticated, SubCategoryPage);
+
+subCatgoryRouter.get("/add-subcategory", isAuthenticated, addSubCategoryPage);
+
 subCatgoryRouter.post(
   "/add-sub-category",
+  isAuthenticated,
   upload.single("image"),
   AddSubCategoryController,
 );
-subCatgoryRouter.delete("/:id", deleteSubCategory);
-subCatgoryRouter.get("/edit/:id", editSubCategoryPage);
+
+subCatgoryRouter.delete("/:id", isAuthenticated, deleteSubCategory);
+
+subCatgoryRouter.get("/edit/:id", isAuthenticated, editSubCategoryPage);
+
 subCatgoryRouter.put(
   "/update/:id",
+  isAuthenticated,
   upload.single("image"),
   editSubCategoryController,
 );
