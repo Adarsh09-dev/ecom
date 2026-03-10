@@ -9,28 +9,33 @@ import {
 } from "../controllers/subCategoryController.js";
 
 import upload from "../middleware/multer.js";
-import { isAuthenticated } from "../middleware/auth.js";
+import { isAuthenticatedAdmin } from "../middleware/admin-auth.js";
+isAuthenticatedAdmin;
 
 const subCatgoryRouter = Router();
 
-subCatgoryRouter.get("/", isAuthenticated, SubCategoryPage);
+subCatgoryRouter.get("/", isAuthenticatedAdmin, SubCategoryPage);
 
-subCatgoryRouter.get("/add-subcategory", isAuthenticated, addSubCategoryPage);
+subCatgoryRouter.get(
+  "/add-subcategory",
+  isAuthenticatedAdmin,
+  addSubCategoryPage,
+);
 
 subCatgoryRouter.post(
   "/add-sub-category",
-  isAuthenticated,
+  isAuthenticatedAdmin,
   upload.single("image"),
   AddSubCategoryController,
 );
 
-subCatgoryRouter.delete("/:id", isAuthenticated, deleteSubCategory);
+subCatgoryRouter.delete("/:id", isAuthenticatedAdmin, deleteSubCategory);
 
-subCatgoryRouter.get("/edit/:id", isAuthenticated, editSubCategoryPage);
+subCatgoryRouter.get("/edit/:id", isAuthenticatedAdmin, editSubCategoryPage);
 
 subCatgoryRouter.put(
   "/update/:id",
-  isAuthenticated,
+  isAuthenticatedAdmin,
   upload.single("image"),
   editSubCategoryController,
 );
