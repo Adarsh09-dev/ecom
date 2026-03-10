@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Product</title>
+
+<link rel="stylesheet" href="/product-style/product-page.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<h2 class="logo">Esale</h2>
+
+<ul class="menu">
+<li>Dashboard</li>
+<li><a href="/category">Categories</a></li>
+<li><a href="/sub-category">Sub Category</a></li>
+<li class="active"><a href="/product">Products</a></li>
+<li>Customers</li>
+</ul>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="topbar">
+
+<h2>Add Product</h2>
+
+<a href="/product">
+<button class="btn back-btn">Back</button>
+</a>
+
+</div>
+
+<% if (typeof success !== 'undefined' && success) { %>
+  <div style="color: green; margin: 10px; padding: 10px; border: 1px solid green; background: #e8f5e8;">
+    <%= success %>
+  </div>
+<% } %>
+
+<% if (typeof error !== 'undefined' && error) { %>
+  <div style="color: red; margin: 10px; padding: 10px; border: 1px solid red; background: #ffeaea;">
+    <%= error %>
+  </div>
+<% } %>
+
+<div class="card">
+
+<h3>Upload Product</h3>
+
+<form action="/product" method="POST" enctype="multipart/form-data" class="product-form">
+
+<!-- PRODUCT NAME -->
+
+<div class="form-group">
+<label>Product Name</label>
+<input type="text" name="name" placeholder="Product name" required>
+</div>
+
+
+<!-- CATEGORY -->
+
+<div class="form-group">
+
+<label>Category</label>
+
+<select name="categoryId" required>
+
+<option value="">Select Category</option>
+
+<% if(categories){ %>
+<% categories.forEach(cat => { %>
+
+<option value="<%= cat._id %>">
+<%= cat.name %>
+</option>
+
+<% }) %>
+<% } %>
+
+</select>
+
+</div>
+
+
+<!-- SUB CATEGORY -->
+
+<div class="form-group">
+
+<label>Sub Category</label>
+
+<select name="subCategoryId">
+
+<option value="">Select Sub Category</option>
+
+<% if(subCategories){ %>
+<% subCategories.forEach(sub => { %>
+
+<option value="<%= sub._id %>">
+<%= sub.name %>
+</option>
+
+<% }) %>
+<% } %>
+
+</select>
+
+</div>
+
+
+<!-- PRODUCT IMAGE -->
+
+<div class="form-group">
+
+<label>Product Image</label>
+
+<input type="file" name="image">
+
+</div>
+
+
+<!-- UNIT -->
+
+<div class="form-group">
+
+<label>Unit</label>
+
+<input type="text" name="unit" placeholder="Kg / Piece / Liter">
+
+</div>
+
+
+<!-- STOCK -->
+
+<div class="form-group">
+
+<label>Stock</label>
+
+<input type="number" name="stock" placeholder="Available stock">
+
+</div>
+
+
+<!-- PRICE -->
+
+<div class="form-group">
+
+<label>Price</label>
+
+<input type="number" name="price" placeholder="Product price">
+
+</div>
+
+
+<!-- DISCOUNT -->
+
+<div class="form-group">
+
+<label>Discount</label>
+
+<input type="text" name="discount" placeholder="10% / ₹50">
+
+</div>
+
+
+<!-- DESCRIPTION -->
+
+<div class="form-group">
+
+<label>Description</label>
+
+<textarea name="description" rows="4"></textarea>
+
+</div>
+
+
+<!-- PUBLISH -->
+
+<div class="form-group checkbox">
+
+<label>
+<input type="checkbox" name="publish" checked>
+Publish Product
+</label>
+
+</div>
+
+
+<button type="submit" class="btn submit-btn">
+Add Product
+</button>
+
+</form>
+
+</div>
+
+</main>
+
+</div>
+
+</body>
+</html>

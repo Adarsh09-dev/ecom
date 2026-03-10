@@ -18,6 +18,7 @@ import categoryRouter from "./route/category.route.js";
 // import uploadRouter from "./route/upload.router.js";
 import adminRouter from "./route/admin.route.js";
 import subCatgoryRouter from "./route/sub-category.route.js";
+import productRouter from "./route/product.route.js"
 const app = express();
 // await connectDB();
 
@@ -123,7 +124,8 @@ app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/category", categoryRouter);
 app.use("/sub-category",subCatgoryRouter)
-// app.use("/file", uploadRouter);
+app.use("/product",productRouter)
+
 
 connectDB().then(() => {
   const PORT = process.env.PORT || 5000;
