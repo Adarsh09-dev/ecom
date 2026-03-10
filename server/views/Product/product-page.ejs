@@ -38,29 +38,20 @@
 
 <h2>Add Product</h2>
 
-<a href="/product">
+<a href="/">
 <button class="btn back-btn">Back</button>
 </a>
 
 </div>
 
-<% if (typeof success !== 'undefined' && success) { %>
-  <div style="color: green; margin: 10px; padding: 10px; border: 1px solid green; background: #e8f5e8;">
-    <%= success %>
-  </div>
-<% } %>
+<!--  -->
 
-<% if (typeof error !== 'undefined' && error) { %>
-  <div style="color: red; margin: 10px; padding: 10px; border: 1px solid red; background: #ffeaea;">
-    <%= error %>
-  </div>
-<% } %>
 
 <div class="card">
 
 <h3>Upload Product</h3>
 
-<form action="/product" method="POST" enctype="multipart/form-data" class="product-form">
+<form action="/" method="POST" enctype="multipart/form-data" class="product-form">
 
 <!-- PRODUCT NAME -->
 

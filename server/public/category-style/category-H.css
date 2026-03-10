@@ -16,15 +16,15 @@ body {
   height: 100vh;
 }
 
-/* SIDEBAR */
-.sidebar {
-  width: 230px;
+/* SIDEBAR */ 
+
+ .sidebar {
+  width: 240px;
   background: #16182e;
   color: white;
+  padding: 25px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 25px 20px;
 }
 
 .logo {
@@ -41,13 +41,13 @@ body {
   padding: 12px 15px;
   margin-bottom: 10px;
   border-radius: 6px;
-  cursor: pointer;
   transition: 0.3s;
 }
 
 .menu li a {
+  color: white;
   text-decoration: none;
-  color: #fff;
+  display: block;
 }
 
 .menu li:hover {
@@ -57,6 +57,7 @@ body {
 .menu .active {
   background: #4e73df;
 }
+
 
 /* LOGOUT BUTTON */
 .logout {
@@ -68,7 +69,9 @@ body {
   cursor: pointer;
   font-size: 14px;
 }
-
+.lg-btn{
+  display: flex;
+}
 .logout:hover {
   background: #ff2f3b;
 }
