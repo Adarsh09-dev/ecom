@@ -6,7 +6,7 @@ import {
   forgotPage,
   verifyPage,
   resetPswrdPage,
-  homePage,
+  // homePage,
   verifyEmailController,
   loginController,
   logOutController,
@@ -22,20 +22,19 @@ import {
 } from "../controllers/userController.js";
 import { isAuthenticated, redirectAuthenticated } from "../middleware/auth.js";
 import upload from "../middleware/multer.js";
-import multer from "multer";
 
 const userRouter = Router();
 
 userRouter.get("/login", redirectAuthenticated, loginPage);
-userRouter.post("/login", redirectAuthenticated, loginController);
+userRouter.post("/login", loginController);
 
-userRouter.get("/signup", registerPage);
-userRouter.post("/register", redirectAuthenticated, registerUserController);
+userRouter.get("/signup", isAuthenticated, registerPage);
+userRouter.post("/register", isAuthenticated, registerUserController);
 userRouter.get("/checkMail", check_mail);
 
 userRouter.post("/verify-email", verifyEmailController);
 
-userRouter.get("/home", isAuthenticated, homePage);
+// userRouter.get("/home", isAuthenticated, homePage);
 
 userRouter.post("/logout", isAuthenticated, logOutController);
 
@@ -52,7 +51,7 @@ userRouter.post("/reset-password", redirectAuthenticated, resetPassword);
 
 userRouter.get("/landing-page", landingPage);
 
-userRouter.get("/profile", isAuthenticated, profilePage);
+userRouter.get("/", isAuthenticated, profilePage);
 userRouter.put(
   "/updated-profile",
   isAuthenticated,

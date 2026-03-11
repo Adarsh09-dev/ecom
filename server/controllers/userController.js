@@ -5,11 +5,25 @@ import verifyEmailTemplate from "../utils/verifyEmailTemplate.js";
 import uploadImageCloudinary from "../utils/uploadImagesCloudinary.js";
 import generateOtp from "../utils/generatedOtp.js";
 import forgotPasswordTemplate from "../utils/forgotPasswordTemplate.js";
+import ProductModel from "../models/Product-Models.js";
 
 // home page
-export async function homePage(req, res) {
-  res.render("home", { layout: false });
-}
+export const landingPage = async (req, res) => {
+  try {
+    const products = await ProductModel.find()
+      .populate("categoryId")
+      .populate("subCategoryId")
+      .sort({ createdAt: -1 })
+      .limit(6);
+
+    res.render("landingPage", {
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+};
 
 // SIGNUP REGISTER
 export async function registerPage(req, res) {
@@ -336,11 +350,6 @@ export async function resetPassword(req, res) {
   } catch (error) {
     return res.status(500).send(error.message);
   }
-}
-
-// landing page
-export async function landingPage(req, res) {
-  res.render("landingPage", { layout: false });
 }
 
 // GET LOGIN USER DETAILS AND PROFILE PAGE

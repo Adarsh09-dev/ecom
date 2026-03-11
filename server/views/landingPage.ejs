@@ -122,59 +122,33 @@
     </section>
 
     <!-- POPULAR CATEGORIES -->
-    <section class="categories">
-      <h2 class="section-title">Popular Categories</h2>
+   <div class="product-container">
 
-      <div class="category-container">
-        <form action="/category" method="GET" class="category-card">
-          <input type="hidden" name="category" value="paper-glass" />
-          <button type="submit">
-            <img src="img/paper-glass.jpg" alt="" />
-          </button>
-          <p>paper glass</p>
-        </form>
+<% products.forEach(product => { %>
 
-        <form action="/category" method="GET" class="category-card">
-          <input type="hidden" name="category" value="wood-spoon" />
-          <button type="submit">
-            <img src="img/wood-spoon.jpg" alt="" />
-            <p>wood spoon</p>
-          </button>
-        </form>
+<form action="/product" method="GET" class="product-card">
 
-        <form action="/category" method="GET" class="category-card">
-          <input type="hidden" name="category" value="paper-box" />
-          <button type="submit">
-            <img src="img/paper-box.jpg" alt="" />
-            <p>Paper Boxes</p>
-          </button>
-        </form>
+<input type="hidden" name="product" value="<%= product._id %>">
 
-        <form action="/category" method="GET" class="category-card">
-          <input type="hidden" name="category" value="wood-fork" />
-          <button type="submit">
-            <img src="img/wood-fork.jpg" alt="" />
-            <p>wood fork</p>
-          </button>
-        </form>
+<button type="submit">
 
-        <form action="/category" method="GET" class="category-card">
-          <input type="hidden" name="category" value="paper-bag" />
-          <button type="submit">
-            <img src="img/paper-bag.jpg" alt="" />
-            <p>Kraft Paper Bags</p>
-          </button>
-        </form>
+<img src="<%= product.image %>" alt="<%= product.name %>">
 
-        <form action="/category" method="GET" class="category-card">
-          <input type="hidden" name="category" value="paper-plate" />
-          <button type="submit">
-            <img src="img/paper-plate.jpg" alt="" />
-            <p>Paper Plates</p>
-          </button>
-        </form>
-      </div>
-    </section>
+<h4><%= product.name %></h4>
+
+<div class="rating">★★★★★ <span>(4 reviews)</span></div>
+
+<p class="price">$ <%= product.price %></p>
+
+</button>
+
+</form>
+
+<% }) %>
+
+</div>
+
+</div>
     <!-- NEW ARRIVALS -->
     <section class="new-arrivals">
       <div class="arrival-header">
