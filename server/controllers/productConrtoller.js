@@ -10,9 +10,8 @@ export const addProductPage = async (req, res) => {
 
     res.render("Product/product-page", {
       categories,
-      layout : false,
+      layout: false,
       subCategories,
-     
     });
 
     console.log(categories);
@@ -24,7 +23,10 @@ export const addProductPage = async (req, res) => {
 
 export const listProductsPage = async (req, res) => {
   try {
-    const products = await ProductModel.find().populate('category').populate('subCategory').sort({ createdAt: -1 });
+    const products = await ProductModel.find()
+      .populate("category")
+      .populate("subCategory")
+      .sort({ createdAt: -1 });
 
     res.render("Product/product-list", {
       products,
