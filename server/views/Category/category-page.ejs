@@ -52,9 +52,10 @@
           <tr>
             <th>Image</th>
             <th>Name</th>
-            <th>Category ID</th>
             <th>Created Date</th>
             <th>Updated Date</th>
+            <th>Action</th>
+            <th></th>
           </tr>
         </thead>
 
@@ -74,9 +75,6 @@
   <%= category.name %>
 </td>
 
-<td>
-  <%= category._id %>
-</td>
 
 <td>
   <%= category.createdAt.toDateString() %>
@@ -86,17 +84,14 @@
   <%= category.updatedAt.toDateString() %>
 </td>
 
-<td class="actions">
-
-  <!-- VIEW -->
-  <!-- <a href="/category/<%= category._id %>" class="btn view-btn">
-    View
-  </a> -->
-
-  <!-- EDIT -->
+<td>
+   <!-- EDIT -->
   <a href="/category/edit/<%= category._id %>" class="btn edit-btn">
     Edit
   </a>
+</td>
+
+  <td class="actions">
 
   <!-- DELETE -->
  <form action="/category/<%= category._id %>?_method=DELETE" method="POST">

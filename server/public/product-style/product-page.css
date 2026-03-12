@@ -134,7 +134,7 @@ body {
 }
 
 .back-btn {
-  background: #6b7280;
+  background: linear-gradient(135deg, #2563eb, #af1e85);
 }
 
 /* MOBILE */

@@ -13,7 +13,7 @@
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
-  <h2 class="logo">Esale</h2>
+  <h2 class="logo">swapZon</h2>
 
   <ul class="menu">
     <li>Dashboard</li>
@@ -33,7 +33,7 @@
 <div class="topbar">
   <input type="text" placeholder="Search Category">
 
-  <a href="/category/add-category">
+  <a href="/sub-category/add-subcategory">
     <button class="add-btn">Add  Sub Category +</button>
   </a>
 
@@ -54,7 +54,7 @@
 <th>Image</th>
 <th>Name</th>
 <th>Category</th>
-<th>Category ID</th>
+<!-- <th>Category ID</th> -->
 <th>Created</th>
 <th>Updated</th>
 <th>Actions</th>
@@ -85,9 +85,7 @@
   <% } %>
 </td>
 
-<td>
-<%= category.category ? category.category._id : "N/A" %>
-</td>
+
 
 <td>
 <%= category.createdAt.toDateString() %>
