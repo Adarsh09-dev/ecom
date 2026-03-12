@@ -12,14 +12,14 @@
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <h2 class="logo">Esale</h2>
+    <h2 class="logo">swapZon</h2>
 
  
     <div class="">   <ul class="menu">
       <li>Dashboard</li>
       <li class="active">Categories</li>
-      <li> <a href="/sub-category" class="" > Sub Category </a>  </li>
-      <li> <a href="/product" class="" > Products </a>  </li>
+      <li> <a href="/sub-category"  > Sub Category </a>  </li>
+      <li> <a href="/product"> Products </a>  </li>
   
     </ul></div>
 
@@ -99,11 +99,9 @@
   </a>
 
   <!-- DELETE -->
-  <form action="/category/<%= category._id %>?_method=DELETE" method="POST">
-    <button type="submit" class="btn delete-btn">
-      Delete
-    </button>
-  </form>
+ <form action="/category/<%= category._id %>?_method=DELETE" method="POST">
+  <button type="submit" class="btn delete-btn">Delete</button>
+</form>
 
 </td>
 

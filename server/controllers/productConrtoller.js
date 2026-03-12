@@ -8,14 +8,13 @@ export const addProductPage = async (req, res) => {
     const categories = await CategoryModel.find();
     const subCategories = await subCategoryModel.find();
 
+    console.log(categories);
+    console.log(subCategories);
     res.render("Product/product-page", {
       categories,
       layout: false,
       subCategories,
     });
-
-    console.log(categories);
-    console.log(subCategories);
   } catch (error) {
     console.log(error);
   }
@@ -24,11 +23,11 @@ export const addProductPage = async (req, res) => {
 export const listProductsPage = async (req, res) => {
   try {
     const products = await ProductModel.find()
-      .populate("category")
-      .populate("subCategory")
+      .populate("categoryId")
+      .populate("subCategoryId")
       .sort({ createdAt: -1 });
 
-    res.render("Product/product-list", {
+    res.render("product/product-list", {
       products,
       layout: false,
     });
