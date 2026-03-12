@@ -1,5 +1,6 @@
 body {
   margin: 0;
+     background: linear-gradient(120deg, #fdf6e3, #e9d3a5, #c8a46a, #8b5a2b);
 }
 
 .container {
@@ -12,7 +13,6 @@ body {
 /* HEADER */
 .header {
   width: 100%;
-  background: #fff;
 }
 
 /* TOP HEADER */
@@ -164,7 +164,7 @@ body {
 
 .promo-section {
   padding: 40px;
-  background: #ffffff; /* IMPORTANT FIX */
+  /* background: #ffffff; IMPORTANT FIX */
 }
 
 /* ================= BANNER ================= */
@@ -356,7 +356,7 @@ body {
 
 .new-arrivals {
   padding: 60px 40px;
-  background: #ffffff; /* FIX → remove pink grid */
+  /* background: #ffffff; FIX → remove pink grid */
 }
 
 /* HEADER */
@@ -470,7 +470,7 @@ body {
 /* ================= FOOTER ================= */
 
 .footer {
-  background: #ffffff; /* IMPORTANT WHITE BG */
+  /* background: #ffffff; IMPORTANT WHITE BG */
   padding: 60px 40px 30px;
   border-top: 1px solid #eee;
 }

@@ -90,17 +90,18 @@ export const updatCategory = async (req, res) => {
   }
 };
 
-// DELETE CATEGORY
+//DELETE CATEGORY
+
 export const deleteCategory = async (req, res) => {
   try {
     const { id } = req.params;
 
     const checkSubcategory = await subCategoryModel.countDocuments({
-      category: { $in: [id] },
+      category: id,
     });
 
     const checkProduct = await ProductModel.countDocuments({
-      category: { $in: [id] },
+      categoryId: id,
     });
 
     if (checkSubcategory > 0 || checkProduct > 0) {
@@ -116,3 +117,4 @@ export const deleteCategory = async (req, res) => {
     res.status(500).send("Delete failed");
   }
 };
+
