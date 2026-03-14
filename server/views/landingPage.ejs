@@ -41,7 +41,7 @@
                     <span>My Account</span>
 
                     <div class="dropdown">
-                        <a href="/user/profile">Profile</a>
+                        <a href="/user">Profile</a>
                         <a href="#">Orders</a>
                         <a href="#">Wishlist</a>
                         <a href="#">Category</a>
@@ -122,6 +122,7 @@
     </section>
 
     <!-- POPULAR CATEGORIES -->
+      <h2> Popular Products </h2>
 <div class="product-container">
 <% products.forEach(product => { %>
 
@@ -129,17 +130,18 @@
 
 <input type="hidden" name="product" value="<%= product._id %>">
 
-<button type="submit">
+<button class="submit"  type="submit">
 
 <img src="<%= product.image %>" alt="<%= product.name %>">
 
 <h4><%= product.name %></h4>
 
 <div class="rating">★★★★★ <span>(4 reviews)</span></div>
-
-<p class="price">$ <%= product.price %></p>
-
 </button>
+<div class="add">
+  <p class="price">$<%= product.price %></p>
+ <button class="btn-add">Add</button>
+</div>
 
 </form>
 
@@ -151,71 +153,36 @@
     <!-- NEW ARRIVALS -->
     <section class="new-arrivals">
       <div class="arrival-header">
-        <h2>New Arrivals</h2>
+        <h2>Wood Products</h2>
         <a href="/products">view all</a>
       </div>
 
-      <div class="product-container">
-        <form action="/product" method="GET" class="product-card">
-          <input type="hidden" name="product" value="egg-carton-trays" />
-          <button type="submit">
-            <img src="img/product1.jpg" />
-            <h4>Egg Carton Trays</h4>
-            <div class="rating">★★★★★ <span>(4 reviews)</span></div>
-            <p class="price">$ 59.00</p>
-          </button>
-        </form>
+<div class="product-container">
+<% products.forEach(product => { %>
 
-        <form action="/product" method="GET" class="product-card">
-          <input type="hidden" name="product" value="paper-gift-boxes" />
-          <button type="submit">
-            <img src="img/product2.jpg" />
-            <h4>Paper Gift Boxes</h4>
-            <div class="rating">★★★★★ <span>(4 reviews)</span></div>
-            <p class="price">$ 59.00</p>
-          </button>
-        </form>
+<form action="/product" method="GET" class="product-card">
 
-        <form action="/product" method="GET" class="product-card">
-          <input type="hidden" name="product" value="notebooks" />
-          <button type="submit">
-            <img src="img/product3.jpg" />
-            <h4>Notebooks</h4>
-            <div class="rating">★★★★★ <span>(4 reviews)</span></div>
-            <p class="price">$ 59.00</p>
-          </button>
-        </form>
+<input type="hidden" name="product" value="<%= product._id %>">
 
-        <form action="/product" method="GET" class="product-card">
-          <input type="hidden" name="product" value="shopping-bags" />
-          <button type="submit">
-            <img src="img/product4.jpg" />
-            <h4>Shopping Bags</h4>
-            <div class="rating">★★★★★ <span>(4 reviews)</span></div>
-            <p class="price">$ 59.00</p>
-          </button>
-        </form>
+<button class="submit" type="submit">
 
-        <form action="/product" method="GET" class="product-card">
-          <input type="hidden" name="product" value="paper-files" />
-          <button type="submit">
-            <img src="img/product5.jpg" />
-            <h4>Paper Files</h4>
-            <div class="rating">★★★★★ <span>(4 reviews)</span></div>
-            <p class="price">$ 59.00</p>
-          </button>
-        </form>
+<img src="<%= product.image %>" alt="<%= product.name %>">
 
-        <form action="/product" method="GET" class="product-card">
-          <input type="hidden" name="product" value="packing-fillers" />
-          <button type="submit">
-            <img src="img/product6.jpg" />
-            <h4>Packing Fillers</h4>
-            <div class="rating">★★★★★ <span>(4 reviews)</span></div>
-            <p class="price">$ 59.00</p>
-          </button>
-        </form>
-      </div>
+<h4><%= product.name %></h4>
+
+<div class="rating">★★★★★ <span>(4 reviews)</span></div>
+</button>
+<div class="add">
+  <p class="price">$<%= product.price %></p>
+ <button class="btn-add">Add</button>
+</div>
+
+</form>
+
+<% }) %>
+
+</div>
+
     </section>
 
     <footer class="footer">
