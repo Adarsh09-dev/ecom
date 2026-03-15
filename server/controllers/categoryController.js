@@ -4,12 +4,28 @@ import ProductModel from "../models/Product-Models.js";
 import subCategoryModel from "../models/subCategory-Model.js";
 
 export const categoryPage = async (req, res) => {
-  const categories = await CategoryModel.find().sort({ createdAt: -1 });
+  let perPage = 5;
+  let page = parseInt(req.query.page) || 1;
 
-  res.render("Category/category-page", {
-    layout: false,
-    categories,
-  });
+  try {
+    const count = await CategoryModel.countDocuments();
+
+    const categories = await CategoryModel.find()
+      .populate("")
+      .sort({ updatedAt: -1 })
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .exec();
+
+    res.render("Category/category-page", {
+      layout: false,
+      categories,
+      currentPage: page,
+      totalPages: Math.ceil(count / perPage),
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const AddCategoryPage = async (req, res) => {
@@ -117,4 +133,3 @@ export const deleteCategory = async (req, res) => {
     res.status(500).send("Delete failed");
   }
 };
-

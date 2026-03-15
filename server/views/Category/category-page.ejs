@@ -9,11 +9,11 @@
 <body>
 
 <div class="dashboard">
-
+  
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <h2 class="logo">swapZon</h2>
-
+  
  
     <div class="">   <ul class="menu">
       <li>Dashboard</li>
@@ -21,7 +21,8 @@
       <li> <a href="/sub-category"  > Sub Category </a>  </li>
       <li> <a href="/product"> Products </a>  </li>
   
-    </ul></div>
+    </ul>
+  </div>
 
 
       <div class="lg-btn"> <form action="/admin/logout" method="post">
@@ -47,23 +48,22 @@
     <div class="card">
       <h3>All Categories</h3>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Created Date</th>
-            <th>Updated Date</th>
-            <th>Action</th>
-            <th></th>
-          </tr>
-        </thead>
+<table>
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Created Date</th>
+      <th>Updated Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
 
-        <tbody>
+  <tbody>
 
-          <% if (categories && categories.length > 0) { %>
+  <% if (categories && categories.length > 0) { %>
 
-            <% categories.forEach(category => { %>
+    <% categories.forEach(category => { %>
 
 <tr>
 
@@ -75,7 +75,6 @@
   <%= category.name %>
 </td>
 
-
 <td>
   <%= category.createdAt.toDateString() %>
 </td>
@@ -84,38 +83,61 @@
   <%= category.updatedAt.toDateString() %>
 </td>
 
-<td>
-   <!-- EDIT -->
+<td class="actions">
+
+  <!-- EDIT -->
   <a href="/category/edit/<%= category._id %>" class="btn edit-btn">
     Edit
   </a>
-</td>
-
-  <td class="actions">
 
   <!-- DELETE -->
- <form action="/category/<%= category._id %>?_method=DELETE" method="POST">
-  <button type="submit" class="btn delete-btn">Delete</button>
-</form>
+  <form action="/category/<%= category._id %>?_method=DELETE" method="POST">
+    <button type="submit" class="btn delete-btn">Delete</button>
+  </form>
 
 </td>
 
 </tr>
 
-            <% }) %>
+    <% }) %>
 
-          <% } else { %>
+  <% } else { %>
 
-            <tr>
-              <td colspan="5" style="text-align:center;">
-                No Categories Found
-              </td>
-            </tr>
+<tr>
+<td colspan="5" style="text-align:center;">
+No Categories Found
+</td>
+</tr>
 
-          <% } %>
+  <% } %>
 
-        </tbody>
-      </table>
+  </tbody>
+</table>
+
+      <div class="pagination">
+
+  <!-- Previous Button -->
+  <a href="/admin?page=<%= currentPage - 1 %>"
+     class="page-btn <%= currentPage === 1 ? 'disabled' : '' %>">
+     Previous
+  </a>
+
+  <!-- Page Numbers -->
+  <% for (let i = 1; i <= totalPages; i++) { %>
+    <a href="/admin?page=<%= i %>" 
+       class="page-btn <%= currentPage === i ? 'active' : '' %>">
+       <%= i %>
+    </a>
+  <% } %>
+
+  <!-- Next Button -->
+  <a href="/admin?page=<%= currentPage + 1 %>"
+     class="page-btn <%= currentPage === totalPages ? 'disabled' : '' %>">
+     Next
+  </a>
+
+</div>
+
 
     </div>
 

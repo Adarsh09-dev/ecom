@@ -20,12 +20,16 @@ body {
 
 .sidebar {
   width: 240px;
+  height: 100vh; /* full screen height */
   background: #16182e;
   color: white;
   padding: 25px 20px;
+
   display: flex;
   flex-direction: column;
 }
+
+/* Logo */
 
 .logo {
   font-size: 22px;
@@ -33,8 +37,12 @@ body {
   margin-bottom: 40px;
 }
 
+/* Menu */
+
 .menu {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .menu li {
@@ -58,21 +66,28 @@ body {
   background: #4e73df;
 }
 
-/* LOGOUT BUTTON */
-.logout {
-  background: #ec0505;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 14px;
-  cursor: pointer;
-  font-size: 14px;
-}
+/* Logout container pushed to bottom */
+
 .lg-btn {
-  display: flex;
+  margin-top: auto;
 }
+
+/* Logout button */
+
+.logout {
+  width: 100%;
+  padding: 10px;
+  background: #ff2e2e;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
 .logout:hover {
-  background: #ff2f3b;
+  background: #e60000;
 }
 
 /* MAIN CONTENT */
@@ -160,21 +175,24 @@ td img {
 }
 
 /* ACTION BUTTONS */
+
+.actions form {
+  margin: 0;
+}
 .actions {
-  display: flex;
   gap: 10px;
   align-items: center;
 }
 
 /* BUTTON BASE */
 .btn {
-  padding: 6px 12px;
-  border-radius: 14px;
-  font-size: 13px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
   text-decoration: none;
   color: white;
-  border: none;
-  cursor: pointer;
 }
 
 /* VIEW BUTTON */
@@ -189,6 +207,7 @@ td img {
 /* EDIT BUTTON */
 .edit-btn {
   background: #f59e0b;
+  margin-right: 15px;
 }
 
 .edit-btn:hover {
@@ -198,6 +217,7 @@ td img {
 /* DELETE BUTTON */
 .delete-btn {
   background: #ef4444;
+  margin-left: 5px;
 }
 
 .delete-btn:hover {
@@ -222,5 +242,75 @@ td img {
     flex-direction: column;
     gap: 10px;
     align-items: flex-start;
+  }
+}
+
+/* PAGINATION */
+
+.pagination {
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.page-btn {
+  padding: 8px 14px;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: #333;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #fff;
+  transition: all 0.25s ease;
+}
+
+/* hover effect */
+
+.page-btn:hover {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* active page */
+
+.page-btn.active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* disabled button */
+
+.page-btn.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* responsive */
+
+@media (max-width: 768px) {
+  .pagination {
+    gap: 6px;
+  }
+
+  .page-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination {
+    gap: 5px;
+  }
+
+  .page-btn {
+    padding: 5px 8px;
+    font-size: 12px;
   }
 }
