@@ -120,8 +120,33 @@ Delete
 
 <% } %>
 
+
 </tbody>
 </table>
+<div class="pagination">
+
+  <!-- Previous Button -->
+  <a href="/sub-category?page=<%= currentPage - 1 %>"
+     class="page-btn <%= currentPage === 1 ? 'disabled' : '' %>">
+     Previous
+  </a>
+
+  <!-- Page Numbers -->
+  <% for (let i = 1; i <= totalPages; i++) { %>
+    <a href="/sub-category?page=<%= i %>" 
+       class="page-btn <%= currentPage === i ? 'active' : '' %>">
+       <%= i %>
+    </a>
+  <% } %>
+
+  <!-- Next Button -->
+  <a href="/sub-category?page=<%= currentPage + 1 %>"
+     class="page-btn <%= currentPage === totalPages ? 'disabled' : '' %>">
+     Next
+  </a>
+
+</div>
+
 
 </div>
 

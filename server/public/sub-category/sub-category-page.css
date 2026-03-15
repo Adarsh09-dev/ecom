@@ -153,15 +153,8 @@ td img {
 
 /* ACTIONS */
 
-/* .actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-} */
-
 .actions {
-  display: flex;
-  gap: 6px;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
@@ -187,6 +180,7 @@ td img {
 
 .edit-btn {
   background: #f59e0b;
+  margin-right: 15px;
 }
 
 .edit-btn:hover {
@@ -197,16 +191,12 @@ td img {
 
 .delete-btn {
   background: #ef4444;
-  margin-left: 8px;
+  margin-left: 5px;
 }
 
 .delete-btn:hover {
   background: #dc2626;
 }
-
-/* .actions form {
-  display: inline;
-} */
 
 /* MOBILE */
 
@@ -243,5 +233,76 @@ td img {
   thead th,
   tbody td {
     padding: 18px;
+  }
+}
+
+/* PAGEANATION */
+
+/* active page */
+.pagination {
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.page-btn {
+  padding: 8px 14px;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: #333;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #fff;
+  transition: all 0.25s ease;
+}
+
+/* hover effect */
+
+.page-btn:hover {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* active page */
+
+.page-btn.active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* disabled button */
+
+.page-btn.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* responsive */
+
+@media (max-width: 768px) {
+  .pagination {
+    gap: 6px;
+  }
+
+  .page-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination {
+    gap: 5px;
+  }
+
+  .page-btn {
+    padding: 5px 8px;
+    font-size: 12px;
   }
 }

@@ -3,23 +3,7 @@ import subCategoryModel from "../models/subCategory-Model.js";
 import ProductModel from "../models/Product-Models.js";
 import uploadImageCloudinary from "../utils/uploadImagesCloudinary.js";
 
-export const addProductPage = async (req, res) => {
-  try {
-    const categories = await CategoryModel.find();
-    const subCategories = await subCategoryModel.find();
-
-    console.log(categories);
-    console.log(subCategories);
-    res.render("Product/product-page", {
-      categories,
-      layout: false,
-      subCategories,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
+// PRODUCT LIST
 export const listProductsPage = async (req, res) => {
   try {
     const products = await ProductModel.find()
@@ -38,6 +22,25 @@ export const listProductsPage = async (req, res) => {
   }
 };
 
+// CREATE PRODUCT PAGE
+export const addProductPage = async (req, res) => {
+  try {
+    const categories = await CategoryModel.find();
+    const subCategories = await subCategoryModel.find();
+
+    console.log(categories);
+    console.log(subCategories);
+    res.render("Product/product-page", {
+      categories,
+      layout: false,
+      subCategories,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// CREATE PRODUCTS (upload product detials)
 export const createProductController = async (req, res) => {
   try {
     const {
@@ -94,3 +97,5 @@ export const createProductController = async (req, res) => {
     return res.redirect("/product");
   }
 };
+
+// WOOD PRODUCT LIST HOME PAGE

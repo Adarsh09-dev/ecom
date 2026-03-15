@@ -5,12 +5,29 @@ import ProductModel from "../models/Product-Models.js";
 
 // SUB - CATEGORY PAGE
 export const SubCategoryPage = async (req, res) => {
-  const subCategory = await subCategoryModel.find().populate("category");
+  let perPage = 5;
+  let page = parseInt(req.query.page) || 1;
 
-  res.render("Sub-category/subCategory-page", {
-    layout: false,
-    subCategory,
-  });
+  try {
+    const count = await subCategoryModel.countDocuments();
+
+    const subCategory = await subCategoryModel
+      .find()
+      .populate("category")
+      .sort({ updatedAt: -1 })
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .exec();
+
+    res.render("Sub-category/subCategory-page", {
+      layout: false,
+      subCategory,
+      currentPage: page,
+      totalPages: Math.ceil(count / perPage),
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 //SEARCH BAR
