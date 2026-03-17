@@ -1,7 +1,7 @@
 import express from "express";
 import expressEjsLayouts from "express-ejs-layouts";
 import cors from "cors";
-import dotenv from "dotenv";
+import dotenv from "dotenv"; 
 dotenv.config();
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
@@ -18,7 +18,8 @@ import categoryRouter from "./route/category.route.js";
 // import uploadRouter from "./route/upload.router.js";
 import adminRouter from "./route/admin.route.js";
 import subCatgoryRouter from "./route/sub-category.route.js";
-import productRouter from "./route/product.route.js"
+import productRouter from "./route/product.route.js";
+import cartRouter from "./route/cart.route.js";
 const app = express();
 // await connectDB();
 
@@ -125,6 +126,7 @@ app.use("/user", userRouter);
 app.use("/category", categoryRouter);
 app.use("/sub-category",subCatgoryRouter)
 app.use("/product",productRouter)
+app.use("/cart",cartRouter)
 
 
 connectDB().then(() => {
