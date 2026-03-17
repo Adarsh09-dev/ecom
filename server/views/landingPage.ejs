@@ -122,30 +122,38 @@
     </section>
 
     <!-- POPULAR CATEGORIES -->
-      <h2> Popular Products </h2>
+      <h2> Popular Products </h2> 
 <div class="product-container">
+
 <% products.forEach(product => { %>
 
-<form action="/product" method="GET" class="product-card">
+<div class="product-card">
 
-<input type="hidden" name="product" value="<%= product._id %>">
+  <a href="/product/detials/<%= product._id %>" class="product-link">
 
-<button class="submit"  type="submit">
+    <img src="<%= product.image %>" alt="<%= product.name %>">
 
-<img src="<%= product.image %>" alt="<%= product.name %>">
+    <h4><%= product.name %></h4>
 
-<h4><%= product.name %></h4>
+    <div class="rating">
+      ★★★★★ <span>(4 reviews)</span>
+    </div>
 
-<div class="rating">★★★★★ <span>(4 reviews)</span></div>
-</button>
-<div class="add">
-  <p class="price">$<%= product.price %></p>
- <button class="btn-add">Add</button>
+  </a>
+
+  <div class="add">
+
+    <p class="price">$<%= product.price %></p>
+
+    <button class="btn-add">Add</button>
+
+  </div>
+
 </div>
 
-</form>
-
 <% }) %>
+
+</div>
 
 </div>
 
