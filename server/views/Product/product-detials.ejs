@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet" href="/product-style/product-detials.css">
+
+</head>
+
+<body>
+
+<div class="product-container">
+
+
+<!-- IMAGE SECTION -->
+
+<div class="product-gallery">
+
+<div class="thumbnail-list">
+<% if(product.images && product.images.length > 0){ %>
+
+  <% product.images.forEach(function(img){ %>
+     <div class="thumb">
+  <img src="<%= product.image %>" alt="<%= product.name %>">
+</div>
+  <% }) %>
+
+<% } %>>
+
+</div>
+
+
+<div class="main-image">
+
+<img src="<%= product.image%>">
+
+</div>
+
+
+
+<!-- PRODUCT DETAILS -->
+
+<div class="product-details">
+
+<h1 class="product-title"><%= product.name %></h1>
+
+<p class="brand">
+Visit the <span><%= product.brand %></span> Store
+</p>
+
+<div class="rating">
+⭐⭐⭐⭐☆ (120 reviews)
+</div>
+
+<hr>
+
+<div class="price-box">
+
+<span class="discount">%<%= product.discount%></span>
+
+<span class="price">$<%= product.price %></span>
+
+<span class="mrp">M.R.P <%= product.mrp %></span>
+
+</div>
+
+<p class="tax">Inclusive of all taxes</p>
+
+<hr>
+
+<ul class="features">
+
+<li class=""> <%= product.description %></li>
+
+
+</ul>
+
+</div>
+
+
+
+<!-- BUY BOX -->
+
+<div class="buy-box">
+
+<h2 class="buy-price">$<%= product.price %></h2>
+
+<p class="delivery">
+FREE Delivery Tomorrow
+</p>
+
+<p class="stock">In Stock</p>
+
+<!-- Quantity -->
+
+<form action="/cart/add/<%= product._id %>" method="POST">
+
+<label>Quantity</label>
+
+<select name="quantity">
+
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+
+</select>
+
+
+<button class="add-cart-btn">
+Add to Cart
+</button>
+
+</form>
+
+
+
+<form action="/buy/<%= product._id %>" method="POST">
+
+<button class="buy-btn">
+Buy Now
+</button>
+
+</form>
+
+<button class="wishlist">
+Add to Wish List
+</button>
+
+</div>
+
+
+</div>
+
+</body>
+
+</html>

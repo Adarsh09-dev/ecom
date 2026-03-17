@@ -98,4 +98,18 @@ export const createProductController = async (req, res) => {
   }
 };
 
-// WOOD PRODUCT LIST HOME PAGE
+// get-product by cagtegory and subcategory
+
+export const productDetials = async (req, res) => {
+  try {
+    const productId = req.params.id;
+
+    const product = await ProductModel.findById(productId);
+
+    res.render("Product/product-detials", {
+      product,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
