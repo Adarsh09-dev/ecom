@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cart</title>
+</head>
+<body>
+
+<h1>Your Cart</h1>
+
+<% if (cartItems.length === 0) { %>
+  <p>Cart is empty</p>
+<% } else { %>
+
+  <% cartItems.forEach(function(item){ %>
+
+<div>
+
+  <img 
+    src="<%= item.productId?.image || 'https://via.placeholder.com/100' %>" 
+    width="100">
+
+  <h3><%= item.productId?.name || 'No Name' %></h3>
+
+  <p>₹<%= item.productId?.price || 0 %></p>
+
+</div>
+
+  <% }) %>
+
+<% } %>
+
+</body>
+</html>
