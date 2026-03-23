@@ -104,12 +104,15 @@ FREE Delivery Tomorrow
 
 </select>
 
-
-<button class="add-cart-btn">
-Add to Cart
-</button>
-
 </form>
+<form action="/cart/create" method="POST">
+  <input type="hidden" name="productId" value="<%= product._id %>">
+    <button type="submit" class="add-cart-btn">
+        Add to Cart
+    </button>
+</form>       
+
+
 
 
 
