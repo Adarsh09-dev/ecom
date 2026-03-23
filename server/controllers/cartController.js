@@ -2,36 +2,53 @@ import { response } from "express";
 import CartProductModel from "../models/cartProduct-Model.js";
 import UserModel from "../models/User-Model.js";
 
+// ADD THE PRODUCT
 export const addToCartItemController = async (req, res) => {
-  try {
-    const userId = req.userId;
-    console.log("userid:",userId)
-    const { productId } = req.body;
+  console.log("==== START ====");
 
-    if (!productId) {
-      return res.status(402).send("Provide product");
+  try {
+    //  user session exists
+    if (!req.session.user || !req.session.user.id) {
+      console.log("No session user");
+      return res.redirect("/login");
     }
 
+    const userId = req.session.user.id;
+    console.log("UserId:", userId);
+
+    const { productId, quantity } = req.body;
+    console.log("ProductId:", productId);
+    console.log("Quantity:", quantity);
+
+    //  Validate productId
+    if (!productId) {
+      console.log("ProductId missing");
+      return res.status(400).send("Provide product");
+    }
+
+    //  Check if already in cart
     const checkItemCart = await CartProductModel.findOne({
       userId: userId,
       productId: productId,
     });
 
     if (checkItemCart) {
-      return res.status(400).json({
-        message: "item already in cart",
-      });
+      console.log("Item already exists");
+      return res.send("Item already in cart");
     }
 
+    //  Create new cart item
     const cartItem = new CartProductModel({
-      quantity: 1,
+      quantity: quantity || 1,
       userId: userId,
       productId: productId,
     });
 
-    const save = await cartItem.save();
+    await cartItem.save();
+    console.log("Cart item saved");
 
-    const updateCartUser = await UserModel.updateOne(
+    //  Update user's cart array
+    await UserModel.updateOne(
       { _id: userId },
       {
         $push: {
@@ -40,52 +57,39 @@ export const addToCartItemController = async (req, res) => {
       },
     );
 
-    return res.redirect("/products");
+    console.log("User cart updated");
+
+    return res.redirect("/product");
   } catch (error) {
+    console.log("ERROR:", error.message);
     return res.status(500).send(error.message);
   }
 };
 
-export const getCartItemController = async (req, res) => {
+// GET CART PAGE
+export const getCartPageController = async (req, res) => {
   try {
-    const userId = req.userId;
-
-    const cartItem = await CartProductModel.findOne({
-      userId: userId,
-    }).populate("productId");
-
-    return res.send({
-      data: cartItem,
-      error: false,
-      success: true,
-    });
-  } catch (error) {
-    return res.status(500).send(error.message);
-  }
-};
-
-export const updateCartItemQtyController = async (req, res) => {
-  try {
-    const userId = req.userId;
-    const { _id, qty } = req.body;
-
-    if (!_id || !qty) {
-      return response.status(400).json({
-        message: "provide _id, qty",
-      });
+    // Check session
+    if (!req.session.user || !req.session.user.id) {
+      return res.redirect("/login");
     }
 
-    const updateCartitem = await CartProductModel.updateOne(
-      {
-        _id: _id,
-      },
-      {
-        quatity: qty,
-      },
-    );
+    const userId = req.session.user.id;
 
-    return;
+    // Get cart items with product details
+    const cartItems = await CartProductModel.find({
+      userId: userId,
+    }).populate("productId"); // very important
+
+    console.log("Cart Items:", cartItems);
+
+    //  Render EJS
+    return res.render("Cart/cartPage", {
+      cartItems: cartItems,
+    });
+    // console.log(cartItems[0].productId.images[0]);
   } catch (error) {
-    return res.status(500).send(error.message);
+    console.log("ERROR:", error.message);
+    return res.send("Something went wrong");
   }
 };
