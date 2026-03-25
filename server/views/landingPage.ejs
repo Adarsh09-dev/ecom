@@ -143,7 +143,15 @@
 
     <p class="price">$<%= product.price %></p>
 
-    <button class="btn-add">add</button>
+    <!-- <button class="btn-add">add</button> -->
+
+    </form>
+<form action="/cart/create" method="POST">
+  <input type="hidden" name="productId" value="<%= product._id %>">
+    <button type="submit" class="btn-add">
+        Add 
+    </button>
+</form> 
 
   </div>
 
@@ -181,6 +189,9 @@
 <div class="add">
   <p class="price">$<%= product.price %></p>
  <button class="btn-add">Add</button>
+         
+
+</div>
 </div>
 
 </form>
