@@ -59,7 +59,7 @@ export const addToCartItemController = async (req, res) => {
 
     console.log("User cart updated");
 
-    return res.redirect("/product");
+    return res.redirect("/product/detials/:id");/////// check  the line and processing //////
   } catch (error) {
     console.log("ERROR:", error.message);
     return res.status(500).send(error.message);
@@ -91,5 +91,48 @@ export const getCartPageController = async (req, res) => {
   } catch (error) {
     console.log("ERROR:", error.message);
     return res.send("Something went wrong");
+  }
+};
+
+ 
+// UPDATE QUANTITY CONTROLLER
+export const updateCartQuantityController = async (req, res) => {
+  try {
+    const userId = req.session.user.id;
+    const { cartItemId, action } = req.body;
+
+    const cartItem = await CartProductModel.findOne({
+      _id: cartItemId,
+      userId: userId
+    });
+
+    if (!cartItem) {
+      return res.send("Item not found");
+    }
+
+    //  Increase
+    if (action === "increase") {
+      cartItem.quantity += 1;
+    
+    }
+
+    //  Decrease
+    if (action === "decrease") {
+      cartItem.quantity -= 1;
+
+      //  Remove if 0
+      if (cartItem.quantity <= 0) {
+        await CartProductModel.deleteOne({ _id: cartItemId });
+        return res.redirect("/cart");
+      }
+    } 
+
+    await cartItem.save();
+
+    return res.redirect("/cart");
+
+  } catch (error) {
+    console.log(error);
+    return res.send("Error updating quantity");
   }
 };
