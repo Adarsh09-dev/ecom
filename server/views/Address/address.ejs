@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Checkout</title>
+  <link rel="stylesheet" href="/css/checkout.css">
+</head>
+<body>
+
+<div class="checkout-container">
+
+  <!-- LEFT SIDE (Address Section) -->
+  <div class="left">
+
+    <h2>Select Delivery Address</h2>
+
+    <% if(addresses.length === 0){ %>
+        <p>No address found</p>
+    <% } else { %>
+
+      <% addresses.forEach((addr, index) => { %>
+        <div class="address-card">
+          
+          <input type="radio" name="selectedAddress" value="<%= addr._id %>" <%= index === 0 ? 'checked' : '' %> />
+
+          <div class="address-details">
+            <p><strong><%= addr.address_ling %></strong></p>
+            <p><%= addr.city %>, <%= addr.state %> - <%= addr.pincode %></p>
+            <p><%= addr.country %></p>
+            <p>Mobile: <%= addr.mobile %></p>
+          </div>
+
+        </div>
+      <% }) %>
+
+    <% } %>
+
+    <!-- Add New Address -->
+    <div class="add-address">
+      <a href="/add-address">+ Add New Address</a>
+    </div>
+
+  </div>
+
+  <!-- RIGHT SIDE (Order Summary) -->
+  <div class="right">
+
+    <h2>Order Summary</h2>
+
+    <% let total = 0; %>
+
+    <% cartItems.forEach(item => { %>
+      <div class="cart-item">
+        <p><%= item.productId.name %> x <%= item.quantity %></p>
+        <p>₹ <%= item.productId.price * item.quantity %></p>
+      </div>
+
+      <% total += item.productId.price * item.quantity; %>
+    <% }) %>
+
+    <hr>
+
+    <div class="total">
+      <h3>Total: ₹ <%= total %></h3>
+    </div>
+
+    <form action="/order/place" method="POST">
+      <input type="hidden" name="totalAmount" value="<%= total %>">
+      <button class="place-order">Place Order</button>
+    </form>
+
+  </div>
+
+</div>
+
+</body>
+</html>
