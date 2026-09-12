@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <title>User Profile</title>
@@ -8,132 +9,95 @@
 
 <body>
 
-<div class="container">
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <button class="active">Personal Information</button>
-        <button>My Orders</button>
-        <button>Manage Address</button>
-        <button>Payment Method</button>
-        <button>Password Manager</button>
+    <div class="container">
 
-        <!-- Logout Form -->
-        <form action="/user/logout" method="POST">
-            <button type="submit">Logout</button>
-        </form>
-    </div>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <button class="active">Personal Information</button>
+            <button>My Orders</button>
+            <form action="/address" method="GET">
+                <button type="submit" class="manage-address-btn">Manage Address</button>
+            </form>
+            
+            <button>Payment Method</button>
+            <button>Password Manager</button>
 
-    <!-- Main Content -->
-    <div class="main-content">
-
-        <div class="profile-header">
-
-            <form action="/user/upload-avatar/?_method=PUT"
-                 method="POST"
-                 enctype="multipart/form-data">
-
-
-              <div class="avatar">
-                <!-- Current Avatar -->
-                  <img 
-                      src="<%= user?.avatar || '/img/avatar.jfif' %>" 
-                      alt="Profile Image"
-                   />
-                 <!-- Input Hidden File -->
-                <input type="file"
-                name="profile_image"
-                id="profile_image"
-                hidden
-                accept="image/*"
-                >
-
-                <!-- Edit Button -->
-                  <label for="profile_image" class="edit-icon">✎</label>
-
-              </div>
-
-            </form> 
+            <!-- Logout Form -->
+            <form action="/user/logout" method="POST">
+                <button type="submit">Logout</button>
+            </form>
         </div>
 
-        <!-- Profile Update Form -->
-        <form
-            class="profile-form"
-            action="/user/updated-profile/?_method=PUT"
-            method="POST"
-            enctype="multipart/form-data"
-        >
+        <!-- Main Content -->
+        <div class="main-content">
 
-            <!-- METHOD OVERRIDE -->
-            <input type="hidden" value="put">
+            <div class="profile-header">
 
-            <div class="row">
+                <form action="/user/upload-avatar/?_method=PUT" method="POST" enctype="multipart/form-data">
 
-                <div class="form-group">
-                    <label>First Name *</label>
-                    <input
-                        type="text"
-                        name="first_name"
-                        value="<%= user?.name || '' %>"
-                        required
-                    />
+
+                    <div class="avatar">
+                        <!-- Current Avatar -->
+                        <img src="<%= user?.avatar || '/img/avatar.jfif' %>" alt="Profile Image" />
+                        <!-- Input Hidden File -->
+                        <input type="file" name="profile_image" id="profile_image" hidden accept="image/*">
+
+                        <!-- Edit Button -->
+                        <label for="profile_image" class="edit-icon">✎</label>
+
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Profile Update Form -->
+            <form class="profile-form" action="/user/updated-profile/?_method=PUT" method="POST"
+                enctype="multipart/form-data">
+
+                <!-- METHOD OVERRIDE -->
+                <input type="hidden" value="put">
+
+                <div class="row">
+
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" name="first_name" value="<%= user?.name || '' %>" required />
+                    </div>
+            
+
                 </div>
 
                 <div class="form-group">
-                    <label>Address *</label>
-                    <input
-                        type="text"
-                        name="address"
-                        value="<%= user?.address_detials || '' %>"
-                        required
-                    />
+                    <label>Email *</label>
+                    <input type="email" name="email" value="<%= user?.email || '' %>" required />
                 </div>
 
-            </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="Number" name="mobile" value="<%= user?.mobile || '' %>" required />
+                </div>
 
-            <div class="form-group">
-                <label>Email *</label>
-                <input
-                    type="email"
-                    name="email"
-                    value="<%= user?.email || '' %>"
-                    required
-                />
-            </div>
+                <div class="form-group">
+                    <label>Gender *</label>
+                    <select name="gender" required>
 
-            <div class="form-group">
-                <label>Phone *</label>
-                <input
-                    type="Number"
-                    name="mobile"
-                    value="<%= user?.mobile || '' %>"
-                    required
-                />
-            </div>
+                        <option value="female" <%=user?.gender==='female' ? 'selected' : '' %>>
+                            Female
+                        </option>
 
-            <div class="form-group">
-                <label>Gender *</label>
-                <select name="gender" required>
+                        <option value="male" <%=user?.gender==='male' ? 'selected' : '' %>>
+                            Male
+                        </option>
 
-                    <option value="female"
-                        <%= user?.gender === 'female' ? 'selected' : '' %>>
-                        Female
-                    </option>
+                        <option value="other" <%=user?.gender==='other' ? 'selected' : '' %>>
+                            Other
+                        </option>
 
-                    <option value="male"
-                        <%= user?.gender === 'male' ? 'selected' : '' %>>
-                        Male
-                    </option>
+                    </select>
+                </div>
 
-                    <option value="other"
-                        <%= user?.gender === 'other' ? 'selected' : '' %>>
-                        Other
-                    </option>
-
-                </select>
-            </div>
-
-            <!-- <div class="form-group">
+                <!-- <div class="form-group">
                 <label>Profile Image</label>
                 <input
                     type="file"
@@ -142,16 +106,17 @@
                 />
             </div> -->
 
-            <button type="submit" class="update-btn">
-                Update Changes
-            </button>
+                <button type="submit" class="update-btn">
+                    Update Changes
+                </button>
 
-        </form>
+            </form>
 
+        </div>
+
+        <script src="/js/profile.js"></script>
     </div>
 
-<script src="/js/profile.js" ></script>
-</div>
-
 </body>
+
 </html>

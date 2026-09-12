@@ -6,7 +6,6 @@ import {
   forgotPage,
   verifyPage,
   resetPswrdPage,
-  // homePage,
   verifyEmailController,
   loginController,
   logOutController,
@@ -33,8 +32,6 @@ userRouter.post("/register", registerUserController);
 userRouter.get("/checkMail", check_mail);
 
 userRouter.post("/verify-email", verifyEmailController);
-
-// userRouter.get("/home", isAuthenticated, homePage);
 
 userRouter.post("/logout", logOutController);
 

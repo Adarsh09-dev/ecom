@@ -6,6 +6,8 @@ import uploadImageCloudinary from "../utils/uploadImagesCloudinary.js";
 import generateOtp from "../utils/generatedOtp.js";
 import forgotPasswordTemplate from "../utils/forgotPasswordTemplate.js";
 import ProductModel from "../models/Product-Models.js";
+import session from "express-session";
+import flash from "connect-flash";
 
 // home page
 export const landingPage = async (req, res) => {
@@ -27,69 +29,75 @@ export const landingPage = async (req, res) => {
 
 // SIGNUP REGISTER
 export async function registerPage(req, res) {
-  console.log("...................................signup. page......1..................................");
   res.render("user-register", { layout: false });
-    console.log("...................................signup.page......2..................................");
 }
+
 export async function registerUserController(req, res) {
-    console.log("...................................signup.......1..................................");
   try {
-      console.log("...................................signup.......2..................................");
     const { name, email, password } = req.body;
-      console.log("...................................signup.......3..................................");
+
+    // Validate input
     if (!name || !email || !password) {
-        console.log("...................................signup.......4..................................");
-      req.session.message = "All fieldds required";
-        console.log("...................................signup.......5..................................");
+      req.flash("error", "Please fill in all required fields.");
       return res.redirect("/register");
-        console.log("...................................signup.......6..................................");
     }
-      console.log("...................................signup.......7..................................");
+
+    // Check if email already exists
     const user = await UserModel.findOne({ email });
-      console.log("...................................signup.......8..................................");
+
     if (user) {
-      console.log("...................................signup.......9..................................");
+      req.flash("error", "An account with this email already exists.");
+      return res.redirect("/register");
     }
-      console.log("...................................signup.......10..................................");
+
+    // Hash password
     const salt = await bcrypt.genSalt(10);
-      console.log("...................................signup.......12..................................");
     const hashPassword = await bcrypt.hash(password, salt);
-      console.log("...................................signup.......13..................................");
-    const payload = {
+
+    // Save user
+    const newUser = await UserModel.create({
       name,
       email,
       password: hashPassword,
-    };
-      console.log("...................................signup.......14..................................");
-    const newUser = new UserModel(payload);
-      console.log("...................................signup.......15..................................");
-    const save = await newUser.save();
-      console.log("...................................signup.......16..................................");
-    const VerifyEmailUrl = `${process.env.FRONTEND_URL}/verify-email?code=${save?._id}`;
-      console.log("...................................signup.......17..................................");
-    const verifyEmail = await sendEmail({
+    });
+
+    // Send verification email
+    const verifyEmailUrl = `${process.env.FRONTEND_URL}/verify-email?code=${newUser._id}`;
+
+    await sendEmail({
       sendTo: email,
-      subject: "Verify email from Ecom",
+      subject: "Verify Your Email Address",
       html: verifyEmailTemplate({
         name,
         email,
-        url: VerifyEmailUrl,
+        url: verifyEmailUrl,
       }),
     });
-      console.log("...................................signup.......18..................................");
-    res.redirect("/user/checkMail");
-      console.log("...................................signup.......19..................................");
+
+    req.flash(
+      "success",
+      "Registration successful! Please check your email to verify your account."
+    );
+
+    return res.redirect("/user/checkMail");
   } catch (error) {
-      console.log("...................................signup.error......0..................................");
-    req.session.message = "something went wrong";
-      console.log("...................................signup..error.....1..................................");
+    console.error("Registration Error:", error);
+
+    req.flash(
+      "error",
+      "We couldn't create your account at this time. Please try again."
+    );
+
     return res.redirect("/register");
-      console.log("...................................signup..error.....2..................................");
   }
 }
-
 // CHECK MAIL
 export async function check_mail(req, res) {
+  req.flash(
+    "success",
+    "A verification email has been sent to your email address. Please check your inbox and follow the instructions to activate your account."
+  );
+
   res.render("check-email", { layout: false });
 }
 
@@ -98,104 +106,98 @@ export async function verifyEmailController(req, res) {
   try {
     const { code } = req.body;
 
-    const user = await UserModel.findOne({ _id: code });
+    const user = await UserModel.findById(code);
 
     if (!user) {
-      return res.status(400).json({
-        message: "invalid code",
-        error: true,
-        success: false,
-      });
+      req.flash("error", "The verification link is invalid or has expired.");
+      return res.redirect("/login");
     }
 
-    const updateUser = await UserModel.updateOne(
+    if (user.verify_email) {
+      req.flash("info", "Your email address has already been verified.");
+      return res.redirect("/login");
+    }
+
+    await UserModel.updateOne(
       { _id: code },
       {
         verify_email: true,
-      },
+      }
     );
 
-    return res.json({
-      message: "Verify email done",
-      success: true,
-      error: false,
-    });
+    req.flash(
+      "success",
+      "Your email has been verified successfully. You can now sign in to your account."
+    );
+
+    return res.redirect("/login");
   } catch (error) {
-    return res.status(500).json({
-      message: error.message || error,
-      error: true,
-      sucess: true,
-    });
+    console.error("Email Verification Error:", error);
+
+    req.flash(
+      "error",
+      "We couldn't verify your email at this time. Please try again later."
+    );
+
+    return res.redirect("/login");
   }
 }
 
 // LOGIN PAGE
 export async function loginPage(req, res) {
-  console.log("......................................1...................................");
+
   res.render("user-login", { layout: false });
-  console.log("......................................2...................................");
+
 }
 
 // LOGIN CONTROLLER
 export async function loginController(req, res) {
-  console.log("......................................3...................................");
   try {
-    console.log("......................................4...................................");
     const { email, password } = req.body;
-    console.log("......................................5...................................");
 
     if (!email || !password) {
-      console.log("......................................6...................................");
+      req.flash("error", "Please enter both your email address and password.");
       return res.redirect("/login");
-      console.log("......................................7...................................");
     }
-    console.log("......................................8...................................");
 
     const user = await UserModel.findOne({ email, role: "USER" });
-    console.log("......................................9...................................");
 
     if (!user) {
-      console.log("......................................10...................................");
-      // return res.send("email cannot found");
-      console.log("......................................11...................................");
+      req.flash("error", "No account was found with the provided email address.");
       return res.redirect("/login");
-      console.log("......................................12...................................");
     }
 
-    console.log("......................................13...................................");
     if (user.status !== "Active") {
-      console.log("......................................14...................................");
+      req.flash(
+        "error",
+        "Your account is currently inactive. Please contact support."
+      );
       return res.redirect("/login");
-      console.log("......................................15...................................");
     }
 
-    // hash password
     const checkPassword = await bcrypt.compare(password, user.password);
-    console.log("......................................17...................................");
+
     if (!checkPassword) {
-      console.log("......................................18...................................");
-      return res.send("Wrong password");
-      console.log("......................................19...................................");
+      req.flash("error", "Incorrect password. Please try again.");
+      return res.redirect("/login");
     }
-    console.log("......................................20...................................");
 
     req.session.user = {
       email: user.email,
       id: user._id,
     };
-    console.log("......................................21...................................");
 
     res.locals.user = req.session.user;
-    console.log("......................................22...................................");
+
+    req.flash("success", `Welcome back, ${user.name}!`);
     return res.redirect("/user/landing-page");
-    console.log("......................................23...................................");
+
   } catch (error) {
-    console.log("......................................24...................................");
-    res.send("Server error");
+    console.error(error);
+    req.flash("error", "Something went wrong. Please try again later.");
+    return res.redirect("/login");
   }
-  console.log("......................................25...................................");
 }
-console.log("......................................26...................................")
 
 // LOGOUT CONTROLLER
 export async function logOutController(req, res) {
@@ -203,17 +205,20 @@ export async function logOutController(req, res) {
     req.session.destroy((error) => {
       if (error) {
         console.error(error);
-        return res.redirect("/user/home");
+        req.flash("error", "Unable to log out. Please try again.");
+        return res.redirect("/user/profile");
       }
-      res.clearCookie("connect.sid"); // session cookie name
+
+      res.clearCookie("connect.sid");
+      req.flash("success", "You have been logged out successfully.");
       return res.redirect("/user/landing-page");
     });
-  } catch {
+  } catch (error) {
     console.error(error);
+    req.flash("error", "Something went wrong. Please try again.");
     return res.redirect("/user/landing-page");
   }
 }
-
 // UPDATE USER DETAILS
 export async function updateUserDetails(req, res) {
   try {
@@ -253,13 +258,12 @@ export async function forgotPasswordController(req, res) {
     const { email } = req.body;
 
     if (!email) {
-      req.session.message = "Email is required";
+      req.flash("error", "Please enter your email address.");
       return res.redirect("/user/forgot-password");
     }
-    const user = await UserModel.findOne({ email });
 
     if (!user) {
-      req.session.message = "Email not available";
+      req.flash("error", "No account found with that email address.");
       return res.redirect("/user/forgot-password");
     }
     const otp = generateOtp();
@@ -309,34 +313,26 @@ export async function verifyForgotPasswordOtp(req, res) {
     console.log("SESSION EMAIL:", req.session.resetEmail);
 
     if (!email || !otp) {
-      req.session.message = "Provide email and OTP";
+      req.flash("error", "Please enter the verification code.");
       return res.redirect("/user/verify-otp");
     }
-
-    const user = await UserModel.findOne({ email });
 
     if (!user) {
-      req.session.message = "Email not available";
+      req.flash("error", "No account found with that email address.");
       return res.redirect("/user/verify-otp");
     }
 
-    const currentTime = new Date();
-
-    if (
-      !user.forgot_password_expiry ||
-      user.forgot_password_expiry < currentTime
-    ) {
-      console.log("DB OTP:", user?.forgot_password_otp);
-      console.log("EXPIRY:", user?.forgot_password_expiry);
-      req.session.message = "OTP is expired";
+    if (!user.forgot_password_expiry || user.forgot_password_expiry < currentTime) {
+      req.flash("error", "Your verification code has expired. Please request a new one.");
       return res.redirect("/user/verify-otp");
     }
 
     if (String(otp) !== String(user.forgot_password_otp)) {
-      req.session.message = "Invalid OTP";
+      req.flash("error", "The verification code you entered is incorrect.");
       return res.redirect("/user/verify-otp");
     }
 
+    req.flash("success", "Verification successful. You can now reset your password.");
     //  OTP Success
     user.forgot_password_otp = null;
     user.forgot_password_expiry = null;
@@ -367,50 +363,76 @@ export async function resetPassword(req, res) {
 
     // Check required fields
     if (!email || !newPassword || !confirmPassword) {
-      req.session.message = "All fields are required";
+      req.flash("error", "Please complete all required fields.");
       return res.redirect("/user/reset-password");
     }
 
-    // Check required fields
+    if (!user) {
+      req.flash("error", "User account not found.");
+      return res.redirect("/user/reset-password");
+    }
+
+    if (newPassword !== confirmPassword) {
+      req.flash("error", "Passwords do not match.");
+      return res.redirect("/user/reset-password");
+    }
+
     const user = await UserModel.findOne({ email });
     if (!user) {
-      req.session.message = "user not found";
+      req.flash("error", "User account not found.");
       return res.redirect("/user/reset-password");
-    }
-
-    // Check passsword match
-    if (newPassword !== confirmPassword) {
-      req.session.message = "Password do not match";
-      return redirect("/user/reset-password");
     }
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(newPassword, salt);
 
-    // Update password
-    await UserModel.findOneAndUpdate(user._id, {
-      password: hashPassword,
-    });
+    await UserModel.findByIdAndUpdate(
+      user._id,
+      { password: hashPassword },
+      { new: true }
+    );
 
-    req.session.message = "Password update successfully";
+    req.flash(
+      "success",
+      "Your password has been reset successfully. Please sign in."
+    );
+
     return res.redirect("/user/login");
   } catch (error) {
     return res.status(500).send(error.message);
   }
 }
 
-// GET LOGIN USER DETAILS AND PROFILE PAGE
-export async function profilePage(req, res) {
-  console.log("check the profile : ");
-  const user = await UserModel.findById(req.session.user.id);
-  console.log("check the profile :ooooooooo ", req.session.user.id);
-  console.log("check the profile :----------------- ", user.id);
 
-  res.render("user-details", {
-    layout: false,
-    user,
-  });
+
+// GET LOGIN USER DETAILS AND PROFILE PAGE
+// PROFILE PAGE
+export async function profilePage(req, res) {
+  try {
+    const user = await UserModel.findById(req.session.user.id);
+
+    if (!user) {
+      req.flash("error", "Unable to load your profile. Please sign in again.");
+      return res.redirect("/user/login");
+    }
+
+    res.render("user-details", {
+      layout: false,
+      user,
+      success: req.flash("success"),
+      error: req.flash("error"),
+    });
+  } catch (error) {
+    console.error("Profile Page Error:", error);
+
+    req.flash(
+      "error",
+      "An unexpected error occurred while loading your profile. Please try again."
+    );
+
+    return res.redirect("/user/landing-page");
+  }
 }
 
 // UPDATE USER DATA
@@ -418,8 +440,6 @@ export async function profilePage(req, res) {
 export async function updateUserData(req, res) {
   try {
     const userId = req.session.user.id; // or req.user._id
-    console.log(".....", req.session.user);
-    console.log("33333333333", req.body);
     await UserModel.findByIdAndUpdate(
       userId,
       {
@@ -431,12 +451,12 @@ export async function updateUserData(req, res) {
       { new: true },
     );
 
-    console.log("updated..", req.body);
-    res.redirect("/user/profile");
+    req.flash("success", "Your profile has been updated successfully.");
+    return res.redirect("/user/profile");
 
     console.log("updated..9999");
   } catch (error) {
-    return res.status(500).send(error.message);
+    req.flash("error", "Unable to update your profile. Please try again.");
   }
 }
 
@@ -447,7 +467,8 @@ export async function uploadAvatar(req, res) {
     const image = req.file;
 
     if (!image) {
-      return res.status(400).send("No image upload");
+      req.flash("error", "Please select an image to upload.");
+      return res.redirect("/user/profile");
     }
 
     const upload = await uploadImageCloudinary(image);
@@ -459,12 +480,9 @@ export async function uploadAvatar(req, res) {
       { new: true },
     );
 
+    req.flash("success", "Your profile picture has been updated successfully.");
     return res.redirect("/user/profile");
-
-    // return res.render("user/profile", {
-    //   user: updateUser,
-    // });
   } catch (error) {
-    return res.status(500).send(error.message);
+    req.flash("error", "Unable to upload your profile picture. Please try again.");
   }
 }
