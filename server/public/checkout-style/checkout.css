@@ -1,0 +1,159 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+}
+
+.container{
+    width:95%;
+    max-width:1400px;
+    margin:30px auto;
+    display:flex;
+    gap:20px;
+}
+
+.left{
+    width:65%;
+}
+
+.right{
+    width:35%;
+}
+
+.title{
+    margin-bottom:15px;
+}
+
+.card{
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:20px;
+    margin-bottom:15px;
+}
+
+.card label{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:10px;
+    cursor:pointer;
+}
+
+.card input[type="radio"]{
+    width:18px;
+    height:18px;
+}
+
+.card p{
+    margin:6px 0;
+    color:#555;
+    font-size:16px;
+}
+
+.add-address{
+    width:100%;
+    height:65px;
+    border:2px dashed #cfcfcf;
+    border-radius:8px;
+    background:#eef5ff;
+    color:#333;
+    font-size:24px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.add-address:hover{
+    background:#dcecff;
+}
+
+.summary{
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:25px;
+    position:sticky;
+    top:20px;
+}
+
+.summary h2{
+    margin-bottom:20px;
+}
+
+.summary h3{
+    margin-bottom:15px;
+    color:#666;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin:14px 0;
+    font-size:17px;
+}
+
+.total{
+    margin-top:20px;
+    font-size:20px;
+}
+
+hr{
+    margin:18px 0;
+    border:none;
+    border-top:1px solid #ddd;
+}
+
+.pay-btn{
+    width:100%;
+    height:50px;
+    border:none;
+    border-radius:6px;
+    background:#0b9b4b;
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+.pay-btn:hover{
+    background:#08853f;
+}
+
+.cod-btn{
+    width:100%;
+    height:50px;
+    border:2px solid #0b9b4b;
+    border-radius:6px;
+    background:#fff;
+    color:#0b9b4b;
+    font-size:18px;
+    cursor:pointer;
+    margin-top:15px;
+}
+
+.cod-btn:hover{
+    background:#0b9b4b;
+    color:#fff;
+}
+
+@media(max-width:900px){
+
+    .container{
+        flex-direction:column;
+    }
+
+    .left,
+    .right{
+        width:100%;
+    }
+
+    .summary{
+        position:static;
+    }
+
+}

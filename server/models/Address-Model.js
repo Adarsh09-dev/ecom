@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const addressSchema = new mongoose.Schema(
   {
-    address_ling: {
+    address_line: {
       type: String,
       default: "",
     },
@@ -27,13 +27,18 @@ const addressSchema = new mongoose.Schema(
     status: {
         type:Boolean,
         default:true
-    }
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      require: "true",
+      //default : true
+    },
   },
   {
     timestamps: true,
   },
 );
 
-AdressModel = mongoose.model("address", addressSchema);
+const AddressModel = mongoose.model("address", addressSchema);
 
-export default AdressModel;
+export default AddressModel;

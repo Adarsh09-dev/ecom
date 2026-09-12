@@ -2,11 +2,14 @@ import subCategoryModel from "../models/subCategory-Model.js";
 import uploadImageCloudinary from "../utils/uploadImagesCloudinary.js";
 import CategoryModel from "../models/Category-Model.js";
 import ProductModel from "../models/Product-Models.js";
+import session from "express-session";
+import flash from "connect-flash";
 
 // SUB - CATEGORY PAGE
+// SUB CATEGORY PAGE
 export const SubCategoryPage = async (req, res) => {
-  let perPage = 5;
-  let page = parseInt(req.query.page) || 1;
+  const perPage = 5;
+  const page = parseInt(req.query.page) || 1;
 
   try {
     const count = await subCategoryModel.countDocuments();
@@ -19,14 +22,22 @@ export const SubCategoryPage = async (req, res) => {
       .limit(perPage)
       .exec();
 
-    res.render("Sub-category/subCategory-page", {
+    return res.render("Sub-category/subCategory-page", {
       layout: false,
       subCategory,
       currentPage: page,
       totalPages: Math.ceil(count / perPage),
     });
+
   } catch (error) {
     console.log(error);
+
+    req.flash(
+      "error",
+      "We couldn't load the subcategories. Please try again."
+    );
+
+    return res.redirect("/");
   }
 };
 
@@ -57,48 +68,55 @@ export const searchController = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send("Server Error");
+
+    req.flash(
+      "error",
+      "We couldn't complete your search. Please try again."
+    );
+
+    return res.redirect("/sub-category");
   }
 };
 
+
 // ADD SUB-CATGORY PAGE
 export const addSubCategoryPage = async (req, res) => {
-  const categories = await CategoryModel.find();
+  try {
+    const categories = await CategoryModel.find();
 
-  res.render("Sub-category/subCategory", {
-    layout: false,
-    categories,
-  });
+    res.render("Sub-category/subCategory", {
+      layout: false,
+      categories,
+    });
+  } catch (error) {
+    console.log(error);
+
+    req.flash(
+      "error",
+      "We couldn't load the subcategory creation page. Please try again."
+    );
+
+    return res.redirect("/sub-category");
+  }
 };
 
 // SUB - CATEGORY CONTROLLER
 export const AddSubCategoryController = async (req, res) => {
   try {
-    console.log("STEP 1 controller reached");
-
     const { name } = req.body;
     const category = req.body.category;
     const image = req.file;
 
-    console.log("STEP 2 body:", req.body);
-
     if (!name || !category) {
-      console.log("STEP 3 validation failed");
-      return res.send("Name and category required");
+      req.flash("warning", "Please provide all required information.");
+      return res.redirect("/sub-category/add");
     }
-
-    console.log("STEP 4 validation passed");
 
     let imageUrl = "";
 
     if (image) {
-      console.log("STEP 5 uploading image");
-
       const uploadImage = await uploadImageCloudinary(image);
-
       imageUrl = uploadImage.secure_url;
-
-      console.log("STEP 6 image uploaded:", imageUrl);
     }
 
     const newSubCategory = new subCategoryModel({
@@ -107,15 +125,21 @@ export const AddSubCategoryController = async (req, res) => {
       category,
     });
 
-    console.log("STEP 7 saving:", newSubCategory);
-
     await newSubCategory.save();
 
-    res.redirect("/sub-category");
-  } catch (error) {
-    console.log("ERROR:", error);
+    req.flash("success", "Subcategory has been created successfully.");
 
-    res.send("Error creating sub category");
+    return res.redirect("/sub-category");
+
+  } catch (error) {
+    console.log(error);
+
+    req.flash(
+      "error",
+      "We couldn't create the subcategory. Please try again."
+    );
+
+    return res.redirect("/sub-category");
   }
 };
 
@@ -124,24 +148,30 @@ export const editSubCategoryPage = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // find the sub category
     const subCategory = await subCategoryModel.findById(id);
 
     if (!subCategory) {
-      return res.status(404).send("SubCategory not found");
+      req.flash("error", "The requested subcategory could not be found.");
+      return res.redirect("/sub-category");
     }
 
-    // get all categories
     const categories = await CategoryModel.find().sort({ createdAt: -1 });
 
-    // render edit page
     res.render("Sub-category/edit-SubCategory", {
       subCategory,
       categories,
       layout: false,
     });
+
   } catch (error) {
-    console.log("Edit Page Error:", error);
+    console.log(error);
+
+    req.flash(
+      "error",
+      "We couldn't load the subcategory details. Please try again."
+    );
+
+    return res.redirect("/sub-category");
   }
 };
 
@@ -152,7 +182,8 @@ export const editSubCategoryController = async (req, res) => {
     const { name, category } = req.body;
 
     if (!name || !category) {
-      return res.send("Name and category are required");
+      req.flash("warning", "Please complete all required fields.");
+      return res.redirect(`/sub-category/edit/${id}`);
     }
 
     let updateData = { name, category };
@@ -162,12 +193,30 @@ export const editSubCategoryController = async (req, res) => {
       updateData.image = upload.url;
     }
 
-    await subCategoryModel.findByIdAndUpdate(id, updateData, { new: true });
+    const updatedSubCategory = await subCategoryModel.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true }
+    );
 
-    res.redirect("/sub-category");
+    if (!updatedSubCategory) {
+      req.flash("error", "The requested subcategory could not be found.");
+      return res.redirect("/sub-category");
+    }
+
+    req.flash("success", "Subcategory has been updated successfully.");
+
+    return res.redirect("/sub-category");
+
   } catch (error) {
-    console.log("Update Error:", error);
-    res.status(500).send("Server Error");
+    console.log(error);
+
+    req.flash(
+      "error",
+      "We couldn't update the subcategory. Please try again."
+    );
+
+    return res.redirect("/sub-category");
   }
 };
 // DELETE CATEGORY
@@ -175,26 +224,38 @@ export const editSubCategoryController = async (req, res) => {
 export const deleteSubCategory = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("Deleting SubCategory:", req.params.id);
 
-    // check products using this sub category
     const checkProduct = await ProductModel.countDocuments({
       subCategory: { $in: [id] },
     });
 
     if (checkProduct > 0) {
-      return res
-        .status(400)
-        .send("SubCategory already used in products. Cannot delete.");
+      req.flash(
+        "error",
+        "This subcategory cannot be deleted because it is associated with existing products."
+      );
+      return res.redirect("/sub-category");
     }
 
-    await subCategoryModel.deleteOne({ _id: id });
+    const deletedSubCategory = await subCategoryModel.findByIdAndDelete(id);
 
-    console.log("SubCategory deleted");
+    if (!deletedSubCategory) {
+      req.flash("error", "The requested subcategory could not be found.");
+      return res.redirect("/sub-category");
+    }
 
-    res.redirect("/sub-category");
+    req.flash("success", "Subcategory has been deleted successfully.");
+
+    return res.redirect("/sub-category");
+
   } catch (error) {
     console.log(error);
-    res.status(500).send("Delete failed");
+
+    req.flash(
+      "error",
+      "We couldn't delete the subcategory. Please try again."
+    );
+
+    return res.redirect("/sub-category");
   }
 };

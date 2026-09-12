@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Category List</title>
@@ -7,143 +8,144 @@
 </head>
 
 <body>
+  <%- include('../partials/toast') %>
+    <div class="dashboard">
 
-<div class="dashboard">
-  
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2 class="logo">swapZon</h2>
-  
- 
-    <div class="">   <ul class="menu">
-      <li>Dashboard</li>
-      <li class="active">Categories</li>
-      <li> <a href="/sub-category"  > Sub Category </a>  </li>
-      <li> <a href="/product"> Products </a>  </li>
-  
-    </ul>
-  </div>
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <h2 class="logo">swapZon</h2>
 
 
-      <div class="lg-btn"> <form action="/admin/logout" method="post">
-           <button type="submit" class="logout">Log Out</button>
-                 </form>
-      </div>
+        <div class="">
+          <ul class="menu">
+            <li>Dashboard</li>
+            <li class="active">Categories</li>
+            <li> <a href="/sub-category"> Sub Category </a> </li>
+            <li> <a href="/product"> Products </a> </li>
+
+          </ul>
+        </div>
 
 
-  </aside>
+        <div class="lg-btn">
+          <form action="/admin/logout" method="post">
+            <button type="submit" class="logout">Log Out</button>
+          </form>
+        </div>
 
-  <!-- MAIN CONTENT -->
-  <main class="main">
 
-<div class="topbar">
-  <input type="text" placeholder="Search Category">
+      </aside>
 
-  <a href="/category/add-category">
-    <button class="add-btn">Add Category +</button>
-  </a>
+      <!-- MAIN CONTENT -->
+      <main class="main">
 
-</div>
+        <div class="topbar">
+          <input type="text" placeholder="Search Category">
 
-    <div class="card">
-      <h3>All Categories</h3>
+          <a href="/category/add-category">
+            <button class="add-btn">Add Category +</button>
+          </a>
 
-<table>
-  <thead>
-    <tr>
-      <th>Image</th>
-      <th>Name</th>
-      <th>Created Date</th>
-      <th>Updated Date</th>
-      <th>Action</th>
-    </tr>
-  </thead>
+        </div>
 
-  <tbody>
+        <div class="card">
+          <h3>All Categories</h3>
 
-  <% if (categories && categories.length > 0) { %>
+          <table>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Created Date</th>
+                <th>Updated Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
 
-    <% categories.forEach(category => { %>
+            <tbody>
 
-<tr>
+              <% if (categories && categories.length> 0) { %>
 
-<td>
-  <img src="<%= category.image %>" width="50" height="50">
-</td>
+                <% categories.forEach(category=> { %>
 
-<td>
-  <%= category.name %>
-</td>
+                  <tr>
 
-<td>
-  <%= category.createdAt.toDateString() %>
-</td>
+                    <td>
+                      <img src="<%= category.image %>" width="50" height="50">
+                    </td>
 
-<td>
-  <%= category.updatedAt.toDateString() %>
-</td>
+                    <td>
+                      <%= category.name %>
+                    </td>
 
-<td class="actions">
+                    <td>
+                      <%= category.createdAt.toDateString() %>
+                    </td>
 
-  <!-- EDIT -->
-  <a href="/category/edit/<%= category._id %>" class="btn edit-btn">
-    Edit
-  </a>
+                    <td>
+                      <%= category.updatedAt.toDateString() %>
+                    </td>
 
-  <!-- DELETE -->
-  <form action="/category/<%= category._id %>?_method=DELETE" method="POST">
-    <button type="submit" class="btn delete-btn">Delete</button>
-  </form>
+                    <td class="actions">
 
-</td>
+                      <!-- EDIT -->
+                      <a href="/category/edit/<%= category._id %>" class="btn edit-btn">
+                        Edit
+                      </a>
 
-</tr>
+                      <!-- DELETE -->
+                      <form action="/category/<%= category._id %>?_method=DELETE" method="POST">
+                        <button type="submit" class="btn delete-btn">Delete</button>
+                      </form>
 
-    <% }) %>
+                    </td>
 
-  <% } else { %>
+                  </tr>
 
-<tr>
-<td colspan="5" style="text-align:center;">
-No Categories Found
-</td>
-</tr>
+                  <% }) %>
 
-  <% } %>
+                    <% } else { %>
 
-  </tbody>
-</table>
+                      <tr>
+                        <td colspan="5" style="text-align:center;">
+                          No Categories Found
+                        </td>
+                      </tr>
 
-      <div class="pagination">
+                      <% } %>
 
-  <!-- Previous Button -->
-  <a href="/admin?page=<%= currentPage - 1 %>"
-     class="page-btn <%= currentPage === 1 ? 'disabled' : '' %>">
-     Previous
-  </a>
+            </tbody>
+          </table>
 
-  <!-- Page Numbers -->
-  <% for (let i = 1; i <= totalPages; i++) { %>
-    <a href="/admin?page=<%= i %>" 
-       class="page-btn <%= currentPage === i ? 'active' : '' %>">
-       <%= i %>
-    </a>
-  <% } %>
+          <div class="pagination">
 
-  <!-- Next Button -->
-  <a href="/admin?page=<%= currentPage + 1 %>"
-     class="page-btn <%= currentPage === totalPages ? 'disabled' : '' %>">
-     Next
-  </a>
+            <!-- Previous Button -->
+            <a href="/admin?page=<%= currentPage - 1 %>" class="page-btn <%= currentPage === 1 ? 'disabled' : '' %>">
+              Previous
+            </a>
 
-</div>
+            <!-- Page Numbers -->
+            <% for (let i=1; i <=totalPages; i++) { %>
+              <a href="/admin?page=<%= i %>" class="page-btn <%= currentPage === i ? 'active' : '' %>">
+                <%= i %>
+              </a>
+              <% } %>
 
+                <!-- Next Button -->
+                <a href="/admin?page=<%= currentPage + 1 %>"
+                  class="page-btn <%= currentPage === totalPages ? 'disabled' : '' %>">
+                  Next
+                </a>
+
+          </div>
+
+
+        </div>
+
+      </main>
 
     </div>
 
-  </main>
-
-</div>
-
 </body>
+
 </html>
