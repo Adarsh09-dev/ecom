@@ -2,6 +2,8 @@ import CategoryModel from "../models/Category-Model.js";
 import uploadImageCloudinary from "../utils/uploadImagesCloudinary.js";
 import ProductModel from "../models/Product-Models.js";
 import subCategoryModel from "../models/subCategory-Model.js";
+import session from "express-session";
+import flash from "connect-flash";
 
 export const categoryPage = async (req, res) => {
   let perPage = 5;
@@ -16,7 +18,6 @@ export const categoryPage = async (req, res) => {
       .skip((page - 1) * perPage)
       .limit(perPage)
       .exec();
-
     res.render("Category/category-page", {
       layout: false,
       categories,
@@ -28,53 +29,101 @@ export const categoryPage = async (req, res) => {
   }
 };
 
-export const AddCategoryPage = async (req, res) => {
+//Add category
+export async function addCategoryPage(req, res) {
   const categories = await CategoryModel.find();
 
-  res.render("Category/add-categoryPage", { layout: false, categories });
-};
+  res.render("Category/add-categoryPage", {
+    categories,
+    success: req.flash("success"),
+    error: req.flash("error"),
+  });
+}
 
-export async function createCategory(req, res) {
-  console.log(".......................................add category 1.........................................")
+export async function AddCategoryPage(req, res) {
   try {
-     console.log(".......................................add category 2.........................................")
     const { name } = req.body;
-     console.log(".......................................add category 3.........................................")
     const image = req.file;
-     console.log(".......................................add category 4.........................................")
-    console.log("BODY:", req.body);
-     console.log(".......................................add category 5.........................................")
-    console.log("FILE:", req.file);
-     console.log(".......................................add category 6.........................................")
 
-    let updateData = {
-      name,
-    };
-     console.log(".......................................add category 7.........................................")
-    if (image) {
-       console.log(".......................................add category 8.........................................")
-      const uploadResult = await uploadImageCloudinary(image);
-       console.log(".......................................add category 9.........................................")
-      updateData.image = uploadResult.url;
-       console.log(".......................................add category 10.........................................")
+    // Validate name
+    if (!name || name.trim() === "") {
+      req.flash("error", "Category name is required.");
+      return res.redirect("/category/add-category");
     }
 
-     console.log(".......................................add category 11.........................................")
-    const newCategory = new CategoryModel(updateData);
-     console.log(".......................................add category 12.........................................")
+    // Validate image
+    if (!image) {
+      req.flash("error", "Please upload a category image.");
+      return res.redirect("/category/add-category");
+    }
+
+    // Check duplicate category
+    const existingCategory = await CategoryModel.findOne({
+      name: name.trim(),
+    });
+
+    if (existingCategory) {
+      req.flash("error", "Category already exists.");
+      return res.redirect("/category/add-category");
+    }
+
+    // Upload image to Cloudinary
+    const uploadResult = await uploadImageCloudinary(image);
+
+    // Create category
+    const newCategory = new CategoryModel({
+      name: name.trim(),
+      image: uploadResult.url,
+    });
+
     await newCategory.save();
-     console.log(".......................................add category 13.........................................")
+
+    req.flash("success", "Category created successfully.");
+    return res.redirect("/category");
+  } catch (error) {
+    console.error("Create Category Error:", error);
+
+    req.flash("error", "Something went wrong. Please try again.");
+    return res.redirect("/category/add");
+  }
+}
+
+
+// CREATE CATEGORY
+export async function createCategory(req, res) {
+  try {
+    const { name } = req.body;
+    const image = req.file;
+
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
+
+    const updateData = {
+      name,
+    };
+
+    if (image) {
+      const uploadResult = await uploadImageCloudinary(image);
+      updateData.image = uploadResult.url;
+    }
+
+    const newCategory = new CategoryModel(updateData);
+    await newCategory.save();
+
     console.log("Category Saved:", newCategory);
-    console.log(".......................................add category 14.........................................")
 
+    req.flash("success", "Category has been created successfully.");
+    return res.redirect("/category");
 
+  } catch (error) {
+    console.error(error);
+
+    req.flash(
+      "error",
+      "We couldn't create the category. Please try again."
+    );
 
     return res.redirect("/category");
-    console.log(".......................................add category 15.........................................")
-  } catch (error) {
-    console.log(".......................................add category 16.........................................")
-    return res.status(500).send(error.message);
-    console.log(".......................................add category 17.........................................")
   }
 }
 
@@ -84,16 +133,28 @@ export const editCategoryPage = async (req, res) => {
     const { id } = req.params;
 
     const category = await CategoryModel.findById(id);
+
+    if (!category) {
+      req.flash("error", "The requested category could not be found.");
+      return res.redirect("/category");
+    }
+
     console.log("...id...", category);
 
     res.render("Category/edit-categoryPage", {
       layout: false,
       category,
     });
+
   } catch (error) {
     console.log(error);
 
-    res.status(500).send("Server Error");
+    req.flash(
+      "error",
+      "We couldn't load the category details. Please try again."
+    );
+
+    return res.redirect("/category");
   }
 };
 
@@ -102,6 +163,7 @@ export const updatCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
+
     console.log("ID:", id);
     console.log("BODY:", req.body);
     console.log("FILE:", req.file);
@@ -112,20 +174,36 @@ export const updatCategory = async (req, res) => {
 
     if (req.file) {
       const upload = await uploadImageCloudinary(req.file);
-
       updateData.image = upload.url;
     }
 
-    await CategoryModel.findByIdAndUpdate(id, updateData, { new: true });
-    res.redirect("/category");
+    const updatedCategory = await CategoryModel.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedCategory) {
+      req.flash("error", "The requested category could not be found.");
+      return res.redirect("/category");
+    }
+
+    req.flash("success", "Category has been updated successfully.");
+    return res.redirect("/category");
+
   } catch (error) {
     console.log(error);
-    res.status(500).send("update failed");
+
+    req.flash(
+      "error",
+      "We couldn't update the category. Please try again."
+    );
+
+    return res.redirect("/category");
   }
 };
 
-//DELETE CATEGORY
-
+// DELETE CATEGORY
 export const deleteCategory = async (req, res) => {
   try {
     const { id } = req.params;
@@ -139,15 +217,33 @@ export const deleteCategory = async (req, res) => {
     });
 
     if (checkSubcategory > 0 || checkProduct > 0) {
-      return res.status(400).send("Category is already used. Cannot delete.");
+      req.flash(
+        "error",
+        "This category cannot be deleted because it is associated with existing subcategories or products."
+      );
+      return res.redirect("/category");
     }
 
-    await CategoryModel.deleteOne({ _id: id });
+    const deletedCategory = await CategoryModel.findByIdAndDelete(id);
+
+    if (!deletedCategory) {
+      req.flash("error", "The requested category could not be found.");
+      return res.redirect("/category");
+    }
+
     console.log("Category deleted");
 
-    res.redirect("/category");
+    req.flash("success", "Category has been deleted successfully.");
+    return res.redirect("/category");
+
   } catch (error) {
     console.log(error);
-    res.status(500).send("Delete failed");
+
+    req.flash(
+      "error",
+      "We couldn't delete the category. Please try again."
+    );
+
+    return res.redirect("/category");
   }
 };

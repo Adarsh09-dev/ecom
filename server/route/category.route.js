@@ -3,6 +3,7 @@ import {
   // AddCategoryController,
   categoryPage,
   AddCategoryPage,
+  addCategoryPage,
   createCategory,
   editCategoryPage,
   updatCategory,
@@ -15,12 +16,12 @@ const categoryRouter = Router();
 
 // ADMIN SIDE
 categoryRouter.get("/", isAuthenticatedAdmin, categoryPage);
-categoryRouter.get("/add-category", isAuthenticatedAdmin, AddCategoryPage);
+categoryRouter.get("/add-category", isAuthenticatedAdmin,addCategoryPage );
 categoryRouter.post(
   "/",
  
   upload.single("image"),
-  createCategory,
+  AddCategoryPage,
 );
 categoryRouter.get("/edit/:id", isAuthenticatedAdmin, editCategoryPage);
 categoryRouter.put(
