@@ -1,44 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Edit Category</title>
-<link rel="stylesheet" href="/category-style/add-category.css">
+  <meta charset="UTF-8">
+  <title>Edit Category</title>
+  <link rel="stylesheet" href="/category-style/add-category.css">
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <div class="form-card">
+    <div class="form-card">
 
-    <h2>Edit Category</h2>
-    <p class="subtitle">Edit product category</p>
+      <h2>Edit Category</h2>
+      <p class="subtitle">Edit product category</p>
 
-    <!-- IMPORTANT enctype -->
-    <form action="/category/update/<%= category._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-      <div class="form-group">
-        <label>Category Name</label>
-          <input type="text" name="name" value="<%= category.name %>">
-      </div>
+      <!-- IMPORTANT enctype -->
+      <form action="/category/update/<%= category._id %>?_method=PUT" method="POST" id="editCategoryaForm"
+        enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Category Name</label>
+          <input type="text" id="editName" name="name" value="<%= category.name %>">
 
-      <div class="form-group">
-        <label>Category Image</label>
-        <input type="file" name="image">
-      </div>
-      
-      <div class="button-group">
-        <a href="/category" class="cancel-btn">Cancel</a>
-        <button type="submit" class="submit-btn">
-          edit Category
-        </button>
-      </div>
+          <small id="nameError" class="error"></small>
+        </div>
 
-    </form>
+        <!-- Edit image -->
+        <div class="form-group">
+          <label>Category Image</label>
+          <input type="file" id="editImage" name="image">
+
+          <small id="imageError" class="error"></small>
+        </div>
+
+        <div class="button-group">
+          <a href="/category" class="cancel-btn">Cancel</a>
+          <button type="submit" class="submit-btn">
+            edit Category
+          </button>
+        </div>
+
+      </form>
+
+    </div>
 
   </div>
 
-</div>
+  <script>
+    const form = document.getElementById("editCategoryaForm");
+
+    const editName = document.getElementById("editName");
+    const editImage = document.getElementById("editImage");
+
+    const nameError = document.getElementById("nameError");
+    const imageError = document.getElementById("imageError");
+
+    form.addEventListener("submit", function (e) {
+
+      let valid = true;
+
+      // Clear old errors
+      nameError.textContent = "";
+      imageError.textContent = "";
+
+      editName.classList.remove("input-error", "input-success");
+      editImage.classList.remove("input-error", "input-success");
+
+      // Category name validation
+      if (editName.value.trim() === "") {
+
+        valid = false;
+
+        nameError.textContent = "Category name is required";
+        editName.classList.add("input-error");
+
+
+      } else {
+
+        editName.classList.add("input-success");
+      }
+
+
+      // Image Validation
+      if (editImage.files.length === 0) {
+        
+       valid = false;
+
+       imageError.textContent = "Please select an image";
+       editImage.classList.add("input-error");
+
+
+      } else {
+        
+        editImage.classList.add("input-success");
+
+      }
+
+      if(!valid) {
+        e.preventDefault();
+      }
+
+    }) 
+
+
+  </script>
 
 </body>
+
 </html>

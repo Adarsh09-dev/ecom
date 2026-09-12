@@ -1,50 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Login</title>
+
     <link rel="stylesheet" href="/user-style/login.css">
-    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <title>Login Customer</title>
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body class="body" >
 
-      <div class="main-container">
+<body class="body">
 
-      <div  class="box-1" > 
-        <img class="img" src="/img/bg.png" alt="">
-      </div>
+    <div class="main-container">
 
-      <div class="box-2">
-    
-        <div class="container">
-
-            <h2 class="head"> Login</h2>
-                 <form  class="form" action="/user/login" method="post">
-
-                    <div class="form-group" >
-                      <label for="name">Email</label>
-                      <input class="input" type="text" id="email" name="email" placeholder="Enter your email" required autocomplete="off">
-                    </div>
-                <div class="form-group password-box">
-                 <label for="password">Password:</label>
-                  <input class="input" type="password" name="password" id="password" placeholder="password" required>
-                 <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
-                 <small class="forgot" ><a href="/user/forgot-password">forgot password?</a></small>
-                </div>
-    
-            <button type="submit" class="submit-btn">Login</button>
-         </form>
-        
-         <p class="signup">Don't have any account? <a href="/user/signup">SignUp</a></p>
-         <p class="signup"> <a href="/user/landing-page">Back</a></p>
+        <div class="box-1">
+            <img src="/img/bg.png" class="img" alt="Background">
         </div>
+
+        <div class="box-2">
+
+            <div class="container">
+
+                <h2 class="head">Login</h2>
+
+                <form id="user_form" class="form" action="/user/login" method="POST">
+
+                    <div class="form-group">
+                        <label>Email</label>
+
+                        <input
+                            type="text"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            autocomplete="off">
+
+                        <small></small>
+                    </div>
+
+                    <div class="form-group password-box">
+
+                        <label>Password</label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter password">
+
+                        <i class="fa-solid fa-eye toggle-password"></i>
+
+                        <small></small>
+
+                        <p class="forgot">
+                            <a href="/user/forgot-password">Forgot Password?</a>
+                        </p>
+
+                    </div>
+
+                    <button class="submit-btn" type="submit">
+                        Login
+                    </button>
+
+                </form>
+
+                <p class="signup">
+                    Don't have an account?
+                    <a href="/user/signup">Sign Up</a>
+                </p>
+
+                <p class="signup">
+                    <a href="/user/landing-page">Back</a>
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
-</div>
-    
+
+    <script src="/user-js/login.js"></script>
+
+    <script>
+      const form = document.getElementById("user_form");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const toggle = document.querySelector(".toggle-password");
+
+// Form Validation
+form.addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+    if (checkInputs()) {
+        form.submit();
+    }
+
+});
+
+// Password Toggle
+toggle.addEventListener("click", function () {
+
+    if (password.type === "password") {
+        password.type = "text";
+        this.classList.replace("fa-eye", "fa-eye-slash");
+    } else {
+        password.type = "password";
+        this.classList.replace("fa-eye-slash", "fa-eye");
+    }
+
+});
+
+function checkInputs() {
+
+    let isValid = true;
+
+    const emailValue = email.value.trim();
+    const passwordValue = password.value.trim();
+
+    // Email Validation
+    if (emailValue === "") {
+
+        setErrorFor(email, "Email cannot be blank");
+        isValid = false;
+
+    } else if (!isEmail(emailValue)) {
+
+        setErrorFor(email, "Enter a valid email");
+        isValid = false;
+
+    } else {
+
+        setSuccessFor(email);
+
+    }
+
+    // Password Validation
+    if (passwordValue === "") {
+
+        setErrorFor(password, "Password cannot be blank");
+        isValid = false;
+
+    } else if (passwordValue.length < 8) {
+
+        setErrorFor(password, "Password must be at least 8 characters");
+        isValid = false;
+
+    } else {
+
+        setSuccessFor(password);
+
+    }
+
+    return isValid;
+
+}
+
+function setErrorFor(input, message) {
+
+    const formGroup = input.parentElement;
+    const small = formGroup.querySelector("small");
+
+    small.innerText = message;
+
+    formGroup.classList.add("error");
+    formGroup.classList.remove("success");
+
+}
+
+function setSuccessFor(input) {
+
+    const formGroup = input.parentElement;
+    const small = formGroup.querySelector("small");
+
+    small.innerText = "";
+
+    formGroup.classList.remove("error");
+    formGroup.classList.add("success");
+
+}
+
+function isEmail(email) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+}
+
+// SweetAlert
+const urlParams = new URLSearchParams(window.location.search);
+
+const login = urlParams.get("login");
+
+if (login === "failed") {
+
+    Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: "Invalid email or password."
+    });
+
+}
+
+if (login === "success") {
+
+    Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: "You have successfully logged in."
+    });
+
+}
+    </script>
+
 </body>
+
 </html>
-</div>
-    

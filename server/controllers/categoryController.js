@@ -35,28 +35,46 @@ export const AddCategoryPage = async (req, res) => {
 };
 
 export async function createCategory(req, res) {
+  console.log(".......................................add category 1.........................................")
   try {
+     console.log(".......................................add category 2.........................................")
     const { name } = req.body;
+     console.log(".......................................add category 3.........................................")
     const image = req.file;
+     console.log(".......................................add category 4.........................................")
     console.log("BODY:", req.body);
+     console.log(".......................................add category 5.........................................")
     console.log("FILE:", req.file);
+     console.log(".......................................add category 6.........................................")
 
     let updateData = {
       name,
     };
-
+     console.log(".......................................add category 7.........................................")
     if (image) {
+       console.log(".......................................add category 8.........................................")
       const uploadResult = await uploadImageCloudinary(image);
+       console.log(".......................................add category 9.........................................")
       updateData.image = uploadResult.url;
+       console.log(".......................................add category 10.........................................")
     }
 
+     console.log(".......................................add category 11.........................................")
     const newCategory = new CategoryModel(updateData);
+     console.log(".......................................add category 12.........................................")
     await newCategory.save();
+     console.log(".......................................add category 13.........................................")
     console.log("Category Saved:", newCategory);
+    console.log(".......................................add category 14.........................................")
+
+
 
     return res.redirect("/category");
+    console.log(".......................................add category 15.........................................")
   } catch (error) {
+    console.log(".......................................add category 16.........................................")
     return res.status(500).send(error.message);
+    console.log(".......................................add category 17.........................................")
   }
 }
 

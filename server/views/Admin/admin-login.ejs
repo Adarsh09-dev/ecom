@@ -1,82 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/admin-style/admin-login.css">
 
-<title>Admin Login</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="/admin-style/admin-login.css">
-
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- SweetAlert -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
 
-<div class="login-container">
+    <div class="login-container">
+        <div class="login-card">
 
-    <div class="login-card">
+            <h1 class="login-title">Admin Login</h1>
 
-        <h1 class="login-title">Admin Login</h1>
+            <form action="/admin" method="POST" id="admin_form">
 
-        <form action="/admin" method="post">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="text" id="email" name="email" placeholder="Enter your email" required>
+                    <small></small>
+                </div>
 
-            <div class="input-group">
-                <label>Email Address</label>
-                <input type="email" name="email" required>
-            </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <small></small>
+                </div>
 
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" name="password" required>
-            </div>
+                <button type="submit" class="login-btn">
+                    Login
+                </button>
 
-            <button class="login-btn">
-                Login
-            </button>
+            </form>
 
-        </form>
-
+        </div>
     </div>
 
-</div>
+    <!-- SweetAlert -->
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const login = urlParams.get("login");
+
+        if (login === "success") {
+            Swal.fire({
+                icon: "success",
+                title: "Login Successful",
+                text: "Welcome Admin",
+                confirmButtonColor: "#2563eb"
+            });
+        }
+
+        if (login === "error") {
+            Swal.fire({
+                icon: "error",
+                title: "Login Failed",
+                text: "Invalid Email or Password"
+            });
+        }
+    </script>
+
+    <!-- Form Validation -->
+    <script>
+        const form = document.getElementById("admin_form");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            if (checkInputs()) {
+                form.submit();
+            }
+        });
+
+        function checkInputs() {
+
+            let isValid = true;
 
 
-<!-- POPUP SCRIPT -->
+            const emailValue = email.value.trim();
+            const passwordValue = password.value.trim();
 
-<script>
+            // Email Validation
+            if (emailValue === "") {
+                setErrorFor(email, "Email cannot be blank");
+                isValid = false;
 
-const urlParams = new URLSearchParams(window.location.search);
-const login = urlParams.get("login");
+            } else if (!isEmail(emailValue)) {
+                setErrorFor(email, "Please enter a valid email");
+                isValid = false;
 
-if(login === "success"){
+            } else {
+                setSuccessFor(email);
+            }
 
-Swal.fire({
-icon:'success',
-title:'Login Successful',
-text:'Welcome Admin',
-confirmButtonColor:'#2563eb'
-})
+            // Password Validation
+            if (passwordValue === "") {
+                setErrorFor(password, "Password cannot be blank");
+                isValid = false;
 
-}
+            } else if (passwordValue.length < 8) {
+                setErrorFor(password, "Password must be at least 8 characters");
+                isValid = false;
 
-if(login === "error"){
+            } else {
+                setSuccessFor(password);
+            }
 
-Swal.fire({
-icon:'error',
-title:'Login Failed',
-text:'Invalid Email or Password'
-})
+            return isValid;
+        }
 
-}
+        function setErrorFor(input, message) {
 
-</script>
+            const inputGroup = input.parentElement;
+            const small = inputGroup.querySelector("small");
+
+            small.innerText = message;
+            inputGroup.classList.remove("success");
+            inputGroup.classList.add("error");
+        }
+
+        function setSuccessFor(input) {
+
+            const inputGroup = input.parentElement;
+            const small = inputGroup.querySelector("small");
+
+            small.innerText = "";
+            inputGroup.classList.remove("error");
+            inputGroup.classList.add("success");
+        }
+
+        function isEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+    </script>
 
 </body>
+
 </html>

@@ -25,22 +25,22 @@ import upload from "../middleware/multer.js";
 
 const userRouter = Router();
 
-userRouter.get("/login", redirectAuthenticated, loginPage);
+userRouter.get("/login", loginPage);
 userRouter.post("/login", loginController);
 
-userRouter.get("/signup", isAuthenticated, registerPage);
-userRouter.post("/register", isAuthenticated, registerUserController);
+userRouter.get("/signup", registerPage);
+userRouter.post("/register", registerUserController);
 userRouter.get("/checkMail", check_mail);
 
 userRouter.post("/verify-email", verifyEmailController);
 
 // userRouter.get("/home", isAuthenticated, homePage);
 
-userRouter.post("/logout", isAuthenticated, logOutController);
+userRouter.post("/logout", logOutController);
 
-userRouter.put("/update-user", redirectAuthenticated, updateUserDetails);
+userRouter.put("/update-user", updateUserDetails);
 
-userRouter.get("/forgot-password", redirectAuthenticated, forgotPage);
+userRouter.get("/forgot-password", forgotPage);
 userRouter.post("/forgot-password-controller", forgotPasswordController);
 
 userRouter.get("/verify-otp", verifyPage);
@@ -51,16 +51,14 @@ userRouter.post("/reset-password", redirectAuthenticated, resetPassword);
 
 userRouter.get("/landing-page", landingPage);
 
-userRouter.get("/", isAuthenticated, profilePage);
+userRouter.get("/", profilePage);
 userRouter.put(
   "/updated-profile",
-  isAuthenticated,
   upload.single("profile_image"),
   updateUserData,
 );
 userRouter.put(
   "/upload-avatar",
-  isAuthenticated,
   upload.single("profile_image"),
   uploadAvatar,
 );

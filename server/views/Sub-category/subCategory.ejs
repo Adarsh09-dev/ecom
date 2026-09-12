@@ -1,83 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Add Sub Category</title>
-<link rel="stylesheet" href="/sub-category/sub-category.css">
-<link rel="stylesheet" href="/select2/css/select2.min.css">
 
-<script src="/js/jquery.min.js"></script>
-<script src="/select2/js/select2.min.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <title>Add Sub Category</title>
+  <link rel="stylesheet" href="/sub-category/sub-category.css">
+  <link rel="stylesheet" href="/select2/css/select2.min.css">
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="/select2/js/select2.min.js"></script>
 
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <div class="form-card">
+    <div class="form-card">
 
-    <h2>Add New Sub Category</h2>
-    <p class="subtitle">Create a new product sub category</p>
+      <h2>Add New Sub Category</h2>
+      <p class="subtitle">Create a new product sub category</p>
 
-    <form action="/sub-category/add-sub-category" method="post" enctype="multipart/form-data">
+      <form action="/sub-category/add-sub-category" method="post" id="subCategoryForm" enctype="multipart/form-data">
 
-      <!-- Sub Category Name -->
-      <div class="form-group">
-        <label>Sub Category Name</label>
-        <input type="text" name="name" placeholder="Enter sub category name">
-      </div>
+        <!-- Sub Category Name -->
+        <div class="form-group">
+          <label>Sub Category Name</label>
+          <input type="text" id="subCategoryName" name="name" placeholder="Enter sub category name">
 
-      <!-- Sub Category Image -->
-      <div class="form-group">
-        <label>Sub Category Image</label>
-        <input type="file" name="image">
-      </div>
+          <small id="nameError" class="error"></small>
 
-      <!-- Category Checkbox List -->
-<div class="form-group">
-  <label>Select Categories</label>
+        </div>
 
-  <select name="category[]" class="category-select" multiple>
+        <!-- Sub Category Image -->
+        <div class="form-group">
+          <label>Sub Category Image</label>
+          <input type="file" id="subCategoryImage" name="image">
 
-    <% if(categories){ %>
-      <% categories.forEach(function(cat){ %>
-        <option value="<%= cat._id %>">
-          <%= cat.name %>
-        </option>
-      <% }) %>
-    <% } %>
+          <small id="imageError" class="error"></small>
 
-  </select>
+        </div>
 
-</div>
-      <div class="button-group">
-        <a href="/category" class="cancel-btn">Cancel</a>
+        <!-- Category Checkbox List -->
+        <div class="form-group">
+          <label>Select Categories</label>
 
-        <form action="/sub-category" method="post">
-        <button type="submit" class="submit-btn">
-          Add Sub Category
-        </button>
-        </form>
+          <select name="category[]" id="category" class="category-select" multiple>
 
-      </div>
+            <% if(categories){ %>
+              <% categories.forEach(function(cat){ %>
+                <option value="<%= cat._id %>">
+                  <%= cat.name %>
+                </option>
+                <% }) %>
+                  <% } %>
 
-    </form>
+          </select>
+
+          <small id="categoryError" class="error"></small>
+
+        </div>
+        <div class="button-group">
+          <a href="/sub-category" class="cancel-btn">Cancel</a>
+
+          <form action="/sub-category" method="post">
+            <button type="submit" class="submit-btn">
+              Add Sub Category
+            </button>
+          </form>
+
+        </div>
+
+      </form>
+
+    </div>
 
   </div>
+  <script>
 
-</div>
-<script>
+    $(document).ready(function () {
 
-$(document).ready(function() {
+      $('.category-select').select2({
+        placeholder: "Search and select categories",
+        width: "100%"
+      });
 
-  $('.category-select').select2({
-    placeholder: "Search and select categories",
-    width: "100%"
-  });
+    });
+  </script>
 
-});
+  <script>
 
-</script>
+    const form = document.getElementById("subCategoryForm");
+
+    const subCategoryName = document.getElementById("subCategoryName");
+    const subCategoryImage = document.getElementById("subCategoryImage");
+    const category = document.getElementById("category");
+
+    const nameError = document.getElementById("nameError");
+    const imageError = document.getElementById("imageError");
+    const categoryError = document.getElementById("categoryError");
+
+    form.addEventListener("submit", function (e) {
+
+      let isValid = true;
+
+      // Clear errors
+      nameError.textContent = "";
+      imageError.textContent = "";
+      categoryError.textContent = "";
+
+      subCategoryName.classList.remove("input-error", "input-success");
+      subCategoryImage.classList.remove("input-error", "input-success");
+      category.classList.remove("input-error", "input-success");
+
+      // Name validation
+      const name = subCategoryName.value.trim();
+
+      if (name === "") {
+        nameError.textContent = "Sub category name is required";
+        subCategoryName.classList.add("input-error");
+        isValid = false;
+
+      } else if (name.length < 3) {
+        nameError.textContent = "Minimum 3 characters required";
+        subCategoryName.classList.add("input-error");
+        isValid = false;
+
+      } else {
+        subCategoryName.classList.add("input-success");
+      }
+
+      // Image validation
+      if (subCategoryImage.files.length === 0) {
+        imageError.textContent = "Please select an image";
+        subCategoryImage.classList.add("input-error");
+        isValid = false;
+
+      } else {
+        subCategoryImage.classList.add("input-success");
+      }
+
+      // Category validation
+      if (category.selectedOptions.length === 0) {
+        categoryError.textContent = "Please select at least one category";
+        category.classList.add("input-error");
+        isValid = false;
+
+      } else {
+        category.classList.add("input-success");
+      }
+
+      if (!isValid) {
+        e.preventDefault();
+      }
+
+    });
+
+
+  </script>
+
+
 </body>
+
 </html>

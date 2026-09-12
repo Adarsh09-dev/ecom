@@ -70,6 +70,34 @@ body {
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
+/* Error message */
+.error {
+    color: #e74c3c;
+    font-size: 13px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Error Border */
+.input-error {
+    border: 2px solid #e74c3c !important;
+}
+
+/* Success Border */
+.input-success {
+    border: 2px solid #2ecc71 !important;
+}
+
+/* Focus */
+.input-error:focus {
+    box-shadow: 0 0 5px rgba(231,76,60,.3);
+}
+
+.input-success:focus {
+    box-shadow: 0 0 5px rgba(46,204,113,.3);
+}
+
+
 /* buttons */
 
 .button-group {

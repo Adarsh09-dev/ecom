@@ -4,9 +4,163 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= locals.title || 'swapZon' %></title>
-    <!-- Add any global CSS or JS here -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 380px;
+            pointer-events: none;
+        }
+
+        .toast {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            border-left: 5px solid rgba(255,255,255,0.35);
+            backdrop-filter: blur(6px);
+            pointer-events: auto;
+            overflow: hidden;
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #2e7d32, #43a047);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, #c62828, #e53935);
+        }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .toast-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .toast.hide {
+            opacity: 0;
+            transform: translateX(30px) scale(0.96);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toast::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 3px;
+            width: 100%;
+            background: rgba(255,255,255,0.35);
+            transform-origin: left;
+            animation: toastProgress 4s linear forwards;
+        }
+
+        .toast-close {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            line-height: 1;
+            opacity: 0.9;
+        }
+
+        .toast-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-12px) translateX(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) translateX(0);
+            }
+        }
+
+        @keyframes toastProgress {
+            from {
+                transform: scaleX(1);
+            }
+            to {
+                transform: scaleX(0);
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="toast-container">
+        <% if (typeof success !== 'undefined' && success.length > 0) { %>
+            <div class="toast success" role="alert">
+                <div class="toast-content">
+                    <span class="toast-icon">✓</span>
+                    <span><%= success[0] %></span>
+                </div>
+                <button type="button" class="toast-close" aria-label="Close">&times;</button>
+            </div>
+        <% } %>
+
+        <% if (typeof error !== 'undefined' && error.length > 0) { %>
+            <div class="toast error" role="alert">
+                <div class="toast-content">
+                    <span class="toast-icon">!</span>
+                    <span><%= error[0] %></span>
+                </div>
+                <button type="button" class="toast-close" aria-label="Close">&times;</button>
+            </div>
+        <% } %>
+    </div>
+
     <%- body %>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.toast').forEach((toast) => {
+                const closeBtn = toast.querySelector('.toast-close');
+
+                const hideToast = () => {
+                    toast.classList.add('hide');
+                    setTimeout(() => toast.remove(), 300);
+                };
+
+                closeBtn?.addEventListener('click', hideToast);
+                setTimeout(hideToast, 4000);
+            });
+        });
+    </script>
 </body>
 </html>

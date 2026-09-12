@@ -18,7 +18,7 @@ categoryRouter.get("/", isAuthenticatedAdmin, categoryPage);
 categoryRouter.get("/add-category", isAuthenticatedAdmin, AddCategoryPage);
 categoryRouter.post(
   "/",
-  isAuthenticatedAdmin,
+ 
   upload.single("image"),
   createCategory,
 );

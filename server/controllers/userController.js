@@ -27,28 +27,46 @@ export const landingPage = async (req, res) => {
 
 // SIGNUP REGISTER
 export async function registerPage(req, res) {
+  console.log("...................................signup. page......1..................................");
   res.render("user-register", { layout: false });
+    console.log("...................................signup.page......2..................................");
 }
 export async function registerUserController(req, res) {
+    console.log("...................................signup.......1..................................");
   try {
+      console.log("...................................signup.......2..................................");
     const { name, email, password } = req.body;
+      console.log("...................................signup.......3..................................");
     if (!name || !email || !password) {
+        console.log("...................................signup.......4..................................");
       req.session.message = "All fieldds required";
+        console.log("...................................signup.......5..................................");
       return res.redirect("/register");
+        console.log("...................................signup.......6..................................");
     }
+      console.log("...................................signup.......7..................................");
     const user = await UserModel.findOne({ email });
+      console.log("...................................signup.......8..................................");
     if (user) {
+      console.log("...................................signup.......9..................................");
     }
+      console.log("...................................signup.......10..................................");
     const salt = await bcrypt.genSalt(10);
+      console.log("...................................signup.......12..................................");
     const hashPassword = await bcrypt.hash(password, salt);
+      console.log("...................................signup.......13..................................");
     const payload = {
       name,
       email,
       password: hashPassword,
     };
+      console.log("...................................signup.......14..................................");
     const newUser = new UserModel(payload);
+      console.log("...................................signup.......15..................................");
     const save = await newUser.save();
+      console.log("...................................signup.......16..................................");
     const VerifyEmailUrl = `${process.env.FRONTEND_URL}/verify-email?code=${save?._id}`;
+      console.log("...................................signup.......17..................................");
     const verifyEmail = await sendEmail({
       sendTo: email,
       subject: "Verify email from Ecom",
@@ -58,10 +76,15 @@ export async function registerUserController(req, res) {
         url: VerifyEmailUrl,
       }),
     });
+      console.log("...................................signup.......18..................................");
     res.redirect("/user/checkMail");
+      console.log("...................................signup.......19..................................");
   } catch (error) {
+      console.log("...................................signup.error......0..................................");
     req.session.message = "something went wrong";
+      console.log("...................................signup..error.....1..................................");
     return res.redirect("/register");
+      console.log("...................................signup..error.....2..................................");
   }
 }
 
@@ -108,46 +131,71 @@ export async function verifyEmailController(req, res) {
 
 // LOGIN PAGE
 export async function loginPage(req, res) {
+  console.log("......................................1...................................");
   res.render("user-login", { layout: false });
+  console.log("......................................2...................................");
 }
 
 // LOGIN CONTROLLER
 export async function loginController(req, res) {
+  console.log("......................................3...................................");
   try {
+    console.log("......................................4...................................");
     const { email, password } = req.body;
+    console.log("......................................5...................................");
 
     if (!email || !password) {
+      console.log("......................................6...................................");
       return res.redirect("/login");
+      console.log("......................................7...................................");
     }
+    console.log("......................................8...................................");
 
     const user = await UserModel.findOne({ email, role: "USER" });
+    console.log("......................................9...................................");
 
     if (!user) {
+      console.log("......................................10...................................");
       // return res.send("email cannot found");
+      console.log("......................................11...................................");
       return res.redirect("/login");
+      console.log("......................................12...................................");
     }
 
+    console.log("......................................13...................................");
     if (user.status !== "Active") {
+      console.log("......................................14...................................");
       return res.redirect("/login");
+      console.log("......................................15...................................");
     }
 
     // hash password
     const checkPassword = await bcrypt.compare(password, user.password);
+    console.log("......................................17...................................");
     if (!checkPassword) {
+      console.log("......................................18...................................");
       return res.send("Wrong password");
+      console.log("......................................19...................................");
     }
+    console.log("......................................20...................................");
 
     req.session.user = {
       email: user.email,
       id: user._id,
     };
+    console.log("......................................21...................................");
 
     res.locals.user = req.session.user;
+    console.log("......................................22...................................");
     return res.redirect("/user/landing-page");
+    console.log("......................................23...................................");
   } catch (error) {
+    console.log("......................................24...................................");
     res.send("Server error");
   }
+  console.log("......................................25...................................");
 }
+console.log("......................................26...................................")
 
 // LOGOUT CONTROLLER
 export async function logOutController(req, res) {

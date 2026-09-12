@@ -1,108 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Edit Sub Category</title>
+  <meta charset="UTF-8">
+  <title>Edit Sub Category</title>
 
-<link rel="stylesheet" href="/sub-category/sub-category.css">
-<link rel="stylesheet" href="/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/sub-category/sub-category.css">
+  <link rel="stylesheet" href="/select2/css/select2.min.css">
 
-<script src="/js/jquery.min.js"></script>
-<script src="/select2/js/select2.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/select2/js/select2.min.js"></script>
 
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <div class="form-card">
+    <div class="form-card">
 
-    <h2>Edit Sub Category</h2>
-    <p class="subtitle">Update product sub category</p>
-    <form action="/sub-category/update/<%= subCategory._id %>?_method=PUT"
-      method="POST"
-      enctype="multipart/form-data">
+      <h2>Edit Sub Category</h2>
+      <p class="subtitle">Update product sub category</p>
+      <form action="/sub-category/update/<%= subCategory._id %>?_method=PUT" method="POST" id="editForm"
+        enctype="multipart/form-data">
 
+        <!-- Name -->
+        <div class="form-group">
+          <label>Sub Category Name</label>
 
-      <!-- Sub Category Name -->
-      <div class="form-group">
-        <label>Sub Category Name</label>
-        <input 
-          type="text" 
-          name="name" 
-          value="<%= subCategory.name %>"
-          placeholder="Enter sub category name"
-        >
-      </div>
+          <input type="text" id="editName" name="name" value="<%= subCategory.name %>"
+            placeholder="Enter sub category name">
 
-      <!-- Sub Category Image -->
-      <div class="form-group">
-        <label>Update Image</label>
-        <input type="file" name="image">
-      </div>
+          <small id="nameError" class="error"></small>
+        </div>
 
-      <!-- Show current image -->
-      <% if(subCategory.image){ %>
-      <div class="form-group">
-        <label>Current Image</label><br>
-        <img src="<%= subCategory.image %>" width="80">
-      </div>
-      <% } %>
+        <!-- Image -->
+        <div class="form-group">
+          <label>Update Image</label>
 
-      <!-- Category Select -->
-      <div class="form-group">
-        <label>Select Categories</label>
+          <input type="file" id="editImage" name="image" accept="image/*">
 
-        <select name="category[]" class="category-select" multiple>
+          <small id="imageError" class="error"></small>
+        </div>
 
-          <% if(categories){ %>
-            <% categories.forEach(function(cat){ %>
-
-              <option 
-                value="<%= cat._id %>"
-
-                <% if(subCategory.category.includes(cat._id.toString())){ %>
-                  selected
-                <% } %>
-
-              >
-                <%= cat.name %>
-              </option>
-
-            <% }) %>
+        <% if(subCategory.image){ %>
+          <div class="form-group">
+            <label>Current Image</label>
+            <img src="<%= subCategory.image %>" width="80">
+          </div>
           <% } %>
 
-        </select>
+            <!-- Category -->
+            <div class="form-group">
+              <label>Select Categories</label>
 
-      </div>
+              <select id="editCategory" name="category[]" class="category-select" multiple>
 
-      <div class="button-group">
-        <a href="/sub-category" class="cancel-btn">Cancel</a>
+                <% categories.forEach(function(cat){ %>
 
-        <button type="submit" class="submit-btn">
-          Update Sub Category
-        </button>
-      </div>
+                  <option value="<%= cat._id %>" <% if(subCategory.category.includes(cat._id.toString())){ %>
+                    selected
+                    <% } %>>
 
-    </form>
+                      <%= cat.name %>
+
+                  </option>
+
+                  <% }) %>
+
+              </select>
+
+              <small id="categoryError" class="error"></small>
+
+            </div>
+
+            <div class="button-group">
+              <a href="/sub-category" class="cancel-btn">Cancel</a>
+
+              <button type="submit" class="submit-btn">
+                Update Sub Category
+              </button>
+            </div>
+
+      </form>
+
+    </div>
 
   </div>
 
-</div>
+  <script>
 
-<script>
+    $(document).ready(function () {
 
-$(document).ready(function() {
+      $('.category-select').select2({
+        placeholder: "Search and select categories",
+        width: "100%"
+      });
 
-  $('.category-select').select2({
-    placeholder: "Search and select categories",
-    width: "100%"
-  });
+    });
 
-});
+  </script>
 
-</script>
+  <script>
+    const form = document.getElementById("editForm");
+
+    const editName = document.getElementById("editName");
+    const editImage = document.getElementById("editImage");
+    const editCategory = document.getElementById("editCategory");
+
+    const nameError = document.getElementById("nameError");
+    const imageError = document.getElementById("imageError");
+    const categoryError = document.getElementById("categoryError");
+
+    form.addEventListener("submit", function (e) {
+
+      let isValid = true;
+
+      // Clear Errors
+      nameError.textContent = "";
+      imageError.textContent = "";
+      categoryError.textContent = "";
+
+      editName.classList.remove("input-error", "input-success");
+      editImage.classList.remove("input-error", "input-success");
+      editCategory.classList.remove("input-error", "input-success");
+
+      // --------------------
+      // Name Validation
+      // --------------------
+
+      const name = editName.value.trim();
+
+      if (name === "") {
+
+        nameError.textContent = "Sub category name is required";
+        editName.classList.add("input-error");
+        isValid = false;
+
+      } else if (name.length < 3) {
+
+        nameError.textContent = "Minimum 3 characters required";
+        editName.classList.add("input-error");
+        isValid = false;
+
+      
+      } else {
+
+        editName.classList.add("input-success");
+
+      }
+
+      // --------------------
+      // Image Validation
+      // Optional in Edit Page
+      // --------------------
+
+      if (editImage.files.length > 0) {
+
+        const file = editImage.files[0];
+
+        const allowed = ["image/jpeg", "image/png", "image/webp"];
+
+        if (!allowed.includes(file.type)) {
+
+          imageError.textContent = "Only JPG, PNG and WEBP images are allowed";
+          editImage.classList.add("input-error");
+          isValid = false;
+
+        } else {
+
+          editImage.classList.add("input-success");
+
+        }
+
+      }
+
+      // --------------------
+      // Category Validation
+      // --------------------
+
+      if (editCategory.selectedOptions.length === 0) {
+
+        categoryError.textContent = "Select at least one category";
+        editCategory.classList.add("input-error");
+        isValid = false;
+
+      } else {
+
+        editCategory.classList.add("input-success");
+
+      }
+
+      if (!isValid) {
+        e.preventDefault();
+      }
+
+    });
+
+
+  </script>
 
 </body>
+
 </html>

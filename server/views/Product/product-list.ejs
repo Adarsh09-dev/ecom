@@ -18,7 +18,8 @@
       <li>Dashboard</li>
       <li><a href="/category">Categories</a></li>
       <li><a href="/sub-category">Sub Category</a></li>
-      <li class="active"><a href="/product">Products</a></li>
+      <li ><a href="/product">Products</a></li>
+
       <li>Customers</li>
     </ul>
 
@@ -57,6 +58,7 @@
             <th>Price</th>
             <th>Stock</th>
             <th>Created Date</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
@@ -96,20 +98,16 @@
   <%= product.createdAt.toDateString() %>
 </td>
 
+
 <td class="actions">
-
-  <!-- EDIT -->
-  <!-- <a href="/product/edit/<%= product._id %>" class="btn edit-btn">
-    Edit
-  </a> -->
-
-  <!-- DELETE -->
-  <!-- <form action="/product/<%= product._id %>?_method=DELETE" method="POST">
-    <button type="submit" class="btn delete-btn">
-      Delete
-    </button>
-  </form> -->
-
+  <a href="/product/edit/<%= product._id %>"  class="btn edit-btn">
+Edit
+</a>
+<form action="/product/<%= product._id %>?_method=DELETE" method="POST">
+<button type="submit" class="btn delete-btn">
+Delete
+</button>
+</form>
 </td>
 
 </tr>

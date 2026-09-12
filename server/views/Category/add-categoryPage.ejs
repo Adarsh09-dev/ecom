@@ -10,36 +10,109 @@
 
 <div class="container">
 
-  <div class="form-card">
+    <div class="form-card">
 
-    <h2>Add New Category</h2>
-    <p class="subtitle">Create a new product category</p>
+        <h2>Add New Category</h2>
+        <p class="subtitle">Create a new product category</p>
 
-    <!-- IMPORTANT enctype -->
-    <form action="/category" method="post" enctype="multipart/form-data">
+        <form id="categoryForm" action="/category" method="POST" enctype="multipart/form-data">
 
-      <div class="form-group">
-        <label>Category Name</label>
-          <input type="text" name="name" value="<%= categories.name %>">
-      </div>
+            <!-- Category Name -->
+            <div class="form-group">
+                <label>Category Name</label>
 
-      <div class="form-group">
-        <label>Category Image</label>
-        <input type="file" name="image">
-      </div>
-      
-      <div class="button-group">
-        <a href="/category" class="cancel-btn">Cancel</a>
-        <button type="submit" class="submit-btn">
-          Add Category
-        </button>
-      </div>
+                <input
+                    type="text"
+                    id="categoryName"
+                    name="name"
+                    placeholder="Enter category name"
+                    value="<%= categories.name %>"
+                >
 
-    </form>
+                <small id="nameError" class="error"></small>
+            </div>
 
-  </div>
+            <!-- Category Image -->
+            <div class="form-group">
+                <label>Category Image</label>
+
+                <input
+                    type="file"
+                    id="categoryImage"
+                    name="image"
+                >
+
+                <small id="imageError" class="error"></small>
+            </div>
+
+            <div class="button-group">
+                <a href="/category" class="cancel-btn">Cancel</a>
+
+                <button type="submit" class="submit-btn">
+                    Add Category
+                </button>
+            </div>
+
+        </form>
+
+    </div>
 
 </div>
+
+<script>
+const form = document.getElementById("categoryForm");
+
+const categoryName = document.getElementById("categoryName");
+const categoryImage = document.getElementById("categoryImage");
+
+const nameError = document.getElementById("nameError");
+const imageError = document.getElementById("imageError");
+
+form.addEventListener("submit", function (e) {
+
+    let valid = true;
+
+    // Clear old errors
+    nameError.textContent = "";
+    imageError.textContent = "";
+
+    categoryName.classList.remove("input-error", "input-success");
+    categoryImage.classList.remove("input-error", "input-success");
+
+    // Category Name Validation
+    if (categoryName.value.trim() === "") {
+
+        valid = false;
+
+        nameError.textContent = "Category name is required.";
+        categoryName.classList.add("input-error");
+
+    } else {
+
+        categoryName.classList.add("input-success");
+
+    }
+
+    // Image Validation
+    if (categoryImage.files.length === 0) {
+
+        valid = false;
+
+        imageError.textContent = "Please select an image.";
+        categoryImage.classList.add("input-error");
+
+    } else {
+
+        categoryImage.classList.add("input-success");
+
+    }
+
+    if (!valid) {
+        e.preventDefault();
+    }
+
+});
+</script>
 
 </body>
 </html>

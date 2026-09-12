@@ -1,3 +1,6 @@
+/* =========================
+   RESET
+========================= */
 * {
   margin: 0;
   padding: 0;
@@ -6,28 +9,33 @@
 }
 
 body {
-  background: linear-gradient(160deg, #e9e9ff, #edd7f3);
   min-height: 100vh;
+  background: linear-gradient(160deg, #e9e9ff, #edd7f3);
 }
 
+/* =========================
+   LAYOUT
+========================= */
 .dashboard {
   display: flex;
   min-height: 100vh;
 }
 
-/* SIDEBAR */
-
+/* =========================
+   SIDEBAR
+========================= */
 .sidebar {
   width: 230px;
+  padding: 25px 0; /* Changed to 0 horizontal so links can stretch fully */
   background: #16182e;
-  color: white;
-  padding: 25px 20px;
+  color: #fff;
 }
 
 .logo {
+  margin-bottom: 40px;
+  padding: 0 20px;
   font-size: 22px;
   font-weight: bold;
-  margin-bottom: 40px;
 }
 
 .menu {
@@ -35,33 +43,35 @@ body {
 }
 
 .menu li {
-  margin-bottom: 12px;
-  padding: 10px 14px;
-  border-radius: 14px;
+  margin-bottom: 4px;
+  padding: 0 10px; /* Moves spacing outer edge */
 }
 
 .menu li a {
-  color: white;
-  text-decoration: none;
   display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 14px; /* Move padding here so the entire block is clickable */
+  border-radius: 14px;
+  transition: background 0.2s ease;
 }
 
-.menu li:hover {
+.menu li a:hover,
+.menu li.active a {
   background: #2a2d4d;
 }
 
-.menu .active {
+.menu li.active a {
   background: #4e73df;
 }
 
-/* MAIN */
-
+/* =========================
+   MAIN
+========================= */
 .main {
   flex: 1;
   padding: 30px;
 }
-
-/* TOPBAR */
 
 .topbar {
   display: flex;
@@ -70,22 +80,24 @@ body {
   margin-bottom: 25px;
 }
 
-/* CARD */
-
+/* =========================
+   CARD
+========================= */
 .card {
-  background: white;
+  max-width: 650px;
   padding: 25px;
+  background: #fff;
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  max-width: 650px;
 }
 
 .card h3 {
   margin-bottom: 20px;
 }
 
-/* FORM */
-
+/* =========================
+   FORM
+========================= */
 .product-form {
   display: flex;
   flex-direction: column;
@@ -99,17 +111,18 @@ body {
 
 .form-group label {
   margin-bottom: 6px;
-  font-weight: 600;
   font-size: 14px;
+  font-weight: 600;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
   padding: 10px;
+  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 14px;
-  font-size: 14px;
+  outline: none;
 }
 
 .checkbox {
@@ -118,27 +131,47 @@ body {
   gap: 8px;
 }
 
-/* BUTTON */
-
+/* =========================
+   BUTTONS / LINKS
+========================= */
 .btn {
+  display: inline-block;
   padding: 10px 14px;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
   border: none;
   border-radius: 14px;
-  cursor: pointer;
-  color: white;
-  font-size: 14px;
+  text-decoration: none;
+  text-align: center;
 }
 
-.submit-btn {
-  background: linear-gradient(135deg, #2563eb, #af1e85);
-}
-
+.submit-btn,
 .back-btn {
   background: linear-gradient(135deg, #2563eb, #af1e85);
 }
 
-/* MOBILE */
+/* =========================
+   VALIDATION
+========================= */
+.error {
+  display: block;
+  margin-top: 5px;
+  font-size: 13px;
+  color: #dc3545;
+}
 
+.input-error {
+  border: 1px solid #dc3545 !important;
+}
+
+.input-success {
+  border: 1px solid #28a745 !important;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
 @media (max-width: 900px) {
   .sidebar {
     display: none;

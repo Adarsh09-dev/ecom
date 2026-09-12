@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+    <link rel="stylesheet" href="/product-style/product-page.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="display: flex; justify-content:center; align-items:center;">
+<div class="dashboard">
+
+
+    <div class="card" style="width: 600px;">
+        <h2>Update Product</h2>
+
+        <form
+            action="/product/update/<%= product._id %>?_method=PUT"
+            method="POST"
+            enctype="multipart/form-data"
+    class="product-form"
+>
+
+    <!-- PRODUCT NAME -->
+    <div class="form-group">
+        <label>Product Name</label>
+        <input
+            type="text"
+            name="name"
+            value="<%= product.name %>"
+            required
+        >
+    </div>
+
+    <!-- CATEGORY -->
+    <div class="form-group">
+        <label>Category</label>
+
+        <select name="categoryId" required>
+
+            <% categories.forEach(cat => { %>
+
+                <option
+                    value="<%= cat._id %>"
+                    <%= product.categoryId?.toString() === cat._id.toString()
+                        ? "selected"
+                        : "" %>
+                >
+                    <%= cat.name %>
+                </option>
+
+            <% }) %>
+
+        </select>
+    </div>
+
+    <!-- SUB CATEGORY -->
+    <div class="form-group">
+        <label>Sub Category</label>
+
+        <select name="subCategoryId">
+
+            <% subCategories.forEach(sub => { %>
+
+                <option
+                    value="<%= sub._id %>"
+                    <%= product.subCategoryId?.toString() === sub._id.toString()
+                        ? "selected"
+                        : "" %>
+                >
+                    <%= sub.name %>
+                </option>
+
+            <% }) %>
+
+        </select>
+    </div>
+
+    <!-- CURRENT IMAGE -->
+    <div class="form-group">
+        <label>Current Image</label>
+
+        <% if(product.image){ %>
+
+            <img
+                src="<%= product.image %>"
+                alt="Product Image"
+                width="150"
+            >
+
+        <% } else { %>
+
+            <p>No Image Available</p>
+
+        <% } %>
+    </div>
+
+    <!-- CHANGE IMAGE -->
+    <div class="form-group">
+        <label>Change Image</label>
+        <input type="file" name="image">
+    </div>
+
+    <!-- UNIT -->
+    <div class="form-group">
+        <label>Unit</label>
+        <input
+            type="text"
+            name="unit"
+            value="<%= product.unit %>"
+        >
+    </div>
+
+    <!-- STOCK -->
+    <div class="form-group">
+        <label>Stock</label>
+        <input
+            type="number"
+            name="stock"
+            value="<%= product.stock %>"
+        >
+    </div>
+
+    <!-- PRICE -->
+    <div class="form-group">
+        <label>Price</label>
+        <input
+            type="number"
+            name="price"
+            value="<%= product.price %>"
+        >
+    </div>
+
+    <!-- DISCOUNT -->
+    <div class="form-group">
+        <label>Discount</label>
+        <input
+            type="text"
+            name="discount"
+            value="<%= product.discount %>"
+        >
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="form-group">
+        <label>Description</label>
+
+        <textarea
+            name="description"
+            rows="4"
+        ><%= product.description %></textarea>
+    </div>
+
+    <!-- PUBLISH -->
+    <div class="form-group checkbox">
+        <label>
+            <input
+                type="checkbox"
+                name="publish"
+                <%= product.publish ? "checked" : "" %>
+            >
+            Publish Product
+        </label>
+    </div>
+
+    <button type="submit" class="btn submit-btn">
+        Update Product
+    </button>
+
+</form>
+
+</div>
+</body>
+    
+
+</html>

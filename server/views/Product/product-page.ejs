@@ -1,205 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Add Product</title>
-
-<link rel="stylesheet" href="/product-style/product-page.css">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="/product-style/product-page.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
 
-<div class="dashboard">
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
-
-<h2 class="logo"></h2>
-
-<ul class="menu">
-<li>Dashboard</li>
-<li><a href="/category">Categories</a></li>
-<li><a href="/sub-category">Sub Category</a></li>
-<li class="active"><a href="/product">Products</a></li>
-<li>Customers</li>
-</ul>
-
-</aside>
-
-
-<!-- MAIN -->
-
-<main class="main">
-
-<div class="topbar">
-
-<h2>Add Product</h2>
-
-<a href="/">
-<button class="btn back-btn">Back</button>
-</a>
-
-</div>
-
-<!--  -->
-
-
-<div class="card">
-
-<h3>Upload Product</h3>
-
-<form action="/product" method="POST" enctype="multipart/form-data" class="product-form">
-
-<!-- PRODUCT NAME -->
-
-<div class="form-group">
-<label>Product Name</label>
-<input type="text" name="name" placeholder="Product name" required>
-</div>
-
-
-<!-- CATEGORY -->
-
-<div class="form-group">
-
-<label>Category</label>
-
-<select name="categoryId" required>
-
-<option value="">Select Category</option>
-
-<% if(categories){ %>
-<% categories.forEach(cat => { %>
-
-<option value="<%= cat._id %>">
-<%= cat.name %>
-</option>
-
-<% }) %>
-<% } %>
-
-</select>
-
-</div>
-
-
-<!-- SUB CATEGORY -->
-
-<div class="form-group">
-
-<label>Sub Category</label>
-
-<select name="subCategoryId">
-
-<option value="">Select Sub Category</option>
-
-<% if(subCategories){ %>
-<% subCategories.forEach(sub => { %>
-
-<option value="<%= sub._id %>">
-<%= sub.name %>
-</option>
-
-<% }) %>
-<% } %>
-
-</select>
-
-</div>
-
-
-<!-- PRODUCT IMAGE -->
-
-<div class="form-group">
-
-<label>Product Image</label>
-
-<input type="file" name="image">
-
-</div>
-
-
-<!-- UNIT -->
-
-<div class="form-group">
-
-<label>Unit</label>
-
-<input type="text" name="unit" placeholder="Kg / Piece / Liter">
-
-</div>
-
-
-<!-- STOCK -->
-
-<div class="form-group">
-
-<label>Stock</label>
-
-<input type="number" name="stock" placeholder="Available stock">
-
-</div>
-
-
-<!-- PRICE -->
-
-<div class="form-group">
-
-<label>Price</label>
-
-<input type="number" name="price" placeholder="Product price">
-
-</div>
-
-
-<!-- DISCOUNT -->
-
-<div class="form-group">
-
-<label>Discount</label>
-
-<input type="text" name="discount" placeholder="10% / ₹50">
-
-</div>
-
-
-<!-- DESCRIPTION -->
-
-<div class="form-group">
-
-<label>Description</label>
-
-<textarea name="description" rows="4"></textarea>
-
-</div>
-
-
-<!-- PUBLISH -->
-
-<div class="form-group checkbox">
-
-<label>
-<input type="checkbox" name="publish" checked>
-Publish Product
-</label>
-
-</div>
-
-
-<button type="submit" class="btn submit-btn">
-Add Product
-</button>
-
-</form>
-
-</div>
-
-</main>
-
-</div>
-
+    <div class="dashboard">
+
+        <aside class="sidebar">
+            <h2 class="logo">AdminPanel</h2>
+            <ul class="menu">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/category">Categories</a></li>
+                <li><a href="/sub-category">Sub Category</a></li>
+                <li class="active"><a href="/product">Products</a></li>
+                <li><a href="/customers">Customers</a></li>
+            </ul>
+        </aside>
+
+        <main class="main">
+            <div class="topbar">
+                <h2>Add Product</h2>
+                <a href="/product" class="btn back-btn">Back</a>
+            </div>
+
+            <div class="card">
+                <h3>Upload Product</h3>
+                <form action="/product" method="POST" id="productForm" enctype="multipart/form-data"
+                    class="product-form">
+
+                    <div class="form-group">
+                        <label for="name">Product Name</label>
+                        <input type="text" id="name" name="name" placeholder="Product name">
+                        <small class="error" id="nameError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categoryId">Category</label>
+                        <select id="categoryId" name="categoryId" >
+                            <option value="">Select Category</option>
+                            <% if(typeof categories !=='undefined' && categories){ %>
+                                <% categories.forEach(cat=> { %>
+                                    <option value="<%= cat._id %>">
+                                        <%= cat.name %>
+                                    </option>
+                                    <% }) %>
+                                        <% } %>
+                        </select>
+                        <small class="error" id="categoryError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subCategoryId">Sub Category</label>
+                        <select id="subCategoryId" name="subCategoryId">
+                            <option value="">Select Sub Category</option>
+                            <% if(typeof subCategories !=='undefined' && subCategories){ %>
+                                <% subCategories.forEach(sub=> { %>
+                                    <option value="<%= sub._id %>">
+                                        <%= sub.name %>
+                                    </option>
+                                    <% }) %>
+                                        <% } %>
+                        </select>
+                        <small class="error" id="subCategoryError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image">Product Image</label>
+                        <input type="file" id="image" name="image">
+                        <small class="error" id="imageError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unit">Unit</label>
+                        <input type="text" id="unit" name="unit" placeholder="Kg / Piece / Liter">
+                        <small class="error" id="unitError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stock">Stock</label>
+                        <input type="number" id="stock" name="stock" placeholder="Available stock">
+                        <small class="error" id="stockError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="number" id="price" name="price" placeholder="Product price">
+                        <small class="error" id="priceError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="discount">Discount</label>
+                        <input type="text" id="discount" name="discount" placeholder="10% / ₹50">
+                        <small class="error" id="discountError"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" placeholder="Enter product description"
+                            rows="4"></textarea>
+                        <small class="error" id="descriptionError"></small>
+                    </div>
+
+                    <div class="form-group checkbox">
+                        <label>
+                            <input type="checkbox" name="publish" checked> Publish Product
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn submit-btn">Add Product</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/product-validation.js"></script>
+    <script>
+        const form = document.getElementById("productForm");
+        const name = document.getElementById("name");
+        const category = document.getElementById("categoryId");
+        const subCategory = document.getElementById("subCategoryId");
+        const image = document.getElementById("image");
+        const unit = document.getElementById("unit");
+        const stock = document.getElementById("stock");
+        const price = document.getElementById("price");
+        const discount = document.getElementById("discount");
+        const description = document.getElementById("description");
+
+        form.addEventListener("submit", function (e) {
+            let valid = true;
+
+            // Product Name
+            if (name.value.trim().length < 3) {
+                showError(name, "nameError", "Enter at least 3 characters.");
+                valid = false;
+            } else {
+                showSuccess(name, "nameError");
+            }
+
+            // Category
+            if (category.value === "") {
+                showError(category, "categoryError", "Select a category.");
+                valid = false;
+            } else {
+                showSuccess(category, "categoryError");
+            }
+
+            // Sub Category (Optional validation tweak if required)
+            showSuccess(subCategory, "subCategoryError");
+
+            // Image
+            if (image.files.length === 0) {
+                showError(image, "imageError", "Choose a product image.");
+                valid = false;
+            } else {
+                const file = image.files[0];
+                const allowed = ["image/jpeg", "image/png", "image/webp"];
+                if (!allowed.includes(file.type)) {
+                    showError(image, "imageError", "Only JPG, PNG or WEBP images are allowed.");
+                    valid = false;
+                } else {
+                    showSuccess(image, "imageError");
+                }
+            }
+
+            // Unit
+            const unitRegex = /^[A-Za-z ]+$/;
+            if (!unitRegex.test(unit.value.trim())) {
+                showError(unit, "unitError", "Enter a valid unit.");
+                valid = false;
+            } else {
+                showSuccess(unit, "unitError");
+            }
+
+            // Stock
+            if (stock.value === "" || Number(stock.value) < 0) {
+                showError(stock, "stockError", "Stock cannot be negative.");
+                valid = false;
+            } else {
+                showSuccess(stock, "stockError");
+            }
+
+            // Price
+            if (price.value === "" || Number(price.value) <= 0) {
+                showError(price, "priceError", "Enter a valid price.");
+                valid = false;
+            } else {
+                showSuccess(price, "priceError");
+            }
+
+            // Discount (Optional Field)
+            const discountValue = discount.value.trim();
+            if (discountValue === "") {
+                showSuccess(discount, "discountError");
+            } else if (/^\d+(\.\d+)?%$/.test(discountValue)) {
+                const percent = Number(discountValue.slice(0, -1));
+                if (percent > 100) {
+                    showError(discount, "discountError", "Discount must be between 0% and 100%");
+                    valid = false;
+                } else {
+                    showSuccess(discount, "discountError");
+                }
+            } else {
+                showError(discount, "discountError", "Enter a valid percentage (e.g. 10%)");
+                valid = false;
+            }
+
+            // Description
+            if (description.value.trim().length < 10) {
+                showError(description, "descriptionError", "Minimum 10 characters.");
+                valid = false;
+            } else {
+                showSuccess(description, "descriptionError");
+            }
+
+            if (!valid) {
+                e.preventDefault();
+            }
+        });
+
+        function showError(input, errorId, message) {
+            input.classList.add("input-error");
+            input.classList.remove("input-success");
+            document.getElementById(errorId).textContent = message;
+        }
+
+        function showSuccess(input, errorId) {
+            input.classList.remove("input-error");
+            input.classList.add("input-success");
+            document.getElementById(errorId).textContent = "";
+        }
+    </script>
 </body>
+
 </html>
