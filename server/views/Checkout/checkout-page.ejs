@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+
+    <link rel="stylesheet" href="/checkout-style/checkout.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- LEFT SIDE -->
+        <div class="left">
+
+            <h2 class="title">Choose your address</h2>
+
+            <% if(createdAddress.length> 0){ %>
+
+                <% createdAddress.forEach((address,index)=>{ %>
+
+                    <div class="card">
+
+                        <label>
+
+                            <input type="radio" name="address" value="<%= address._id %>" <%=index===0 ? "checked" : ""
+                                %>
+                            >
+
+                            <p>
+                                <%= address.address_line %>
+                            </p>
+
+                        </label>
+
+                        <p>
+                            <%= address.city %>
+                        </p>
+
+                        <p>
+                            <%= address.state %>
+                        </p>
+
+                        <p>
+                            <%= address.country %> -
+                                <%= address.pincode %>
+                        </p>
+
+                        <p>
+                            <%= address.mobile %>
+                        </p>
+
+                    </div>
+
+                    <% }) %>
+
+                        <% } else { %>
+
+                            <div class="card">
+                                <p>No Address Found</p>
+                            </div>
+
+                            <% } %>
+
+                                <form action="/address/add-address" method="GET">
+                                    <input type="hidden" name="from" value="checkout">
+                                    <button type="submit" class="add-address">
+                                        + Add Address
+                                    </button>
+
+                                </form>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="right">
+
+            <div class="summary">
+
+                <h2>Summary</h2>
+
+                <h3>Bill Details</h3>
+
+                <div class="row">
+                    <span>Items Total</span>
+                    <span>₹<%= totalPrice %></span>
+                </div>
+
+                <div class="row">
+                    <span>Quantity</span>
+                    <span>
+                        <%= totalQuantity %>
+                    </span>
+                </div>
+
+                <div class="row">
+                    <span>Delivery Charge</span>
+
+                    <span>
+                        <% if(deliveryCharge==0){ %>
+                            Free
+                            <% }else{ %>
+                                ₹<%= deliveryCharge %>
+                                    <% } %>
+                    </span>
+
+                </div>
+
+                <hr>
+
+                <div class="row total">
+
+                    <strong>Grand Total</strong>
+
+                    <strong>₹<%= grandTotal %></strong>
+
+                </div>
+
+                <form action="/payment/online" method="POST">
+
+                    <button type="submit" class="pay-btn">
+                        Online Payment
+                    </button>
+
+                </form>
+
+                <form action="/payment/cod" method="POST">
+
+                    <button type="submit" class="cod-btn">
+                        Cash On Delivery
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
