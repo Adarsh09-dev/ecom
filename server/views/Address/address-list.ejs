@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Address-list</title>
+    <link rel="stylesheet" href="/address-style/address-list.css">
+</head>
+
+<body>
+
+    <div class="address-container">
+
+        <!-- Top Header -->
+        <div class="address-header">
+
+            <h2>Address</h2>
+
+            <form action="/address/add-address" method="GET">
+                <button type="submit" class="add-address-btn" onclick>Add Address</button>
+            </form>
+            <!-- <button type="submit" class="add-address-btn" onclick="location.href='Address/address'">
+                Add Address
+            </button> -->
+
+        </div>
+
+
+        <!-- Address List -->
+        <div class="address-list">
+
+            <% if (createdAddress && createdAddress.length> 0) { %>
+
+                <% createdAddress.forEach(address=> { %>
+
+                    <div class="address-card">
+
+                        <!-- Address Details -->
+                        <div class="address-details">
+
+                            <p>
+                                <%= address.address_line %>
+                            </p>
+
+                            <p>
+                                <%= address.city %>
+                            </p>
+
+                            <p>
+                                <%= address.state %>
+                            </p>
+
+                            <p>
+                                <%= address.country %> - <%= address.pincode %>
+                            </p>
+
+                            <p>
+                                <%= address.mobile %>
+                            </p>
+
+                        </div>
+
+
+                        <!-- Bottom Buttons -->
+                        <div class="address-buttons">
+
+                            <!-- Edit Button -->
+                           
+                            <form action="/address/edit/<%= address._id %>" method="GET">
+                                <button type="submit" class="edit-btn">
+                                    Edit
+                                </button>
+                            </form>
+                      
+
+                            <!-- Delete Button -->
+                            <form action="/address/<%= address._id %>?_method=DELETE" method="POST">
+                                <button type="submit" class="delete-btn">
+                                    Delete
+                                </button>
+                            </form>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                    <% }) %>
+
+                        <% } else { %>
+
+                            <div class="no-address">
+
+                                <p>No address found.</p>
+
+                                <a href="/address/add-address">
+                                    Add your first address
+                                </a>
+
+                            </div>
+
+                            <% } %>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
