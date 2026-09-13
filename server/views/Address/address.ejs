@@ -1,76 +1,194 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>Checkout</title>
-  <link rel="stylesheet" href="/css/checkout.css">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Address</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+        }
+
+        body {
+            background: rgba(0, 0, 0, .4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 700px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            font-size: 34px;
+        }
+
+        .close {
+            font-size: 40px;
+            text-decoration: none;
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 22px;
+        }
+
+        input {
+            width: 100%;
+            height: 55px;
+            padding-left: 15px;
+            font-size: 20px;
+            background: #eef5ff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            height: 55px;
+            background: #ffb300;
+            border: none;
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+
 </head>
+
 <body>
 
-<div class="checkout-container">
+    <div class="container">
 
-  <!-- LEFT SIDE (Address Section) -->
-  <div class="left">
+        <div class="header">
 
-    <h2>Select Delivery Address</h2>
+            <h2>Add Address</h2>
 
-    <% if(addresses.length === 0){ %>
-        <p>No address found</p>
-    <% } else { %>
-
-      <% addresses.forEach((addr, index) => { %>
-        <div class="address-card">
-          
-          <input type="radio" name="selectedAddress" value="<%= addr._id %>" <%= index === 0 ? 'checked' : '' %> />
-
-          <div class="address-details">
-            <p><strong><%= addr.address_ling %></strong></p>
-            <p><%= addr.city %>, <%= addr.state %> - <%= addr.pincode %></p>
-            <p><%= addr.country %></p>
-            <p>Mobile: <%= addr.mobile %></p>
-          </div>
+            <a href="/checkout" class="close">&times;</a>
 
         </div>
-      <% }) %>
 
-    <% } %>
+        <!-- Address Form -->
+        <form action="/address/add-address" method="POST">
+            <input type="hidden" name="from" value="<%= from %>">
 
-    <!-- Add New Address -->
-    <div class="add-address">
-      <a href="/add-address">+ Add New Address</a>
+
+            <!-- Address Line -->
+            <div class="form-group">
+
+                <label id="address_line">
+                    Address Line :
+                </label>
+
+                <textarea id="address_line" name="address_line" placeholder="Enter your address"
+                    required><%= address ? address.address_line : "" %></textarea>
+
+            </div>
+
+
+            <!-- City -->
+            <div class="form-group">
+
+                <label id="city">
+                    City :
+                </label>
+
+                <input type="text" id="city" name="city" value="<%= address ? address.city : "" %>"
+                    placeholder="Enter your city" required>
+
+            </div>
+
+
+            <!-- State -->
+            <div class="form-group">
+
+                <label id="state">
+                    State :
+                </label>
+
+                <input type="text" id="state" name="state" value="<%= address ? address.state : "" %>"
+                    placeholder="Enter your state" required>
+
+            </div>
+
+
+            <!-- Pincode -->
+            <div class="form-group">
+
+                <label id="pincode">
+                    Pincode :
+                </label>
+
+                <input type="text" id="pincode" name="pincode" value="<%= address ? address.pincode : "" %>"
+                    placeholder="Enter your pincode" maxlength="6" pattern="[0-9]{6}" required>
+
+            </div>
+
+
+            <!-- Country -->
+            <div class="form-group">
+
+                <label id="country">
+                    Country :
+                </label>
+
+                <input type="text" id="country" name="country" value="<%= address ? address.country : "" %>"
+                    placeholder="Enter your country" required>
+
+            </div>
+
+
+            <!-- Mobile -->
+            <div class="form-group">
+
+                <label id="mobile">
+                    Mobile No. :
+                </label>
+
+                <input type="tel" id="mobile" name="mobile" value="<%= address ? address.mobile : "" %>"
+                    placeholder="Enter your mobile number" maxlength="10" pattern="[0-9]{10}" required>
+
+            </div>
+
+
+            <!-- Submit Button -->
+            <button type="submit">
+
+                <%= address ? "Update Address" : "Save Address" %>
+
+            </button>
+
+        </form>
+
     </div>
-
-  </div>
-
-  <!-- RIGHT SIDE (Order Summary) -->
-  <div class="right">
-
-    <h2>Order Summary</h2>
-
-    <% let total = 0; %>
-
-    <% cartItems.forEach(item => { %>
-      <div class="cart-item">
-        <p><%= item.productId.name %> x <%= item.quantity %></p>
-        <p>₹ <%= item.productId.price * item.quantity %></p>
-      </div>
-
-      <% total += item.productId.price * item.quantity; %>
-    <% }) %>
-
-    <hr>
-
-    <div class="total">
-      <h3>Total: ₹ <%= total %></h3>
-    </div>
-
-    <form action="/order/place" method="POST">
-      <input type="hidden" name="totalAmount" value="<%= total %>">
-      <button class="place-order">Place Order</button>
-    </form>
-
-  </div>
-
-</div>
 
 </body>
+
 </html>
