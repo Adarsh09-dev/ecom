@@ -1,13 +1,14 @@
 import express from "express";
 import expressEjsLayouts from "express-ejs-layouts";
 import cors from "cors";
-import dotenv from "dotenv"; 
+import dotenv from "dotenv";
 dotenv.config();
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
 import connectDB from "./config/connectDB.js";
 import userRouter from "./route/user.route.js";
+
 // ...existing code...
 import path from "path";
 import { fileURLToPath } from "url";
@@ -15,13 +16,16 @@ import methodOverride from "method-override";
 import flash from "connect-flash"; // added: flash messages
 import session from "express-session"; // added: required for flash
 import categoryRouter from "./route/category.route.js";
+
 // import uploadRouter from "./route/upload.router.js";
 import adminRouter from "./route/admin.route.js";
 import subCatgoryRouter from "./route/sub-category.route.js";
 import productRouter from "./route/product.route.js";
 import cartRouter from "./route/cart.route.js";
+import addressRouter from "./route/address.route.js";
+import orderRouter from "./route/order.route.js";
+
 const app = express();
-// await connectDB();
 
 //Get __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -88,8 +92,18 @@ app.set("layout", "layouts/main");
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.json({ message: "server running" });
+  console.log({ message: "server running" });
+  res.redirect('/user/landing-page')
 });
+
+app.get('/flash', function (req, res) {
+  // Set a flash message by passing the key, followed by the value, to req.flash().
+  req.flash('error', 'Flash is back!')
+  res.redirect('/user/landing-page');
+});
+
+
+
 
 // CACHE CLEAR
 app.use((req, res, next) => {
@@ -115,18 +129,24 @@ app.use(
 
         scriptSrc: ["'self'", "'unsafe-inline'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
+
+
       },
     },
   }),
 );
 
+
+
 //  router
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/category", categoryRouter);
-app.use("/sub-category",subCatgoryRouter)
-app.use("/product",productRouter)
-app.use("/cart",cartRouter)
+app.use("/sub-category", subCatgoryRouter);
+app.use("/product", productRouter);
+app.use("/cart", cartRouter);
+app.use("/address",addressRouter);
+app.use("/order",orderRouter);
 
 
 connectDB().then(() => {
