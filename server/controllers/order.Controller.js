@@ -31,6 +31,38 @@ export const CashOnDeliveryOrderController = async (req, res) => {
         console.log("addressId =", addressId);
         console.log("subTotalAmt =", subTotalAmt);
 
+        // 1. Validate the selected address
+        if (!addressId) {
+
+            return res.status(400).json({
+                message: "Please select a delivery address",
+                error: true,
+                success: false
+            });
+
+        }
+
+
+        // 2. Get the user's cart from MongoDB
+        const cartItems = await CartProductModel
+            .find({ userId: userId })
+            .populate("productId");
+
+
+        console.log("CART ITEMS =", cartItems);
+
+
+        // 3. Check whether the cart is empty
+        if (cartItems.length === 0) {
+
+            return res.status(400).json({
+                message: "Your cart is empty",
+                error: true,
+                success: false
+            });
+
+        }
+
         const payload = list_items.map(el => {
             return ({
 
@@ -52,6 +84,7 @@ export const CashOnDeliveryOrderController = async (req, res) => {
                 delivery_address: addressId,
 
                 subTotalAmt: subTotalAmt,
+
                 totalAmt: totalAmt,
 
                 // Invoice_recept :
@@ -60,20 +93,20 @@ export const CashOnDeliveryOrderController = async (req, res) => {
             })
         })
 
-         const generatedOrder = await OrderModel.insertMany(payload);
+        const generatedOrder = await OrderModel.insertMany(payload);
 
-         /// remove from the cart
-         const removeCartItems = CartProductModel.deleteMany({ userId : userId})
-         const updateInUser = UserModel.updateOne( {_id : userId}, {shopping_cart : []})
+        /// remove from the cart
+        const removeCartItems = CartProductModel.deleteMany({ userId: userId })
+        const updateInUser = UserModel.updateOne({ _id: userId }, { shopping_cart: [] })
 
 
 
-         return res.json({
-            message : "Order successfully",
-            error : false,
-            success : true,
-            data : generatedOrder
-         })
+        return res.json({
+            message: "Order successfully",
+            error: false,
+            success: true,
+            data: generatedOrder
+        })
 
         console.log("===============================");
 
