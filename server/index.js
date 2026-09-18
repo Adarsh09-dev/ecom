@@ -15,10 +15,10 @@ import { fileURLToPath } from "url";
 import methodOverride from "method-override";
 import flash from "connect-flash"; // added: flash messages
 import session from "express-session"; // added: required for flash
-import categoryRouter from "./route/category.route.js";
 
 // import uploadRouter from "./route/upload.router.js";
 import adminRouter from "./route/admin.route.js";
+import categoryRouter from "./route/category.route.js";
 import subCatgoryRouter from "./route/sub-category.route.js";
 import productRouter from "./route/product.route.js";
 import cartRouter from "./route/cart.route.js";
