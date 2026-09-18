@@ -127,8 +127,12 @@
 
                 </form>
 
-                <form action="/payment/cod" method="POST">
+                <form action="/order/cash-on-delivery" method="POST">
 
+                    <input type="hidden" name="totalAmt" value="<%= grandTotal %>">
+
+                    <input type="hidden" name="addressId" id="addressId">
+                    
                     <button type="submit" class="cod-btn">
                         Cash On Delivery
                     </button>
