@@ -129,10 +129,12 @@
 
                 <form action="/order/cash-on-delivery" method="POST">
 
+                    <input type="hidden" name="subTotalAmt" value="<%= totalPrice %>">
+
                     <input type="hidden" name="totalAmt" value="<%= grandTotal %>">
 
                     <input type="hidden" name="addressId" id="addressId">
-                    
+
                     <button type="submit" class="cod-btn">
                         Cash On Delivery
                     </button>
@@ -144,6 +146,54 @@
         </div>
 
     </div>
+
+
+
+
+    <script>
+
+        const addressRadios =
+            document.querySelectorAll('input[name="address"]');
+
+        const addressIdInput =
+            document.getElementById("addressId");
+
+
+        addressRadios.forEach(function (radio) {
+
+            radio.addEventListener("change", function () {
+
+                addressIdInput.value = this.value;
+
+                console.log("SELECTED ADDRESS =", this.value);
+
+            });
+
+        });
+
+
+        // Get the initially checked address
+        const checkedAddress =
+            document.querySelector('input[name="address"]:checked');
+
+
+        if (checkedAddress) {
+
+            addressIdInput.value = checkedAddress.value;
+
+            console.log("DEFAULT ADDRESS =", checkedAddress.value);
+
+        }
+
+    </script>
+
+
+
+
+
+
+
+
 
 </body>
 
