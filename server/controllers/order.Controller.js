@@ -1,7 +1,7 @@
 import OrderModel from "../models/Order-Model.js";
 import UserModel from "../models/User-Model.js";
 import CartProductModel from "../models/cartProduct-Model.js"
-import AddressModel from "../models/Address-Model.js";
+// import AddressModel from "../models/Address-Model.js";
 import mongoose from "mongoose";
 
 
@@ -11,7 +11,7 @@ export const CashOnDeliveryOrderController = async (req, res) => {
 
         const userId = req.session.user.id;
         const {
-            list_items,
+            // list_items,
             totalAmt,
             addressId,
             subTotalAmt
@@ -22,11 +22,11 @@ export const CashOnDeliveryOrderController = async (req, res) => {
         console.log("========== COD ORDER ==========");
 
         console.log("USER ID =", userId);
-        console.log("REQ.BODY =", req.body);
-        console.log("REQ.PARAMS =", req.params);
+        // console.log("REQ.BODY =", req.body);
+        // console.log("REQ.PARAMS =", req.params);
 
 
-        console.log("list_items =", list_items);
+
         console.log("totalAmt =", totalAmt);
         console.log("addressId =", addressId);
         console.log("subTotalAmt =", subTotalAmt);
@@ -63,18 +63,21 @@ export const CashOnDeliveryOrderController = async (req, res) => {
 
         }
 
-        const payload = list_items.map(el => {
+        const payload = cartItems.map(el => {
             return ({
 
                 userId: userId,
+
 
                 orderId: `ORD-${new mongoose.Types.ObjectId()}`,
 
                 productId: el.productId._id,
 
+
+
                 product_detials: {
                     name: el.productId.name,
-                    Image: el.productId.Image,
+                    image: el.productId.image,
                 },
 
                 paymentId: "",
@@ -96,10 +99,11 @@ export const CashOnDeliveryOrderController = async (req, res) => {
         const generatedOrder = await OrderModel.insertMany(payload);
 
         /// remove from the cart
-        const removeCartItems = CartProductModel.deleteMany({ userId: userId })
-        const updateInUser = UserModel.updateOne({ _id: userId }, { shopping_cart: [] })
+        const removeCartItems = await CartProductModel.deleteMany({ userId: userId })
+        const updateInUser = await UserModel.updateOne({ _id: userId }, { shopping_cart: [] })
 
 
+        console.log("ORDER CREATED SUCCESSFULLY");
 
         return res.json({
             message: "Order successfully",
