@@ -127,7 +127,8 @@ app.use(
 
         connectSrc: ["'self'", "http://localhost:5000"],
 
-        scriptSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://js.stripe.com"],
+       
         styleSrc: ["'self'", "'unsafe-inline'"],
 
 
@@ -145,8 +146,8 @@ app.use("/category", categoryRouter);
 app.use("/sub-category", subCatgoryRouter);
 app.use("/product", productRouter);
 app.use("/cart", cartRouter);
-app.use("/address",addressRouter);
-app.use("/order",orderRouter);
+app.use("/address", addressRouter);
+app.use("/order", orderRouter);
 
 
 connectDB().then(() => {
