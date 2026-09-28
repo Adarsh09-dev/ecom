@@ -119,7 +119,9 @@
 
                 </div>
 
-                <form action="/order/payment" method="POST">
+                <form action="/order/payment" method="POST" id="payment-form">
+
+                    <input type="hidden" name="addressId" id="onlineAddressId">
 
                     <button type="submit" class="pay-btn">
                         Online Payment
@@ -149,52 +151,156 @@
 
 
 
+<!-- <script src="https://js.stripe.com/v3/"></script> -->
 
-    <script>
+<!-- <script>
 
-        const addressRadios =
-            document.querySelectorAll('input[name="address"]');
+    // const stripe = Stripe("<%= publishableKey %>");
 
-        const addressIdInput =
-            document.getElementById("addressId");
-
-
-        addressRadios.forEach(function (radio) {
-
-            radio.addEventListener("change", function () {
-
-                addressIdInput.value = this.value;
-
-                console.log("SELECTED ADDRESS =", this.value);
-
-            });
-
-        });
+    const paymentForm =
+        document.getElementById("payment-form");
 
 
-        // Get the initially checked address
-        const checkedAddress =
-            document.querySelector('input[name="address"]:checked');
+    paymentForm.addEventListener("submit", async function (e) {
+
+        e.preventDefault();
 
 
-        if (checkedAddress) {
+        const addressId =
+            document.getElementById("onlineAddressId").value;
 
-            addressIdInput.value = checkedAddress.value;
 
-            console.log("DEFAULT ADDRESS =", checkedAddress.value);
+        console.log("PAYMENT ADDRESS ID =", addressId);
+
+
+        if (!addressId) {
+
+            alert("Please select a delivery address");
+
+            return;
 
         }
 
-    </script>
+
+        try {
+
+            const response = await fetch("/order/payment", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/x-www-form-urlencoded"
+                },
+
+                body:
+                    new URLSearchParams({
+                        addressId: addressId
+                    })
+
+            });
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "PAYMENT RESPONSE =",
+                data
+            );
+
+
+            if (data.success && data.sessionId) {
+
+                const result =
+                    await stripe.redirectToCheckout({
+                        sessionId: data.sessionId
+                    });
+
+
+                if (result.error) {
+
+                    alert(result.error.message);
+
+                }
+
+            } else {
+
+                alert(
+                    data.message ||
+                    "Payment session could not be created"
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.log(
+                "PAYMENT ERROR =",
+                error
+            );
+
+            alert("Something went wrong");
+
+        }
+
+    });
+
+</script> -->
 
 
 
+<script>
+
+    const addressRadios =
+        document.querySelectorAll('input[name="address"]');
+
+    const addressIdInput =
+        document.getElementById("addressId");
+
+    const onlineAddressIdInput =
+        document.getElementById("onlineAddressId");
 
 
+    addressRadios.forEach(function (radio) {
+
+        radio.addEventListener("change", function () {
+
+            addressIdInput.value = this.value;
+
+            onlineAddressIdInput.value = this.value;
+
+            console.log(
+                "SELECTED ADDRESS =",
+                this.value
+            );
+
+        });
+
+    });
 
 
+    const checkedAddress =
+        document.querySelector(
+            'input[name="address"]:checked'
+        );
 
 
-</body>
+    if (checkedAddress) {
 
-</html>
+        addressIdInput.value =
+            checkedAddress.value;
+
+        onlineAddressIdInput.value =
+            checkedAddress.value;
+
+        console.log(
+            "DEFAULT ADDRESS =",
+            checkedAddress.value
+        );
+
+    }
+
+</script>
