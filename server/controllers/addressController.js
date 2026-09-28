@@ -266,6 +266,8 @@ export const checkoutPage = async (req, res) => {
         console.log(cartItems);
         console.log(validCartItems);
 
+        const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+
         res.render("Checkout/checkout-page", {
             layout: false,
             createdAddress,
@@ -273,7 +275,9 @@ export const checkoutPage = async (req, res) => {
             totalPrice,
             totalQuantity,
             deliveryCharge,
-            grandTotal
+            grandTotal,
+            publishableKey,
+
         });
 
     } catch (err) {
