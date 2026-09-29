@@ -151,158 +151,149 @@
 
 
 
-<!-- <script src="https://js.stripe.com/v3/"></script> -->
+    <script>
 
-<!-- <script>
-
-    // const stripe = Stripe("<%= publishableKey %>");
-
-    const paymentForm =
-        document.getElementById("payment-form");
+        const paymentForm =
+            document.getElementById("payment-form");
 
 
-    paymentForm.addEventListener("submit", async function (e) {
+        paymentForm.addEventListener("submit", async function (event) {
 
-        e.preventDefault();
-
-
-        const addressId =
-            document.getElementById("onlineAddressId").value;
+            event.preventDefault();
 
 
-        console.log("PAYMENT ADDRESS ID =", addressId);
+            try {
+
+                // Convert form data to URL encoded data
+                const formData = new URLSearchParams(
+                    new FormData(paymentForm)
+                );
 
 
-        if (!addressId) {
-
-            alert("Please select a delivery address");
-
-            return;
-
-        }
+                console.log(
+                    "ADDRESS ID SENT =",
+                    formData.get("addressId")
+                );
 
 
-        try {
+                const response = await fetch(
+                    "/order/payment",
+                    {
+                        method: "POST",
 
-            const response = await fetch("/order/payment", {
+                        headers: {
+                            "Content-Type":
+                                "application/x-www-form-urlencoded"
+                        },
 
-                method: "POST",
-
-                headers: {
-                    "Content-Type":
-                        "application/x-www-form-urlencoded"
-                },
-
-                body:
-                    new URLSearchParams({
-                        addressId: addressId
-                    })
-
-            });
+                        body: formData
+                    }
+                );
 
 
-            const data =
-                await response.json();
+                console.log(
+                    "RESPONSE STATUS =",
+                    response.status
+                );
 
-
-            console.log(
-                "PAYMENT RESPONSE =",
-                data
-            );
-
-
-            if (data.success && data.sessionId) {
 
                 const result =
-                    await stripe.redirectToCheckout({
-                        sessionId: data.sessionId
-                    });
+                    await response.json();
 
 
-                if (result.error) {
+                console.log(
+                    "PAYMENT RESULT =",
+                    result
+                );
 
-                    alert(result.error.message);
+
+                if (result.success && result.url) {
+
+                    console.log(
+                        "REDIRECTING TO STRIPE..."
+                    );
+
+
+                    window.location.href =
+                        result.url;
+
+                } else {
+
+                    alert(
+                        result.message ||
+                        "Payment failed"
+                    );
 
                 }
 
-            } else {
+
+            } catch (error) {
+
+                console.error(
+                    "PAYMENT ERROR =",
+                    error
+                );
 
                 alert(
-                    data.message ||
-                    "Payment session could not be created"
+                    "Something went wrong while starting payment."
                 );
 
             }
 
+        });
 
-        } catch (error) {
-
-            console.log(
-                "PAYMENT ERROR =",
-                error
-            );
-
-            alert("Something went wrong");
-
-        }
-
-    });
-
-</script> -->
+    </script>
 
 
+    <script>
+
+        const addressRadios =
+            document.querySelectorAll('input[name="address"]');
+
+        const addressIdInput =
+            document.getElementById("addressId");
+
+        const onlineAddressIdInput =
+            document.getElementById("onlineAddressId");
 
 
+        addressRadios.forEach(function (radio) {
 
-<script>
+            radio.addEventListener("change", function () {
 
-    const addressRadios =
-        document.querySelectorAll('input[name="address"]');
+                addressIdInput.value = this.value;
 
-    const addressIdInput =
-        document.getElementById("addressId");
+                onlineAddressIdInput.value = this.value;
 
-    const onlineAddressIdInput =
-        document.getElementById("onlineAddressId");
+                console.log(
+                    "SELECTED ADDRESS =",
+                    this.value
+                );
 
-
-    addressRadios.forEach(function (radio) {
-
-        radio.addEventListener("change", function () {
-
-            addressIdInput.value = this.value;
-
-            onlineAddressIdInput.value = this.value;
-
-            console.log(
-                "SELECTED ADDRESS =",
-                this.value
-            );
+            });
 
         });
 
-    });
+
+        const checkedAddress =
+            document.querySelector(
+                'input[name="address"]:checked'
+            );
 
 
-    const checkedAddress =
-        document.querySelector(
-            'input[name="address"]:checked'
-        );
+        if (checkedAddress) {
 
+            addressIdInput.value =
+                checkedAddress.value;
 
-    if (checkedAddress) {
+            onlineAddressIdInput.value =
+                checkedAddress.value;
 
-        addressIdInput.value =
-            checkedAddress.value;
+            console.log(
+                "DEFAULT ADDRESS =",
+                checkedAddress.value
+            );
 
-        onlineAddressIdInput.value =
-            checkedAddress.value;
+        }
 
-        console.log(
-            "DEFAULT ADDRESS =",
-            checkedAddress.value
-        );
-
-    }
-
-</script>
+    </script>
