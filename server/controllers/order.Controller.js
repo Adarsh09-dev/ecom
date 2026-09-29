@@ -286,11 +286,11 @@ export const paymentController = async (req, res) => {
         console.log("SESSION URL", session.url);
 
 
-        
+        return res.json({
+            success: true,
+            url: session.url
+        });
 
-        // 9. Redirect directly to Stripe
-        // return res.status(200).redirect(session.url);
-        
 
 
     } catch (error) {
