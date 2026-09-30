@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payment Successful</title>
+
+    <link rel="stylesheet" href="/payment-success/sucess-style.css">
+</head>
+
+<body>
+
+    <div class="success-page">
+
+        <!-- Success Icon -->
+        <div class="success-icon-wrapper">
+
+            <div class="success-icon-circle">
+
+                <svg class="receipt-icon"
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg">
+
+                    <path d="M28 65V25
+                           C28 19 32 15 38 15
+                           H68
+                           C74 15 78 19 78 25
+                           V39"
+                        fill="none"
+                        stroke="white"
+                        stroke-width="6"
+                        stroke-linecap="round" />
+
+                    <path d="M28 65
+                           V75
+                           C28 80 34 82 38 78
+                           L43 74
+                           L49 79
+                           L55 74
+                           L61 79
+                           L67 74
+                           L72 78
+                           C76 82 82 80 82 75
+                           V45"
+                        fill="none"
+                        stroke="white"
+                        stroke-width="6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
+
+                    <path d="M40 40 L48 48 L63 31"
+                        fill="none"
+                        stroke="white"
+                        stroke-width="6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
+
+                    <path d="M43 58 H60"
+                        fill="none"
+                        stroke="white"
+                        stroke-width="5"
+                        stroke-linecap="round" />
+
+                </svg>
+
+            </div>
+
+        </div>
+
+
+        <!-- Heading -->
+        <h1>Payment Successful!</h1>
+
+        <p class="success-message">
+            Your payment was processed successfully!
+        </p>
+
+
+        <!-- Transaction Card -->
+        <div class="transaction-card">
+
+            <div class="transaction-header">
+
+                <span>Transaction Details</span>
+
+                <div class="header-icons">
+                    <span class="share-icon">♧</span>
+                    <span class="menu-icon">⋮</span>
+                </div>
+
+            </div>
+
+
+            <!-- Transaction ID -->
+            <div class="transaction-row">
+
+                <span class="label">
+                    Transaction ID
+                </span>
+
+                <span class="value transaction-id">
+                    <%= transactionId || "N/A" %>
+                </span>
+
+            </div>
+
+
+            <!-- Amount -->
+            <div class="transaction-row">
+
+                <span class="label">
+                    Amount
+                </span>
+
+                <span class="value">
+                    ₹<%= amount || "0.00" %>
+                </span>
+
+            </div>
+
+
+            <!-- Date -->
+            <div class="transaction-row">
+
+                <span class="label">
+                    Date
+                </span>
+
+                <span class="value">
+                    <%= date || "N/A" %>
+                </span>
+
+            </div>
+
+
+            <!-- Payment Type -->
+            <div class="transaction-row">
+
+                <span class="label">
+                    Type
+                </span>
+
+                <span class="value">
+                    <%= paymentType || "Card" %>
+                </span>
+
+            </div>
+
+
+            <!-- Status -->
+            <div class="transaction-row status-row">
+
+                <span class="label">
+                    Status
+                </span>
+
+                <span class="success-status">
+
+                    <span class="status-check">
+                        ✓
+                    </span>
+
+                    Success
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Continue Button -->
+        <a href="/" class="continue-btn">
+            Continue Exploring
+        </a>
+
+    </div>
+
+</body>
+
+</html>
