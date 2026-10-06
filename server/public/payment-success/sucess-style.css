@@ -1,0 +1,865 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* 
+   BODY
+ */
+
+body {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    color: #111;
+
+    padding: 20px;
+}
+
+
+/* 
+   MAIN PAGE
+ */
+
+.success-page {
+
+    width: 100%;
+
+    max-width: 395px;
+
+    min-height: calc(100vh - 40px);
+
+    padding: 22px 15px 30px;
+
+    background: linear-gradient(to bottom,
+            #ffffff 0%,
+            #f3fbed 55%,
+            #dff8d8 100%);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    overflow: hidden;
+}
+
+
+/*
+   SUCCESS ICON
+ */
+
+.success-icon-wrapper {
+
+    width: 220px;
+    height: 220px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: rgba(74, 214, 48, 0.16);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 35px;
+}
+
+
+.success-icon-circle {
+
+    width: 180px;
+    height: 180px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #50d52f;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    box-shadow:
+        0 0 0 10px rgba(74, 214, 48, 0.15);
+}
+
+
+.receipt-icon {
+
+    width: 105px;
+    height: 105px;
+
+    flex-shrink: 0;
+}
+
+
+/*
+   HEADING
+ */
+
+h1 {
+
+    width: 100%;
+
+    font-size: 25px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    text-align: center;
+
+    margin-bottom: 9px;
+}
+
+
+.success-message {
+
+    width: 100%;
+
+    font-size: 16px;
+
+    line-height: 1.4;
+
+    color: #646464;
+
+    text-align: center;
+
+    margin-bottom: 40px;
+}
+
+
+/* 
+ CARD
+ */
+
+.transaction-card {
+
+    width: 100%;
+
+    border: 1px solid #a9b6a5;
+
+    border-radius: 10px;
+
+    padding: 13px 12px 10px;
+
+    background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* 
+   HEADER
+ */
+
+.transaction-header {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 17px;
+
+    font-weight: 500;
+
+    margin-bottom: 20px;
+}
+
+
+.header-icons {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 17px;
+
+    font-size: 22px;
+
+    flex-shrink: 0;
+}
+
+
+.share-icon {
+
+    font-size: 21px;
+
+    transform: rotate(180deg);
+
+    display: inline-block;
+}
+
+
+.menu-icon {
+
+    font-size: 24px;
+
+    line-height: 15px;
+}
+
+
+
+
+.transaction-row {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    min-height: 37px;
+
+    font-size: 14px;
+}
+
+
+.label {
+
+    color: #626b61;
+
+    flex-shrink: 0;
+}
+
+
+.value {
+
+    color: #222;
+
+    font-weight: 500;
+
+    text-align: right;
+
+    min-width: 0;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* Transaction ID */
+
+.transaction-id {
+
+    max-width: 65%;
+}
+
+
+
+
+.status-row {
+
+    margin-top: 2px;
+}
+
+
+.success-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 5px 12px;
+
+    border-radius: 20px;
+
+    background: #79df68;
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    flex-shrink: 0;
+}
+
+
+.status-check {
+
+    width: 15px;
+    height: 15px;
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 10px;
+}
+
+
+/* =========================================
+   CONTINUE BUTTON
+========================================= */
+
+.continue-btn {
+
+    width: 100%;
+
+    height: 64px;
+
+    flex-shrink: 0;
+
+    margin-top: auto;
+
+    padding: 0 20px;
+
+    border-radius: 35px;
+
+    background: #42d52d;
+
+    color: white;
+
+    text-decoration: none;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    font-size: 25px;
+
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+
+.continue-btn:hover {
+
+    background: #35c425;
+
+    transform: translateY(-1px);
+}
+
+
+.continue-btn:active {
+
+    transform: scale(0.98);
+}
+
+
+
+
+@media (max-width: 360px) {
+
+    body {
+
+        padding: 0;
+    }
+
+
+    .success-page {
+
+        max-width: 100%;
+
+        min-height: 100vh;
+
+        min-height: 100dvh;
+
+        padding:
+            20px 12px 18px;
+    }
+
+
+    .success-icon-wrapper {
+
+        width: 165px;
+        height: 165px;
+
+        margin-bottom: 24px;
+    }
+
+
+    .success-icon-circle {
+
+        width: 135px;
+        height: 135px;
+    }
+
+
+    .receipt-icon {
+
+        width: 80px;
+        height: 80px;
+    }
+
+
+    h1 {
+
+        font-size: 21px;
+
+        margin-bottom: 7px;
+    }
+
+
+    .success-message {
+
+        font-size: 13px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .transaction-card {
+
+        padding: 12px 10px 9px;
+
+        border-radius: 9px;
+    }
+
+
+    .transaction-header {
+
+        font-size: 14px;
+
+        margin-bottom: 14px;
+    }
+
+
+    .header-icons {
+
+        gap: 12px;
+
+        font-size: 19px;
+    }
+
+
+    .share-icon {
+
+        font-size: 18px;
+    }
+
+
+    .menu-icon {
+
+        font-size: 21px;
+    }
+
+
+    .transaction-row {
+
+        min-height: 34px;
+
+        gap: 8px;
+
+        font-size: 12px;
+    }
+
+
+    .transaction-id {
+
+        max-width: 58%;
+
+        font-size: 10px;
+    }
+
+
+    .success-status {
+
+        padding: 4px 9px;
+
+        font-size: 11px;
+    }
+
+
+    .status-check {
+
+        width: 14px;
+        height: 14px;
+    }
+
+
+    .continue-btn {
+
+        height: 54px;
+
+        margin-top: 20px;
+
+        padding: 0 14px;
+
+        font-size: 18px;
+    }
+}
+
+
+
+
+@media (min-width: 361px) and (max-width: 480px) {
+
+    body {
+
+        padding: 0;
+    }
+
+
+    .success-page {
+
+        max-width: 100%;
+
+        min-height: 100vh;
+
+        min-height: 100dvh;
+
+        padding:
+            25px 15px 20px;
+    }
+
+
+    .success-icon-wrapper {
+
+        width: 190px;
+        height: 190px;
+
+        margin-bottom: 27px;
+    }
+
+
+    .success-icon-circle {
+
+        width: 155px;
+        height: 155px;
+    }
+
+
+    .receipt-icon {
+
+        width: 90px;
+        height: 90px;
+    }
+
+
+    h1 {
+
+        font-size: 23px;
+    }
+
+
+    .success-message {
+
+        font-size: 14px;
+
+        margin-bottom: 30px;
+    }
+
+
+    .transaction-card {
+
+        padding: 13px 12px 10px;
+    }
+
+
+    .transaction-header {
+
+        font-size: 15px;
+
+        margin-bottom: 17px;
+    }
+
+
+    .header-icons {
+
+        gap: 14px;
+    }
+
+
+    .transaction-row {
+
+        min-height: 36px;
+
+        font-size: 13px;
+
+        gap: 10px;
+    }
+
+
+    .transaction-id {
+
+        max-width: 60%;
+
+        font-size: 11px;
+    }
+
+
+    .success-status {
+
+        padding: 5px 10px;
+
+        font-size: 12px;
+    }
+
+
+    .continue-btn {
+
+        height: 58px;
+
+        margin-top: 24px;
+
+        font-size: 21px;
+    }
+}
+
+
+
+
+@media (min-width: 481px) and (max-width: 768px) {
+
+    body {
+
+        padding: 20px;
+    }
+
+
+    .success-page {
+
+        max-width: 430px;
+
+        min-height: calc(100vh - 40px);
+
+        padding:
+            30px 22px 25px;
+
+        border-radius: 15px;
+    }
+
+
+    .success-icon-wrapper {
+
+        width: 210px;
+        height: 210px;
+
+        margin-bottom: 30px;
+    }
+
+
+    .success-icon-circle {
+
+        width: 172px;
+        height: 172px;
+    }
+
+
+    .receipt-icon {
+
+        width: 100px;
+        height: 100px;
+    }
+
+
+    h1 {
+
+        font-size: 25px;
+    }
+
+
+    .success-message {
+
+        font-size: 15px;
+
+        margin-bottom: 35px;
+    }
+
+
+    .continue-btn {
+
+        height: 62px;
+
+        font-size: 23px;
+    }
+}
+
+
+
+
+@media (min-width: 769px) and (max-width: 1199px) {
+
+    body {
+
+        padding: 30px;
+    }
+
+
+    .success-page {
+
+        max-width: 450px;
+
+        min-height: 700px;
+
+        padding:
+            35px 25px 28px;
+
+        border-radius: 18px;
+
+        box-shadow:
+            0 8px 30px rgba(0, 0, 0, 0.06);
+    }
+
+
+    .success-icon-wrapper {
+
+        width: 215px;
+        height: 215px;
+
+        margin-bottom: 30px;
+    }
+
+
+    .success-icon-circle {
+
+        width: 175px;
+        height: 175px;
+    }
+
+
+    .receipt-icon {
+
+        width: 102px;
+        height: 102px;
+    }
+
+
+    h1 {
+
+        font-size: 26px;
+    }
+
+
+    .success-message {
+
+        font-size: 15px;
+
+        margin-bottom: 35px;
+    }
+
+
+    .continue-btn {
+
+        height: 62px;
+
+        font-size: 23px;
+    }
+}
+
+
+
+
+@media (min-width: 1200px) {
+
+    body {
+
+        padding: 40px;
+    }
+
+
+    .success-page {
+
+        max-width: 480px;
+
+        min-height: 720px;
+
+        padding:
+            40px 30px 30px;
+
+        border-radius: 20px;
+
+        box-shadow:
+            0 10px 35px rgba(0, 0, 0, 0.07);
+    }
+
+
+    .success-icon-wrapper {
+
+        width: 220px;
+        height: 220px;
+
+        margin-bottom: 32px;
+    }
+
+
+    .success-icon-circle {
+
+        width: 180px;
+        height: 180px;
+    }
+
+
+    .receipt-icon {
+
+        width: 105px;
+        height: 105px;
+    }
+
+
+    h1 {
+
+        font-size: 27px;
+    }
+
+
+    .success-message {
+
+        font-size: 16px;
+
+        margin-bottom: 38px;
+    }
+
+
+    .transaction-card {
+
+        padding: 14px 14px 11px;
+    }
+
+
+    .continue-btn {
+
+        height: 64px;
+
+        font-size: 24px;
+    }
+}
+
+
+@media (min-width: 1600px) {
+
+    .success-page {
+
+        max-width: 495px;
+
+        min-height: 740px;
+    }
+}
