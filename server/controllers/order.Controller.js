@@ -129,8 +129,6 @@ export const CashOnDeliveryOrderController = async (req, res) => {
 };
 
 
-
-
 export const priceWithDiscount = (price, dis = 0) => {
 
     const productPrice = Number(price);
@@ -144,9 +142,6 @@ export const priceWithDiscount = (price, dis = 0) => {
 
     return actualPrice;
 };
-
-
-
 
 
 export const paymentController = async (req, res) => {
@@ -271,7 +266,7 @@ export const paymentController = async (req, res) => {
             },
 
             success_url:
-                `http://localhost:${process.env.PORT}/success?session_id={CHECKOUT_SESSION_ID}`,
+                `http://localhost:${process.env.PORT}/order/success?session_id={CHECKOUT_SESSION_ID}`,
 
             cancel_url:
                 `http://localhost:${process.env.PORT}/cancel`
@@ -306,5 +301,133 @@ export const paymentController = async (req, res) => {
 
         return res.redirect("/address/checkout");
 
+    }
+};
+
+export const getOrderDetailsController = async (req, res) => {
+
+    try {
+        const userId = req.userId
+
+        const orderlist = await OrderModel.find({ userId: userId }).sort({ created: -1 });
+
+    } catch (error) {
+
+    }
+
+}
+
+export const paymentSuccessController = async (req, res) => {
+
+    try {
+
+        console.log("========== PAYMENT SUCCESS ==========");
+
+        // Get session ID from Stripe URL
+        const sessionId = req.query.session_id;
+
+        console.log("SESSION ID =", sessionId);
+
+
+        // Check session ID
+        if (!sessionId) {
+
+            req.flash(
+                "error",
+                "Payment session not found"
+            );
+
+            return res.redirect("/address/checkout");
+        }
+
+
+        // Get Stripe Checkout Session
+        const session =
+            await stripe.checkout.sessions.retrieve(sessionId);
+
+
+        console.log(
+            "PAYMENT STATUS =",
+            session.payment_status
+        );
+
+
+        // Verify payment
+        if (session.payment_status !== "paid") {
+
+            req.flash(
+                "error",
+                "Payment was not completed"
+            );
+
+            return res.redirect("/address/checkout");
+        }
+
+
+        // Get metadata
+        const userId = session.metadata.userId;
+        const addressId = session.metadata.addressId;
+
+
+        console.log("USER ID =", userId);
+        console.log("ADDRESS ID =", addressId);
+
+
+        // Amount is stored by Stripe in paise
+        const amount = session.amount_total / 100;
+
+
+        // Current date
+        const date = new Date().toLocaleDateString(
+            "en-IN",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+
+        // Render success page
+        // return res.render(
+        //     "Checkout/payment-success",
+        //     {
+
+        //         transactionId: session.id,
+
+        //         amount: amount.toFixed(2),
+
+        //         date: date,
+
+        //         paymentType: "Card"
+
+        //     }
+        // );
+
+        return res.render("payment-success", {
+            transactionId: session.id,
+
+            amount: (session.amount_total / 100).toFixed(2),
+
+            date: new Date().toLocaleDateString("en-IN"),
+
+            paymentType: "Card"
+        });
+
+
+    } catch (error) {
+
+        console.log(
+            "========== PAYMENT SUCCESS ERROR =========="
+        );
+
+        console.log(error);
+
+        req.flash(
+            "error",
+            "Unable to verify payment"
+        );
+
+        return res.redirect("/address/checkout");
     }
 };
